@@ -239,6 +239,32 @@ model = get_peft_model(model, lora_cfg)
 
 ---
 
+### Exact command to run
+
+```bash
+cd /home/ixzhu/qwen_model
+
+python train.py \
+    --model_name Qwen/Qwen3.5-VL-7B-Instruct \
+    --train_data /home/ixzhu/orcd/pool/AV-ASD/AV-ASD/data_with_pose.jsonl \
+    --val_data   /home/ixzhu/orcd/pool/AV-ASD/AV-ASD/val_data.jsonl \
+    --output_dir /home/ixzhu/orcd/pool/qwen_pose \
+    --pose_sample_n 16 \
+    --n_frames 16 \
+    --num_epochs 2 \
+    --batch_size 1 \
+    --grad_accum 4 \
+    --lr 1e-4 \
+    --weight_decay 0.05 \
+    --warmup_ratio 0.1 \
+    --log_steps 10
+```
+
+`--pose_feature_dim` is auto-detected from the first `.pt` file in the training set.
+Checkpoints are saved per epoch under `output_dir/epoch-N/` and the best model (lowest val loss) is saved to `output_dir/best/`.
+
+---
+
 ### Training data format
 
 Create a JSONL file where each line is one training example:
