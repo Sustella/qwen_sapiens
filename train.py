@@ -32,7 +32,8 @@ import torch.nn.functional as F
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
-from transformers import AutoProcessor, AutoModelForCausalLM
+from transformers import AutoProcessor
+from transformers.models.qwen3_5.modeling_qwen3_5 import Qwen3_5ForConditionalGeneration
 
 try:
     import wandb
@@ -192,7 +193,7 @@ def _load_pose_features(pose_path: str, target_n: int) -> torch.Tensor:
 
 # ── Collate ───────────────────────────────────────────────────────────────────
 
-def _collate(batch: List[dict], processor, tokenizer, embed_device: torch.device) -> dict:
+def _collate(batch: List[dict], processor, tokenizer) -> dict:
     """
     Build processor inputs for a batch.
 
@@ -210,12 +211,14 @@ def _collate(batch: List[dict], processor, tokenizer, embed_device: torch.device
 
         full_texts.append(
             processor.apply_chat_template(
-                [user_msg, asst_msg], tokenize=False, add_generation_prompt=False
+                [user_msg, asst_msg], tokenize=False, add_generation_prompt=False,
+                enable_thinking=False,
             )
         )
         prompt_texts.append(
             processor.apply_chat_template(
-                [user_msg], tokenize=False, add_generation_prompt=True
+                [user_msg], tokenize=False, add_generation_prompt=True,
+                enable_thinking=False,
             )
         )
         all_images.append(ex["pil_images"])
@@ -250,8 +253,8 @@ def _collate(batch: List[dict], processor, tokenizer, embed_device: torch.device
     pose_feat = torch.stack([ex["pose_feat"] for ex in batch], dim=0)
 
     return {
-        **{k: v.to(embed_device) for k, v in inputs.items()},
-        "labels":    labels.to(embed_device),
+        **{k: v for k, v in inputs.items()},
+        "labels":    labels,
         "pose_feat": pose_feat,
     }
 
@@ -286,7 +289,7 @@ def train(args):
     # ── Model ─────────────────────────────────────────────────────────────────
     model_path = str(resume_ckpt / "model") if resume_state and (resume_ckpt / "model").exists() else args.model_name
     log.info("Loading model: %s", model_path)
-    model = AutoModelForCausalLM.from_pretrained(
+    model = Qwen3_5ForConditionalGeneration.from_pretrained(
         model_path,
         torch_dtype=torch.bfloat16,
         device_map="auto",
@@ -303,6 +306,11 @@ def train(args):
         p.requires_grad = True
     model.train()
 
+    # Compile model for faster execution
+    if args.torch_compile:
+        log.info("Compiling model with torch.compile …")
+        model = torch.compile(model)
+
     # Enable gradient checkpointing to reduce activation memory
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()
@@ -312,7 +320,7 @@ def train(args):
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     log.info("Total params: %s  Trainable: %s", f"{total_params:,}", f"{trainable_params:,}")
 
-    embed_device  = next(model.model.embed_tokens.parameters()).device
+    embed_device  = next(model.get_input_embeddings().parameters()).device
     lm_head_device = next(model.lm_head.parameters()).device
     log.info("embed_device: %s  lm_head_device: %s", embed_device, lm_head_device)
 
@@ -358,16 +366,19 @@ def train(args):
         splits["val"], fps=args.fps, max_frames=args.max_frames, pose_sample_n=args.pose_sample_n
     )
 
-    def make_collate(d):
-        return lambda b: _collate(b, processor, tokenizer, d)
+    collate_fn = lambda b: _collate(b, processor, tokenizer)
 
     train_loader = DataLoader(
         train_ds, batch_size=args.batch_size, shuffle=True,
-        num_workers=0, collate_fn=make_collate(embed_device),
+        num_workers=args.num_workers, prefetch_factor=2 if args.num_workers > 0 else None,
+        persistent_workers=args.num_workers > 0,
+        collate_fn=collate_fn,
     )
     val_loader = DataLoader(
         val_ds, batch_size=args.batch_size, shuffle=False,
-        num_workers=0, collate_fn=make_collate(embed_device),
+        num_workers=args.num_workers, prefetch_factor=2 if args.num_workers > 0 else None,
+        persistent_workers=args.num_workers > 0,
+        collate_fn=collate_fn,
     )
 
     # ── Optimizer — two LR groups ─────────────────────────────────────────────
@@ -416,7 +427,8 @@ def train(args):
 
         for step, batch in enumerate(pbar):
             pose_feat  = batch.pop("pose_feat").to(device=lm_head_device, dtype=torch.bfloat16)
-            labels     = batch.pop("labels")    # on embed_device
+            labels     = batch.pop("labels").to(embed_device)
+            batch = {k: v.to(embed_device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
 
             # ── Forward through backbone ──────────────────────────────────────
             backbone_out = model.model(
@@ -426,6 +438,7 @@ def train(args):
                 image_grid_thw=batch.get("image_grid_thw"),
                 pixel_values_videos=batch.get("pixel_values_videos"),
                 video_grid_thw=batch.get("video_grid_thw"),
+                mm_token_type_ids=batch.get("mm_token_type_ids"),
             )
             hidden = backbone_out.last_hidden_state  # (B, seq_len, H)
 
@@ -493,6 +506,13 @@ def train(args):
                 optimizer.zero_grad()
                 global_step += 1
 
+                if global_step % args.save_steps == 0:
+                    _save_resume_checkpoint(
+                        resume_ckpt, model, projector, optimizer, scheduler, processor,
+                        next_epoch=epoch, global_step=global_step,
+                        best_val_loss=best_val_loss, feat_dim=feat_dim, hidden_size=hidden_size,
+                    )
+
                 if global_step % args.log_steps == 0:
                     n = args.log_steps * args.grad_accum
                     avg_loss = running_loss / n
@@ -535,6 +555,7 @@ def train(args):
             for batch in tqdm(val_loader, desc="Validation", leave=False):
                 pose_feat = batch.pop("pose_feat").to(device=lm_head_device, dtype=torch.bfloat16)
                 labels    = batch.pop("labels").to(lm_head_device)
+                batch = {k: v.to(embed_device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
 
                 backbone_out = model.model(
                     input_ids=batch.get("input_ids"),
@@ -543,6 +564,7 @@ def train(args):
                     image_grid_thw=batch.get("image_grid_thw"),
                     pixel_values_videos=batch.get("pixel_values_videos"),
                     video_grid_thw=batch.get("video_grid_thw"),
+                    mm_token_type_ids=batch.get("mm_token_type_ids"),
                 )
                 hidden = backbone_out.last_hidden_state.to(lm_head_device)
 
@@ -711,7 +733,7 @@ def parse_args():
     # Model
     p.add_argument("--model_name",   default="Qwen/Qwen3.5-9B")
     p.add_argument("--output_dir",   default="/orcd/compute/ppliang/001/qwen_multi")
-    p.add_argument("--resume_ckpt",  default="/home/ixzhu/orcd/scratch/qwen_pose/resume_ckpt",
+    p.add_argument("--resume_ckpt",  default="/home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt",
                    help="Directory to save/load full resume checkpoints (model + optimizer + scheduler).")
 
     # Data
@@ -720,9 +742,11 @@ def parse_args():
     p.add_argument("--pose_sample_n",   type=int,   default=16)
     p.add_argument("--fps",             type=float, default=2.0,
                    help="Target sampling rate (frames/sec) for video frames fed to the vision encoder.")
-    p.add_argument("--max_frames",      type=int,   default=32,
+    p.add_argument("--max_frames",      type=int,   default=8,
                    help="Maximum number of video frames per clip (caps fps-based sampling).")
     p.add_argument("--seed",            type=int,   default=42)
+    p.add_argument("--num_workers",     type=int,   default=4,
+                   help="DataLoader worker processes for parallel video decoding.")
 
     # Training
     p.add_argument("--num_epochs",           type=int,   default=3)
@@ -740,12 +764,17 @@ def parse_args():
     p.add_argument("--gradient_checkpointing", action="store_true", default=True)
     p.add_argument("--no_gradient_checkpointing", dest="gradient_checkpointing",
                    action="store_false")
+    p.add_argument("--torch_compile",  action="store_true", default=True,
+                   help="Use torch.compile for faster execution.")
+    p.add_argument("--no_torch_compile", dest="torch_compile", action="store_false")
     p.add_argument("--save_full_model", action="store_true", default=False,
                    help="Save full Qwen model at best checkpoint (~14 GB).")
+    p.add_argument("--save_steps", type=int, default=100,
+                   help="Save resume checkpoint every N training steps (default: 100).")
 
     # Logging
     p.add_argument("--log_steps",       type=int,  default=10)
-    p.add_argument("--wandb_project",   type=str,  default="qwen-multi-video")
+    p.add_argument("--wandb_project",   type=str,  default="qwen-multi-video-2")
     p.add_argument("--wandb_run_name",  type=str,  default=None)
     p.add_argument("--no_wandb",        action="store_true",
                    help="Disable WandB logging.")

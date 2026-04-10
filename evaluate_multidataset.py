@@ -45,7 +45,8 @@ from typing import List
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from transformers import AutoProcessor, AutoModelForCausalLM
+from transformers import AutoProcessor
+from transformers.models.qwen3_5.modeling_qwen3_5 import Qwen3_5ForConditionalGeneration
 
 from train import MultiVideoDataset
 from multi_dataset import get_all_samples
@@ -103,6 +104,7 @@ def _collate_gen(batch: List[dict], processor, embed_device) -> dict:
                 [{"role": "user", "content": content}],
                 tokenize=False,
                 add_generation_prompt=True,
+                enable_thinking=False,
             )
         )
         all_images.append(ex["pil_images"])
@@ -152,21 +154,7 @@ def evaluate_model(model, processor, loader, max_new_tokens: int) -> dict:
 
         prompt_len = batch["input_ids"].shape[1]
 
-        # The checkpoint is Qwen3_5ForCausalLM (text-only backbone).  The
-        # processor still returns pixel_values / image_grid_thw / mm_token_type_ids
-        # but the text model ignores them — visual information is carried only
-        # through the image-placeholder token IDs already in input_ids.
-        # Passing those tensors to generate() causes a validation error, so we
-        # strip them here.
-        _VISION_KEYS = {
-            "pixel_values", "pixel_values_videos",
-            "image_grid_thw", "video_grid_thw",
-            "mm_token_type_ids",
-        }
-        gen_kwargs = {
-            k: v for k, v in batch.items()
-            if k not in _VISION_KEYS and v is not None
-        }
+        gen_kwargs = {k: v for k, v in batch.items() if v is not None}
 
         gen_ids = model.generate(
             **gen_kwargs,
@@ -288,7 +276,7 @@ def print_comparison(ft_results: dict, pt_results: dict) -> None:
 
 def load_model(model_path: str):
     log.info("Loading model from: %s", model_path)
-    model = AutoModelForCausalLM.from_pretrained(
+    model = Qwen3_5ForConditionalGeneration.from_pretrained(
         model_path,
         torch_dtype=torch.bfloat16,
         device_map="auto",
@@ -298,7 +286,7 @@ def load_model(model_path: str):
     model.eval()
     for p in model.parameters():
         p.requires_grad = False
-    embed_device = next(model.model.embed_tokens.parameters()).device
+    embed_device = next(model.get_input_embeddings().parameters()).device
     log.info("embed_device: %s", embed_device)
     return model, processor, embed_device
 
