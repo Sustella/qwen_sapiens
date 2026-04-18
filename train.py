@@ -2,12 +2,10 @@
 """
 train.py — Fine-tune Qwen3.5-VL on QVID + Kinetics-400 + HMDB51 with pose features.
 
-Both the Qwen backbone AND the pose projector are trained (full fine-tuning).
-Two losses are combined:
-  - SFT loss    : standard causal-LM cross-entropy on answer tokens (trains backbone)
-  - Pose loss   : projector predicts first answer token from last-prompt hidden +
-                  pose embeddings (trains projector and aligns pose → hidden space)
-  total_loss = sft_loss + args.pose_loss_weight * pose_loss
+Pose features are projected into the LLM embedding space and injected into the
+input sequence (between the prompt and answer tokens) so the transformer attends
+to them during generation.  Loss is standard causal-LM cross-entropy on all
+answer tokens, conditioned on [video + text + pose].
 
 Usage
 -----
@@ -17,12 +15,15 @@ Usage
 """
 
 import argparse
+import functools
 import json
 import logging
 import math
 import os
 import random
+import re
 import sys
+from collections import defaultdict
 from pathlib import Path
 from typing import List, Optional
 
@@ -33,7 +34,27 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 from transformers import AutoProcessor
+from transformers.modeling_utils import PreTrainedModel
 from transformers.models.qwen3_5.modeling_qwen3_5 import Qwen3_5ForConditionalGeneration
+
+# Workaround: PreTrainedModel.dtype iterates self.parameters() and raises
+# StopIteration when called on an FSDP-wrapped submodule whose params are
+# momentarily empty/flat. Patch it to fall back to bf16 in that case.
+_orig_pretrained_dtype = PreTrainedModel.dtype.fget
+
+def _safe_pretrained_dtype(self):
+    try:
+        return _orig_pretrained_dtype(self)
+    except StopIteration:
+        return torch.bfloat16
+
+PreTrainedModel.dtype = property(_safe_pretrained_dtype)
+
+from accelerate import Accelerator, FullyShardedDataParallelPlugin
+from accelerate.utils import set_seed
+from torch.distributed.fsdp import BackwardPrefetch, MixedPrecision, ShardingStrategy, StateDictType
+from torch.distributed.fsdp.fully_sharded_data_parallel import FullStateDictConfig, FullOptimStateDictConfig
+from torch.distributed.fsdp.wrap import size_based_auto_wrap_policy
 
 try:
     import wandb
@@ -42,6 +63,52 @@ except ImportError:
     WANDB_AVAILABLE = False
 
 from multi_dataset import get_all_samples
+
+
+# ── Answer matching (mirrors evaluate_multidataset.py) ───────────────────────
+
+def _normalize(text: str) -> str:
+    text = text.strip().lower()
+    text = re.sub(r"[^\w\s]", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+_STOP_WORDS = {"a", "an", "the", "my", "your", "his", "her", "its", "our", "their"}
+
+def _normalize_lenient(text: str):
+    text = _normalize(text)
+    words = [w for w in text.split() if w not in _STOP_WORDS]
+    text = " ".join(words) if words else text
+    return text, text.replace(" ", "")
+
+def _extract_mc_letter(text: str) -> str:
+    m = re.search(r"\b([A-Ea-e])\b", text)
+    if m:
+        return m.group(1).upper()
+    c = text.strip()[:1].upper()
+    return c if c in "ABCDE" else ""
+
+def _is_correct(pred: str, gt: str, task_type: str) -> bool:
+    if task_type == "multiple_choice":
+        return _extract_mc_letter(pred) == gt.strip().upper()
+    return _normalize(pred) == _normalize(gt)
+
+def _is_correct_lenient(pred: str, gt: str, task_type: str) -> bool:
+    if task_type == "multiple_choice":
+        return _extract_mc_letter(pred) == gt.strip().upper()
+    np_, ng = _normalize(pred), _normalize(gt)
+    if np_ == ng:
+        return True
+    lp, lp_ns = _normalize_lenient(pred)
+    lg, lg_ns = _normalize_lenient(gt)
+    if lp == lg or lp_ns == lg_ns:
+        return True
+    if lp in lg or lg in lp:
+        return True
+    if set(lp.split()) == set(lg.split()):
+        return True
+    return False
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -193,17 +260,18 @@ def _load_pose_features(pose_path: str, target_n: int) -> torch.Tensor:
 
 # ── Collate ───────────────────────────────────────────────────────────────────
 
-def _collate(batch: List[dict], processor, tokenizer) -> dict:
+def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dict:
     """
-    Build processor inputs for a batch.
+    Build processor inputs for a batch, inserting pose placeholder tokens at
+    the prompt/answer boundary.  The placeholder embeddings are replaced by the
+    projector output via a forward hook (see ``_make_pose_hook``).
 
-    Labels are set to -100 for all prompt tokens; answer tokens are unmasked
-    so only the answer contributes to the SFT loss.
+    Labels are -100 for prompt and pose positions; only answer tokens have real
+    labels so the loss is on answer tokens conditioned on [prompt + pose].
     """
-    full_texts, prompt_texts, all_images, answers = [], [], [], []
+    full_texts, prompt_texts, all_images = [], [], []
 
     for ex in batch:
-        # Build user message with video frames + question
         content = [{"type": "image"} for _ in ex["pil_images"]]
         content.append({"type": "text", "text": ex["question"]})
         user_msg = {"role": "user", "content": content}
@@ -222,9 +290,8 @@ def _collate(batch: List[dict], processor, tokenizer) -> dict:
             )
         )
         all_images.append(ex["pil_images"])
-        answers.append(ex["answer"])
 
-    # Compute answer token lengths (text-only tokenization; no visual tokens in answer)
+    # Compute answer token lengths (text-only; no visual tokens in answer)
     answer_lens = []
     for full_t, prompt_t in zip(full_texts, prompt_texts):
         answer_text = full_t[len(prompt_t):]
@@ -233,40 +300,498 @@ def _collate(batch: List[dict], processor, tokenizer) -> dict:
 
     # Full tokenization with visual tokens
     inputs = processor(
-        text=full_texts,
-        images=all_images,
-        return_tensors="pt",
-        padding=True,
+        text=full_texts, images=all_images, return_tensors="pt", padding=True,
     )
     input_ids = inputs["input_ids"]  # (B, seq_len)
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
 
-    # Build labels: -100 for prompt, actual IDs for answer
-    labels = torch.full_like(input_ids, fill_value=-100)
+    # Find where the answer starts for each sample
+    B, orig_len = input_ids.shape
+    n_pose = pose_sample_n
+    first_ans_positions = []
     for i, ans_len in enumerate(answer_lens):
-        seq_len = (input_ids[i] != tokenizer.pad_token_id).sum().item()
-        # Answer occupies the last ans_len non-pad positions
-        answer_start = seq_len - ans_len
-        if answer_start > 0:
-            labels[i, answer_start:seq_len] = input_ids[i, answer_start:seq_len]
+        nonpad = (input_ids[i] != pad_id).sum().item()
+        first_ans_positions.append(max(1, nonpad - ans_len))
 
-    # Stack pose features: (B, pose_sample_n, feat_dim)
-    pose_feat = torch.stack([ex["pose_feat"] for ex in batch], dim=0)
+    # ── Insert pose placeholders at the prompt/answer boundary ────────────
+    new_len = orig_len + n_pose
+    new_ids  = torch.full((B, new_len), pad_id, dtype=input_ids.dtype)
+    new_lbl  = torch.full((B, new_len), -100,   dtype=input_ids.dtype)
+    new_mask = torch.zeros((B, new_len), dtype=inputs["attention_mask"].dtype)
+    has_mm   = "mm_token_type_ids" in inputs
+    new_mm   = torch.zeros((B, new_len), dtype=inputs["mm_token_type_ids"].dtype) if has_mm else None
+
+    pose_positions = []  # (start, end) per sample — used by the hook
+    for i in range(B):
+        ap = first_ans_positions[i]
+        ps, pe = ap, ap + n_pose
+
+        # Prompt portion  [0 .. ap)
+        new_ids[i, :ap]  = input_ids[i, :ap]
+        new_mask[i, :ap] = inputs["attention_mask"][i, :ap]
+        if has_mm:
+            new_mm[i, :ap] = inputs["mm_token_type_ids"][i, :ap]
+        # labels stay -100 for prompt
+
+        # Pose placeholders  [ap .. ap+n_pose)
+        new_ids[i, ps:pe]  = pad_id   # placeholder token (will be replaced)
+        new_mask[i, ps:pe] = 1        # attend to pose tokens
+        # labels and mm_type stay 0 / -100
+
+        # Answer portion  [ap+n_pose ..)
+        remaining = orig_len - ap
+        new_ids[i, pe:pe + remaining]  = input_ids[i, ap:orig_len]
+        new_mask[i, pe:pe + remaining] = inputs["attention_mask"][i, ap:orig_len]
+        if has_mm:
+            new_mm[i, pe:pe + remaining] = inputs["mm_token_type_ids"][i, ap:orig_len]
+
+        # Labels: only answer tokens (shifted positions)
+        nonpad = (input_ids[i] != pad_id).sum().item()
+        for j in range(answer_lens[i]):
+            src = nonpad - answer_lens[i] + j          # position in original
+            dst = pe + (src - ap)                       # shifted position
+            if 0 <= src < orig_len and 0 <= dst < new_len:
+                new_lbl[i, dst] = input_ids[i, src]
+
+        pose_positions.append((ps, pe))
+
+    result = {
+        "input_ids":      new_ids,
+        "attention_mask":  new_mask,
+        "labels":          new_lbl,
+        "pose_positions":  pose_positions,
+        "pose_feat":       torch.stack([ex["pose_feat"] for ex in batch], dim=0),
+    }
+    if has_mm:
+        result["mm_token_type_ids"] = new_mm
+    for k in ("pixel_values", "pixel_values_videos", "image_grid_thw", "video_grid_thw"):
+        if k in inputs:
+            result[k] = inputs[k]
+    return result
+
+
+def _collate_gen(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dict:
+    """Build prompt-only inputs with pose placeholders appended at the end
+    (right before where generation would start).  Passes through GT answers
+    and metadata for accuracy computation."""
+    texts, all_images = [], []
+    for ex in batch:
+        content = [{"type": "image"} for _ in ex["pil_images"]]
+        content.append({"type": "text", "text": ex["question"]})
+        texts.append(
+            processor.apply_chat_template(
+                [{"role": "user", "content": content}],
+                tokenize=False, add_generation_prompt=True, enable_thinking=False,
+            )
+        )
+        all_images.append(ex["pil_images"])
+
+    inputs = processor(text=texts, images=all_images, return_tensors="pt", padding=True)
+    input_ids = inputs["input_ids"]
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+
+    B, orig_len = input_ids.shape
+    n_pose = pose_sample_n
+    new_len = orig_len + n_pose
+
+    new_ids  = torch.full((B, new_len), pad_id, dtype=input_ids.dtype)
+    new_mask = torch.zeros((B, new_len), dtype=inputs["attention_mask"].dtype)
+    has_mm   = "mm_token_type_ids" in inputs
+    new_mm   = torch.zeros((B, new_len), dtype=inputs["mm_token_type_ids"].dtype) if has_mm else None
+
+    pose_positions = []
+    for i in range(B):
+        nonpad = (input_ids[i] != pad_id).sum().item()
+        ap = nonpad  # insert at end of prompt (all tokens are prompt)
+        ps, pe = ap, ap + n_pose
+
+        new_ids[i, :ap]    = input_ids[i, :ap]
+        new_mask[i, :ap]   = inputs["attention_mask"][i, :ap]
+        if has_mm:
+            new_mm[i, :ap] = inputs["mm_token_type_ids"][i, :ap]
+
+        new_ids[i, ps:pe]  = pad_id
+        new_mask[i, ps:pe] = 1
+
+        # Copy any remaining pad from original (shouldn't matter, but be safe)
+        rem = orig_len - ap
+        if rem > 0:
+            new_ids[i, pe:pe + rem]  = input_ids[i, ap:orig_len]
+            new_mask[i, pe:pe + rem] = inputs["attention_mask"][i, ap:orig_len]
+            if has_mm:
+                new_mm[i, pe:pe + rem] = inputs["mm_token_type_ids"][i, ap:orig_len]
+
+        pose_positions.append((ps, pe))
+
+    result = {
+        "input_ids":       new_ids,
+        "attention_mask":   new_mask,
+        "pose_positions":   pose_positions,
+        "answers":         [ex["answer"]    for ex in batch],
+        "datasets":        [ex["dataset"]   for ex in batch],
+        "task_types":      [ex["task_type"] for ex in batch],
+        "pose_feat":       torch.stack([ex["pose_feat"] for ex in batch], dim=0),
+    }
+    if has_mm:
+        result["mm_token_type_ids"] = new_mm
+    for k in ("pixel_values", "pixel_values_videos", "image_grid_thw", "video_grid_thw"):
+        if k in inputs:
+            result[k] = inputs[k]
+    return result
+
+
+# ── Pose injection hook ──────────────────────────────────────────────────────
+
+def _make_pose_hook(pose_embeds: torch.Tensor, pose_positions: List[tuple]):
+    """Return a forward pre-hook for the language_model that replaces pose
+    placeholder embeddings with projected pose features.
+
+    ``pose_embeds``: (B, pose_sample_n, H) from the projector.
+    ``pose_positions``: list of (start, end) per batch element.
+
+    The hook fires once (on the prefill forward) then becomes a no-op so
+    that subsequent generate() steps are unaffected.
+    """
+    state = {"applied": False}
+
+    def hook_fn(module, args, kwargs):
+        if state["applied"]:
+            return
+        ie = kwargs.get("inputs_embeds")
+        if ie is None:
+            return
+        new_ie = ie.clone()
+        pe = pose_embeds.to(device=new_ie.device, dtype=new_ie.dtype)
+        for i, (ps, pe_end) in enumerate(pose_positions):
+            if pe_end <= new_ie.shape[1]:
+                new_ie[i, ps:pe_end] = pe[i]
+        state["applied"] = True
+        return args, {**kwargs, "inputs_embeds": new_ie}
+
+    return hook_fn
+
+
+def _get_language_model(model, accelerator):
+    """Navigate through FSDP wrapping to get the language_model sub-module
+    for hook registration."""
+    unwrapped = accelerator.unwrap_model(model)
+    return unwrapped.model.language_model
+
+
+# ── Generative validation ────────────────────────────────────────────────────
+
+def _stratified_subset(dataset, max_samples: int):
+    """Return a Subset that samples proportionally from each dataset
+    (identified by the 'dataset' field), so all datasets are represented."""
+    if max_samples <= 0 or max_samples >= len(dataset):
+        return dataset
+
+    # Group indices by dataset name
+    by_ds = defaultdict(list)
+    for idx in range(len(dataset)):
+        ex = dataset[idx] if not isinstance(dataset, torch.utils.data.Subset) else dataset.dataset[dataset.indices[idx]]
+        by_ds[ex["dataset"]].append(idx)
+
+    # Proportional allocation (at least 1 per dataset if available)
+    total = sum(len(v) for v in by_ds.values())
+    selected = []
+    for ds_name, indices in sorted(by_ds.items()):
+        n = max(1, round(max_samples * len(indices) / total))
+        # Evenly spaced to get a representative slice
+        step = max(1, len(indices) // n)
+        selected.extend(indices[::step][:n])
+
+    # Trim to target
+    selected = selected[:max_samples]
+    return torch.utils.data.Subset(dataset, selected)
+
+
+def _run_generative_validation(
+    model, projector, val_ds, processor, tokenizer, accelerator,
+    pose_sample_n: int, max_new_tokens: int = 32, max_samples: int = 0,
+) -> dict:
+    """Generate with pose-injected prompts and compute strict/lenient accuracy."""
+    is_main = accelerator.is_main_process
+
+    subset = _stratified_subset(val_ds, max_samples)
+
+    collate_fn = lambda b: _collate_gen(b, processor, tokenizer, pose_sample_n)
+    gen_loader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0,
+                            collate_fn=collate_fn)
+    gen_loader = accelerator.prepare(gen_loader)
+
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+    eos_id = tokenizer.eos_token_id
+    lang_model = _get_language_model(model, accelerator)
+
+    overall = {"correct": 0, "total": 0}
+    overall_lenient = {"correct": 0, "total": 0}
+    by_dataset = defaultdict(lambda: {"correct": 0, "total": 0})
+    by_dataset_len = defaultdict(lambda: {"correct": 0, "total": 0})
+    by_tasktype = defaultdict(lambda: {"correct": 0, "total": 0})
+    by_tasktype_len = defaultdict(lambda: {"correct": 0, "total": 0})
+
+    was_training_m = model.training
+    was_training_p = projector.training
+    model.eval()
+    projector.eval()
+
+    with torch.no_grad():
+        for batch in tqdm(gen_loader, desc="Gen-val", leave=False, disable=not is_main):
+            answers        = batch.pop("answers")
+            datasets       = batch.pop("datasets")
+            task_types     = batch.pop("task_types")
+            pose_feat      = batch.pop("pose_feat").to(dtype=torch.bfloat16)
+            pose_positions = batch.pop("pose_positions")
+
+            pose_embeds = projector(pose_feat.to(next(projector.parameters()).device))
+
+            hook_fn = _make_pose_hook(pose_embeds, pose_positions)
+            handle = lang_model.register_forward_pre_hook(hook_fn, with_kwargs=True)
+
+            prompt_len = batch["input_ids"].shape[1]
+            gen_kwargs = {k: v for k, v in batch.items() if v is not None}
+            try:
+                gen_ids = model.generate(
+                    **gen_kwargs,
+                    max_new_tokens=max_new_tokens,
+                    do_sample=False,
+                    pad_token_id=pad_id,
+                    eos_token_id=eos_id,
+                )
+                new_ids = gen_ids[:, prompt_len:]
+            except Exception as e:
+                log.warning("Gen-val generation failed, skipping: %s", e)
+                handle.remove()
+                continue
+            handle.remove()
+
+            preds = [tokenizer.decode(ids, skip_special_tokens=True).strip()
+                     for ids in new_ids]
+
+            for pred, gt, ds, tt in zip(preds, answers, datasets, task_types):
+                c  = _is_correct(pred, gt, tt)
+                cl = _is_correct_lenient(pred, gt, tt)
+                overall["correct"]             += int(c)
+                overall["total"]               += 1
+                overall_lenient["correct"]     += int(cl)
+                overall_lenient["total"]       += 1
+                by_dataset[ds]["correct"]      += int(c)
+                by_dataset[ds]["total"]        += 1
+                by_dataset_len[ds]["correct"]  += int(cl)
+                by_dataset_len[ds]["total"]    += 1
+                by_tasktype[tt]["correct"]     += int(c)
+                by_tasktype[tt]["total"]       += 1
+                by_tasktype_len[tt]["correct"] += int(cl)
+                by_tasktype_len[tt]["total"]   += 1
+
+    if was_training_m:
+        model.train()
+    if was_training_p:
+        projector.train()
+
+    def acc(s):
+        return s["correct"] / max(1, s["total"])
 
     return {
-        **{k: v for k, v in inputs.items()},
-        "labels":    labels,
-        "pose_feat": pose_feat,
+        "overall_strict":  acc(overall),
+        "overall_lenient": acc(overall_lenient),
+        "total": overall["total"],
+        "correct_strict": overall["correct"],
+        "correct_lenient": overall_lenient["correct"],
+        "by_dataset": {
+            ds: {"strict": acc(s), "lenient": acc(by_dataset_len[ds]),
+                 "correct": s["correct"], "total": s["total"]}
+            for ds, s in sorted(by_dataset.items())
+        },
+        "by_task_type": {
+            tt: {"strict": acc(s), "lenient": acc(by_tasktype_len[tt]),
+                 "correct": s["correct"], "total": s["total"]}
+            for tt, s in sorted(by_tasktype.items())
+        },
     }
+
+
+def _run_generative_validation_pretrained(
+    model, val_ds, processor, tokenizer, accelerator,
+    max_new_tokens: int = 32, max_samples: int = 0,
+) -> dict:
+    """Generate WITHOUT the projector (plain model.generate).
+    Used for pretrained baseline measurement.  No pose tokens are inserted."""
+    is_main = accelerator.is_main_process
+
+    subset = _stratified_subset(val_ds, max_samples)
+
+    # Use a vanilla collate that does NOT insert pose placeholders
+    def _collate_vanilla(batch):
+        texts, all_images = [], []
+        for ex in batch:
+            content = [{"type": "image"} for _ in ex["pil_images"]]
+            content.append({"type": "text", "text": ex["question"]})
+            texts.append(
+                processor.apply_chat_template(
+                    [{"role": "user", "content": content}],
+                    tokenize=False, add_generation_prompt=True, enable_thinking=False,
+                )
+            )
+            all_images.append(ex["pil_images"])
+        inputs = processor(text=texts, images=all_images, return_tensors="pt", padding=True)
+        return {
+            **{k: v for k, v in inputs.items()},
+            "answers":    [ex["answer"]    for ex in batch],
+            "datasets":   [ex["dataset"]   for ex in batch],
+            "task_types": [ex["task_type"] for ex in batch],
+        }
+
+    gen_loader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0,
+                            collate_fn=_collate_vanilla)
+    gen_loader = accelerator.prepare(gen_loader)
+
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+    eos_id = tokenizer.eos_token_id
+
+    overall = {"correct": 0, "total": 0}
+    overall_lenient = {"correct": 0, "total": 0}
+    by_dataset = defaultdict(lambda: {"correct": 0, "total": 0})
+    by_dataset_len = defaultdict(lambda: {"correct": 0, "total": 0})
+    by_tasktype = defaultdict(lambda: {"correct": 0, "total": 0})
+    by_tasktype_len = defaultdict(lambda: {"correct": 0, "total": 0})
+
+    was_training = model.training
+    model.eval()
+
+    with torch.no_grad():
+        for batch in tqdm(gen_loader, desc="Pretrained-val", leave=False, disable=not is_main):
+            answers    = batch.pop("answers")
+            datasets   = batch.pop("datasets")
+            task_types = batch.pop("task_types")
+
+            prompt_len = batch["input_ids"].shape[1]
+            gen_kwargs = {k: v for k, v in batch.items() if v is not None}
+            try:
+                gen_ids = model.generate(
+                    **gen_kwargs, max_new_tokens=32, do_sample=False,
+                    pad_token_id=pad_id, eos_token_id=eos_id,
+                )
+                new_ids = gen_ids[:, prompt_len:]
+            except Exception as e:
+                log.warning("Pretrained generation failed, skipping: %s", e)
+                continue
+
+            preds = [tokenizer.decode(ids, skip_special_tokens=True).strip()
+                     for ids in new_ids]
+
+            for pred, gt, ds, tt in zip(preds, answers, datasets, task_types):
+                c  = _is_correct(pred, gt, tt)
+                cl = _is_correct_lenient(pred, gt, tt)
+                overall["correct"]             += int(c)
+                overall["total"]               += 1
+                overall_lenient["correct"]     += int(cl)
+                overall_lenient["total"]       += 1
+                by_dataset[ds]["correct"]      += int(c)
+                by_dataset[ds]["total"]        += 1
+                by_dataset_len[ds]["correct"]  += int(cl)
+                by_dataset_len[ds]["total"]    += 1
+                by_tasktype[tt]["correct"]     += int(c)
+                by_tasktype[tt]["total"]       += 1
+                by_tasktype_len[tt]["correct"] += int(cl)
+                by_tasktype_len[tt]["total"]   += 1
+
+    if was_training:
+        model.train()
+
+    def acc(s):
+        return s["correct"] / max(1, s["total"])
+
+    return {
+        "overall_strict":  acc(overall),
+        "overall_lenient": acc(overall_lenient),
+        "total": overall["total"],
+        "correct_strict": overall["correct"],
+        "correct_lenient": overall_lenient["correct"],
+        "by_dataset": {
+            ds: {"strict": acc(s), "lenient": acc(by_dataset_len[ds]),
+                 "correct": s["correct"], "total": s["total"]}
+            for ds, s in sorted(by_dataset.items())
+        },
+        "by_task_type": {
+            tt: {"strict": acc(s), "lenient": acc(by_tasktype_len[tt]),
+                 "correct": s["correct"], "total": s["total"]}
+            for tt, s in sorted(by_tasktype.items())
+        },
+    }
+
+
+def _log_gen_results(label: str, results: dict, log_fn=log.info):
+    """Pretty-print generative validation results."""
+    log_fn(
+        "%s: strict=%.4f  lenient=%.4f  (%d/%d/%d)",
+        label, results["overall_strict"], results["overall_lenient"],
+        results["correct_strict"], results["correct_lenient"], results["total"],
+    )
+    for ds, s in results["by_dataset"].items():
+        log_fn("    %s: strict=%.4f  lenient=%.4f  (%d/%d)",
+               ds, s["strict"], s["lenient"], s["correct"], s["total"])
+    for tt, s in results.get("by_task_type", {}).items():
+        log_fn("    %s: strict=%.4f  lenient=%.4f  (%d/%d)",
+               tt, s["strict"], s["lenient"], s["correct"], s["total"])
 
 
 # ── Training ──────────────────────────────────────────────────────────────────
 
 def train(args):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    log.info("Device: %s", device)
+    # ── Accelerator + FSDP plugin ─────────────────────────────────────────────
+    # Runs as plain single-process when launched via `python train.py`;
+    # shards model across GPUs when launched via `accelerate launch train.py`.
+    fsdp_plugin = FullyShardedDataParallelPlugin(
+        sharding_strategy=ShardingStrategy.FULL_SHARD,
+        backward_prefetch=BackwardPrefetch.BACKWARD_PRE,
+        mixed_precision_policy=MixedPrecision(
+            param_dtype=torch.bfloat16,
+            reduce_dtype=torch.bfloat16,  # bf16 everywhere → grads match bf16 params + Adam state
+            buffer_dtype=torch.bfloat16,
+        ),
+        auto_wrap_policy=functools.partial(
+            size_based_auto_wrap_policy, min_num_params=int(1e8)
+        ),
+        use_orig_params=True,
+        cpu_offload=False,
+        activation_checkpointing=False,  # HF's gradient_checkpointing handles this
+        state_dict_type=StateDictType.SHARDED_STATE_DICT,
+    )
+    # Do NOT pass mixed_precision="bf16" here — FSDP's own MixedPrecision
+    # policy already casts compute to bf16 and keeps grads/params/Adam state
+    # in fp32. Stacking Accelerator autocast on top makes non-FSDP modules
+    # (e.g. the projector, or backbone submodules below the auto-wrap
+    # threshold) emit bf16 grads while their params/state are fp32, which
+    # crashes optimizer.step with the "expected dtype float" error.
+    accelerator = Accelerator(
+        gradient_accumulation_steps=args.grad_accum,
+        fsdp_plugin=fsdp_plugin,
+    )
+    set_seed(args.seed)
+    device = accelerator.device
+    is_main = accelerator.is_main_process
 
-    # ── WandB ─────────────────────────────────────────────────────────────────
-    use_wandb = WANDB_AVAILABLE and not args.no_wandb
+    # ── Log file (main process only) ─────────────────────────────────────────
+    if is_main:
+        from datetime import datetime
+        log_dir = Path(args.log_dir) if args.log_dir else Path(args.output_dir) / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = log_dir / f"run_{timestamp}.log"
+        file_handler = logging.FileHandler(log_file, mode="a")
+        file_handler.setLevel(logging.INFO)
+        file_handler.setFormatter(
+            logging.Formatter("%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
+        )
+        logging.getLogger().addHandler(file_handler)
+        log.info("Logging to %s", log_file)
+
+    log.info("Accelerator: num_processes=%d  device=%s", accelerator.num_processes, device)
+
+    # ── WandB (main process only) ─────────────────────────────────────────────
+    use_wandb = WANDB_AVAILABLE and not args.no_wandb and is_main
     if use_wandb:
         wandb.init(
             project=args.wandb_project,
@@ -274,9 +799,8 @@ def train(args):
             config=vars(args),
         )
         log.info("WandB run: %s", wandb.run.name)
-    else:
-        if not args.no_wandb and not WANDB_AVAILABLE:
-            log.warning("wandb not installed — logging to console only. pip install wandb to enable.")
+    elif is_main and not args.no_wandb and not WANDB_AVAILABLE:
+        log.warning("wandb not installed — logging to console only.")
 
     # ── Resume checkpoint detection ───────────────────────────────────────────
     resume_ckpt = Path(args.resume_ckpt)
@@ -284,52 +808,47 @@ def train(args):
     if (resume_ckpt / "train_state.json").exists():
         with open(resume_ckpt / "train_state.json") as f:
             resume_state = json.load(f)
-        log.info("Found resume checkpoint at %s (next_epoch=%d)", resume_ckpt, resume_state["next_epoch"])
+        if is_main:
+            log.info("Found resume checkpoint at %s (next_epoch=%d)",
+                     resume_ckpt, resume_state["next_epoch"])
 
     # ── Model ─────────────────────────────────────────────────────────────────
-    model_path = str(resume_ckpt / "model") if resume_state and (resume_ckpt / "model").exists() else args.model_name
-    log.info("Loading model: %s", model_path)
+    # Always load from base model — accelerator.load_state() overlays trained
+    # weights on resume. No device_map: FSDP handles placement.
+    log.info("Loading model: %s", args.model_name)
+    # Load in bf16 so params, grads, and Adam state all live in bf16 —
+    # avoids every dtype-mismatch variant of the FSDP + AdamW bug.
     model = Qwen3_5ForConditionalGeneration.from_pretrained(
-        model_path,
+        args.model_name,
         torch_dtype=torch.bfloat16,
-        device_map="auto",
         trust_remote_code=True,
     )
-    processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True)
+    processor = AutoProcessor.from_pretrained(args.model_name, trust_remote_code=True)
     tokenizer = processor.tokenizer
 
-    assert hasattr(model, "model"),    "Expected model.model (backbone)"
+    assert hasattr(model, "model"),   "Expected model.model (backbone)"
     assert hasattr(model, "lm_head"), "Expected model.lm_head"
 
-    # Unfreeze all backbone parameters for full fine-tuning
     for p in model.parameters():
         p.requires_grad = True
     model.train()
 
-    # Compile model for faster execution
-    if args.torch_compile:
-        log.info("Compiling model with torch.compile …")
-        model = torch.compile(model)
-
-    # Enable gradient checkpointing to reduce activation memory
+    # Gradient checkpointing must be enabled BEFORE FSDP wrap.
+    # use_reentrant=False is required for FSDP compatibility.
     if args.gradient_checkpointing:
-        model.gradient_checkpointing_enable()
+        model.gradient_checkpointing_enable(
+            gradient_checkpointing_kwargs={"use_reentrant": False}
+        )
         log.info("Gradient checkpointing enabled.")
 
     total_params = sum(p.numel() for p in model.parameters())
-    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    log.info("Total params: %s  Trainable: %s", f"{total_params:,}", f"{trainable_params:,}")
-
-    embed_device  = next(model.get_input_embeddings().parameters()).device
-    lm_head_device = next(model.lm_head.parameters()).device
-    log.info("embed_device: %s  lm_head_device: %s", embed_device, lm_head_device)
+    log.info("Total params: %s", f"{total_params:,}")
 
     # ── Pose projector ────────────────────────────────────────────────────────
     feat_dim = (resume_state["feat_dim"] if resume_state else None) or args.pose_feature_dim
     if feat_dim is None:
-        # Auto-detect from first available .pt file in splits
-        splits = get_all_samples()
-        for split_samples in splits.values():
+        splits_tmp = get_all_samples()
+        for split_samples in splits_tmp.values():
             for s in split_samples:
                 if Path(s["pose_path"]).exists():
                     sample_feat = _load_pose_features(s["pose_path"], 1)
@@ -345,8 +864,7 @@ def train(args):
             )
 
     hidden_size = model.config.get_text_config().hidden_size
-    projector = PoseFeatureProjector(feat_dim, hidden_size)
-    projector = projector.to(device=lm_head_device, dtype=torch.bfloat16)
+    projector = PoseFeatureProjector(feat_dim, hidden_size).to(dtype=torch.bfloat16)
     log.info(
         "PoseFeatureProjector: %d → %d  (%s params)",
         feat_dim, hidden_size,
@@ -354,11 +872,7 @@ def train(args):
     )
 
     # ── Datasets ──────────────────────────────────────────────────────────────
-    if not hasattr(train, "_splits"):
-        splits = get_all_samples()
-    else:
-        splits = train._splits  # reuse if already loaded
-
+    splits = get_all_samples()
     train_ds = MultiVideoDataset(
         splits["train"], fps=args.fps, max_frames=args.max_frames, pose_sample_n=args.pose_sample_n
     )
@@ -366,7 +880,7 @@ def train(args):
         splits["val"], fps=args.fps, max_frames=args.max_frames, pose_sample_n=args.pose_sample_n
     )
 
-    collate_fn = lambda b: _collate(b, processor, tokenizer)
+    collate_fn = lambda b: _collate(b, processor, tokenizer, args.pose_sample_n)
 
     train_loader = DataLoader(
         train_ds, batch_size=args.batch_size, shuffle=True,
@@ -381,15 +895,35 @@ def train(args):
         collate_fn=collate_fn,
     )
 
-    # ── Optimizer — two LR groups ─────────────────────────────────────────────
-    # Backbone gets backbone_lr; projector gets lr (typically 10× higher)
-    backbone_params = [p for p in model.parameters() if p.requires_grad]
-    optimizer = torch.optim.AdamW(
-        [
-            {"params": backbone_params,           "lr": args.backbone_lr},
-            {"params": projector.parameters(),    "lr": args.lr},
-        ],
+    # ── Prepare model + projector + loaders (FSDP wrap happens here) ──────────
+    model, projector, train_loader, val_loader = accelerator.prepare(
+        model, projector, train_loader, val_loader
+    )
+
+    # torch.compile AFTER FSDP wrap (if enabled).
+    if args.torch_compile:
+        log.info("Compiling model with torch.compile …")
+        model = torch.compile(model)
+        projector = torch.compile(projector)
+
+    # ── Optimizers — one per FSDP-wrapped module ──────────────────────────────
+    # Accelerate's FSDP optimizer save requires a 1:1 mapping between each
+    # optimizer and its FSDP model (FSDP.optim_state_dict looks every param up
+    # in that one model's param_to_fqns). Using a single optimizer across two
+    # FSDP modules trips a KeyError on save, so we keep them separate.
+    model_optimizer = torch.optim.AdamW(
+        [p for p in model.parameters() if p.requires_grad],
+        lr=args.backbone_lr,
         weight_decay=args.weight_decay,
+        foreach=False,  # FSDP use_orig_params can mix dtypes within a group
+        fused=False,
+    )
+    proj_optimizer = torch.optim.AdamW(
+        list(projector.parameters()),
+        lr=args.lr,
+        weight_decay=args.weight_decay,
+        foreach=False,
+        fused=False,
     )
 
     total_steps  = math.ceil(len(train_loader) / args.grad_accum) * args.num_epochs
@@ -401,161 +935,121 @@ def train(args):
         progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
         return 0.5 * (1.0 + math.cos(math.pi * progress))
 
-    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
+    model_scheduler = torch.optim.lr_scheduler.LambdaLR(model_optimizer, lr_lambda)
+    proj_scheduler = torch.optim.lr_scheduler.LambdaLR(proj_optimizer, lr_lambda)
+    model_optimizer, proj_optimizer, model_scheduler, proj_scheduler = accelerator.prepare(
+        model_optimizer, proj_optimizer, model_scheduler, proj_scheduler
+    )
 
     # ── Training loop ─────────────────────────────────────────────────────────
     output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    if is_main:
+        output_dir.mkdir(parents=True, exist_ok=True)
     best_val_loss = float("inf")
     global_step   = 0
     start_epoch   = 1
 
+    resume_step_in_epoch = 0
     if resume_state:
         start_epoch   = resume_state["next_epoch"]
         global_step   = resume_state["global_step"]
         best_val_loss = resume_state["best_val_loss"]
-        _load_resume_checkpoint(resume_ckpt, projector, optimizer, scheduler, lm_head_device)
+        resume_step_in_epoch = resume_state.get("step_in_epoch", 0)
+        accelerator.load_state(str(resume_ckpt / "accel_state"))
+        if is_main:
+            log.info(
+                "Resumed: next_epoch=%d  global_step=%d  step_in_epoch=%d  best_val_loss=%.4f",
+                start_epoch, global_step, resume_step_in_epoch, best_val_loss,
+            )
 
-    optimizer.zero_grad()
+    model_optimizer.zero_grad()
+    proj_optimizer.zero_grad()
 
+    # ── Get language_model handle for pose injection hooks ────────────────
+    lang_model = _get_language_model(model, accelerator)
+
+    # ── Warm up FSDP ─────────────────────────────────────────────────────
+    # FSDP lazy-initializes on the first forward through the ROOT wrapper.
+    # model.generate() bypasses the root (HF generate() calls self(...) on
+    # the unwrapped module), so we must trigger init through model() first.
+    if is_main:
+        log.info("Initializing FSDP …")
+    with torch.no_grad():
+        _dummy = torch.zeros(1, 1, dtype=torch.long, device=device)
+        model(input_ids=_dummy, attention_mask=torch.ones_like(_dummy))
+    accelerator.wait_for_everyone()
+
+    # ── Pre-training baseline (fresh runs only) ──────────────────────────
+    if not resume_state:
+        if is_main:
+            log.info("Fresh run — evaluating pretrained baselines on validation …")
+
+        # (1) Pretrained model alone (no pose tokens)
+        pt_results = _run_generative_validation_pretrained(
+            model, val_ds, processor, tokenizer, accelerator,
+            max_new_tokens=args.val_max_new_tokens,
+            max_samples=args.val_max_samples,
+        )
+        if is_main:
+            _log_gen_results("Baseline (pretrained, no pose)", pt_results)
+            if use_wandb:
+                wandb.log({
+                    "baseline/pretrained_strict":  pt_results["overall_strict"],
+                    "baseline/pretrained_lenient": pt_results["overall_lenient"],
+                }, step=0)
+
+        # (2) Pretrained model + randomly initialized projector (with pose tokens)
+        rp_results = _run_generative_validation(
+            model, projector, val_ds, processor, tokenizer, accelerator,
+            pose_sample_n=args.pose_sample_n,
+            max_new_tokens=args.val_max_new_tokens,
+            max_samples=args.val_max_samples,
+        )
+        if is_main:
+            _log_gen_results("Baseline (pretrained + random projector)", rp_results)
+            if use_wandb:
+                wandb.log({
+                    "baseline/random_proj_strict":  rp_results["overall_strict"],
+                    "baseline/random_proj_lenient": rp_results["overall_lenient"],
+                }, step=0)
+
+    # ── Training loop ────────────────────────────────────────────────────────
     for epoch in range(start_epoch, args.num_epochs + 1):
         model.train()
         projector.train()
 
-        running_loss = running_sft = running_pose = 0.0
-        pbar = tqdm(train_loader, desc=f"Epoch {epoch}/{args.num_epochs}", leave=True)
+        running_loss = 0.0
 
-        for step, batch in enumerate(pbar):
-            pose_feat  = batch.pop("pose_feat").to(device=lm_head_device, dtype=torch.bfloat16)
-            labels     = batch.pop("labels").to(embed_device)
-            batch = {k: v.to(embed_device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
-
-            # ── Forward through backbone ──────────────────────────────────────
-            backbone_out = model.model(
-                input_ids=batch.get("input_ids"),
-                attention_mask=batch.get("attention_mask"),
-                pixel_values=batch.get("pixel_values"),
-                image_grid_thw=batch.get("image_grid_thw"),
-                pixel_values_videos=batch.get("pixel_values_videos"),
-                video_grid_thw=batch.get("video_grid_thw"),
-                mm_token_type_ids=batch.get("mm_token_type_ids"),
+        if resume_step_in_epoch > 0:
+            active_loader = accelerator.skip_first_batches(
+                train_loader, resume_step_in_epoch
             )
-            hidden = backbone_out.last_hidden_state  # (B, seq_len, H)
+            step_offset = resume_step_in_epoch
+            if is_main:
+                log.info("Skipping first %d batches of epoch %d",
+                         resume_step_in_epoch, epoch)
+            resume_step_in_epoch = 0
+        else:
+            active_loader = train_loader
+            step_offset = 0
 
-            # Move labels to the same device as lm_head for loss computation
-            labels = labels.to(lm_head_device)
-            hidden = hidden.to(lm_head_device)
+        pbar = tqdm(
+            active_loader, desc=f"Epoch {epoch}/{args.num_epochs}",
+            leave=True, disable=not is_main,
+            initial=step_offset, total=len(train_loader),
+        )
 
-            # ── SFT loss: cross-entropy on answer tokens ──────────────────────
-            # We use hidden states from backbone (now WITH gradients) and
-            # compute next-token prediction loss on answer positions only.
-            sft_logits = model.lm_head(hidden).float()   # (B, seq_len, vocab)
-            # Shift: predict token[i+1] from token[i]
-            shift_logits = sft_logits[:, :-1, :].contiguous()
-            shift_labels = labels[:, 1:].contiguous()
-            sft_loss = F.cross_entropy(
-                shift_logits.view(-1, shift_logits.size(-1)),
-                shift_labels.view(-1),
-                ignore_index=-100,
-            )
+        for local_step, batch in enumerate(pbar):
+            step = local_step + step_offset
+            with accelerator.accumulate(model, projector):
+                pose_feat      = batch.pop("pose_feat").to(dtype=torch.bfloat16)
+                labels         = batch.pop("labels")
+                pose_positions = batch.pop("pose_positions")
 
-            # ── Pose loss: projector predicts first answer token ──────────────
-            # Find the position of the first answer token per sample
-            # (first position where labels != -100)
-            B = hidden.shape[0]
-            first_ans_pos = (labels != -100).int().argmax(dim=1).clamp(min=1)  # (B,)
-
-            # Gather hidden state at the last prompt position (= first_ans_pos - 1)
-            last_prompt_h = hidden[torch.arange(B), first_ans_pos - 1, :]  # (B, H)
-
-            # Append pose embeddings and predict first answer token
-            pose_embeds   = projector(pose_feat)                           # (B, T, H)
-            extended      = torch.cat(
-                [last_prompt_h.unsqueeze(1), pose_embeds], dim=1
-            )                                                              # (B, 1+T, H)
-            pose_logits   = model.lm_head(extended[:, -1:, :]).float()    # (B, 1, vocab)
-            first_ans_ids = labels[torch.arange(B), first_ans_pos]        # (B,)
-
-            # Only compute pose loss where a valid answer token exists
-            valid_mask = first_ans_ids != -100
-            if valid_mask.any():
-                pose_loss = F.cross_entropy(
-                    pose_logits[valid_mask, 0, :], first_ans_ids[valid_mask]
-                )
-            else:
-                pose_loss = torch.tensor(0.0, device=lm_head_device)
-
-            # ── Combined loss ─────────────────────────────────────────────────
-            loss = sft_loss + args.pose_loss_weight * pose_loss
-            (loss / args.grad_accum).backward()
-
-            running_loss += loss.item()
-            running_sft  += sft_loss.item()
-            running_pose += pose_loss.item()
-            pbar.set_postfix(loss=f"{loss.item():.4f}", sft=f"{sft_loss.item():.4f}")
-
-            if (step + 1) % args.grad_accum == 0:
-                # Clip gradients across both backbone and projector
-                all_params = list(model.parameters()) + list(projector.parameters())
-                nn.utils.clip_grad_norm_(
-                    [p for p in all_params if p.grad is not None],
-                    args.max_grad_norm,
-                )
-                optimizer.step()
-                scheduler.step()
-                optimizer.zero_grad()
-                global_step += 1
-
-                if global_step % args.save_steps == 0:
-                    _save_resume_checkpoint(
-                        resume_ckpt, model, projector, optimizer, scheduler, processor,
-                        next_epoch=epoch, global_step=global_step,
-                        best_val_loss=best_val_loss, feat_dim=feat_dim, hidden_size=hidden_size,
-                    )
-
-                if global_step % args.log_steps == 0:
-                    n = args.log_steps * args.grad_accum
-                    avg_loss = running_loss / n
-                    avg_sft  = running_sft  / n
-                    avg_pose = running_pose / n
-                    running_loss = running_sft = running_pose = 0.0
-
-                    backbone_lr = scheduler.get_last_lr()[0]
-                    proj_lr     = scheduler.get_last_lr()[1]
-
-                    log.info(
-                        "epoch %d  step %d  loss %.4f  sft %.4f  pose %.4f"
-                        "  backbone_lr %.2e  proj_lr %.2e",
-                        epoch, global_step, avg_loss, avg_sft, avg_pose,
-                        backbone_lr, proj_lr,
-                    )
-                    pbar.set_postfix(
-                        loss=f"{avg_loss:.4f}",
-                        sft=f"{avg_sft:.4f}",
-                        pose=f"{avg_pose:.4f}",
-                    )
-
-                    if use_wandb:
-                        wandb.log({
-                            "train/loss":       avg_loss,
-                            "train/sft_loss":   avg_sft,
-                            "train/pose_loss":  avg_pose,
-                            "train/backbone_lr": backbone_lr,
-                            "train/proj_lr":    proj_lr,
-                            "epoch":            epoch,
-                        }, step=global_step)
-
-        # ── Validation ────────────────────────────────────────────────────────
-        model.eval()
-        projector.eval()
-        val_loss = val_sft = val_pose = 0.0
-        correct = total = 0
-
-        with torch.no_grad():
-            for batch in tqdm(val_loader, desc="Validation", leave=False):
-                pose_feat = batch.pop("pose_feat").to(device=lm_head_device, dtype=torch.bfloat16)
-                labels    = batch.pop("labels").to(lm_head_device)
-                batch = {k: v.to(embed_device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
+                # Project pose features and register hook to inject them
+                pose_embeds = projector(pose_feat)
+                hook_fn = _make_pose_hook(pose_embeds, pose_positions)
+                handle = lang_model.register_forward_pre_hook(hook_fn, with_kwargs=True)
 
                 backbone_out = model.model(
                     input_ids=batch.get("input_ids"),
@@ -566,89 +1060,214 @@ def train(args):
                     video_grid_thw=batch.get("video_grid_thw"),
                     mm_token_type_ids=batch.get("mm_token_type_ids"),
                 )
-                hidden = backbone_out.last_hidden_state.to(lm_head_device)
+                handle.remove()
 
-                sft_logits = model.lm_head(hidden).float()
-                sft_loss_v = F.cross_entropy(
-                    sft_logits[:, :-1, :].contiguous().view(-1, sft_logits.size(-1)),
-                    labels[:, 1:].contiguous().view(-1),
+                hidden = backbone_out.last_hidden_state.to(torch.bfloat16)
+                logits = model.lm_head(hidden).float()
+                shift_logits = logits[:, :-1, :].contiguous()
+                shift_labels = labels[:, 1:].contiguous()
+                loss = F.cross_entropy(
+                    shift_logits.view(-1, shift_logits.size(-1)),
+                    shift_labels.view(-1),
                     ignore_index=-100,
                 )
 
-                B = hidden.shape[0]
-                first_ans_pos = (labels != -100).int().argmax(dim=1).clamp(min=1)
-                last_prompt_h = hidden[torch.arange(B), first_ans_pos - 1, :]
-                pose_embeds   = projector(pose_feat)
-                extended      = torch.cat([last_prompt_h.unsqueeze(1), pose_embeds], dim=1)
-                pose_logits_v = model.lm_head(extended[:, -1:, :]).float()
-                first_ans_ids = labels[torch.arange(B), first_ans_pos]
-                valid_mask    = first_ans_ids != -100
+                accelerator.backward(loss)
 
-                if valid_mask.any():
-                    pose_loss_v = F.cross_entropy(
-                        pose_logits_v[valid_mask, 0, :], first_ans_ids[valid_mask]
+                if accelerator.sync_gradients:
+                    accelerator.clip_grad_norm_(
+                        list(model.parameters()) + list(projector.parameters()),
+                        args.max_grad_norm,
                     )
-                    preds   = pose_logits_v[valid_mask, 0, :].argmax(dim=-1)
-                    correct += (preds == first_ans_ids[valid_mask]).sum().item()
-                    total   += valid_mask.sum().item()
-                else:
-                    pose_loss_v = torch.tensor(0.0)
 
-                loss_v  = sft_loss_v + args.pose_loss_weight * pose_loss_v
-                val_loss += loss_v.item()
-                val_sft  += sft_loss_v.item()
-                val_pose += pose_loss_v.item()
+                model_optimizer.step()
+                proj_optimizer.step()
+                model_scheduler.step()
+                proj_scheduler.step()
+                model_optimizer.zero_grad()
+                proj_optimizer.zero_grad()
 
-        n_val = max(1, len(val_loader))
-        val_loss /= n_val
-        val_sft  /= n_val
-        val_pose /= n_val
-        val_acc   = correct / max(1, total)
+            running_loss += loss.item()
+            if is_main:
+                pbar.set_postfix(loss=f"{loss.item():.4f}")
 
-        log.info(
-            "=== Epoch %d  val_loss=%.4f  val_sft=%.4f  val_pose=%.4f  val_acc=%.4f ===",
-            epoch, val_loss, val_sft, val_pose, val_acc,
+            if accelerator.sync_gradients:
+                global_step += 1
+
+                # Accumulate all wandb metrics for this step into one dict
+                # to avoid multiple wandb.log() calls at the same step.
+                step_metrics = {"epoch": epoch} if use_wandb else {}
+
+                if global_step % args.save_steps == 0:
+                    torch.cuda.synchronize()
+                    _save_resume_checkpoint(
+                        accelerator, resume_ckpt,
+                        next_epoch=epoch, global_step=global_step,
+                        step_in_epoch=step + 1,
+                        best_val_loss=best_val_loss, feat_dim=feat_dim, hidden_size=hidden_size,
+                    )
+
+                    if args.val_steps > 0 and global_step % args.val_steps == 0:
+                        if is_main:
+                            log.info("Running generative validation at step %d …", global_step)
+                        gen_results = _run_generative_validation(
+                            model, projector, val_ds, processor, tokenizer, accelerator,
+                            pose_sample_n=args.pose_sample_n,
+                            max_new_tokens=args.val_max_new_tokens,
+                            max_samples=args.val_max_samples,
+                        )
+                        if is_main:
+                            _log_gen_results(f"  gen-val step {global_step}", gen_results)
+                            step_metrics.update({
+                                "val_gen/accuracy_strict":  gen_results["overall_strict"],
+                                "val_gen/accuracy_lenient": gen_results["overall_lenient"],
+                                **{f"val_gen/{ds}_strict": s["strict"]
+                                   for ds, s in gen_results["by_dataset"].items()},
+                                **{f"val_gen/{ds}_lenient": s["lenient"]
+                                   for ds, s in gen_results["by_dataset"].items()},
+                            })
+
+                if global_step % args.log_steps == 0 and is_main:
+                    n = args.log_steps * args.grad_accum
+                    avg_loss = running_loss / n
+                    running_loss = 0.0
+
+                    backbone_lr = model_scheduler.get_last_lr()[0]
+                    proj_lr     = proj_scheduler.get_last_lr()[0]
+
+                    log.info(
+                        "epoch %d  step %d  loss %.4f"
+                        "  backbone_lr %.2e  proj_lr %.2e",
+                        epoch, global_step, avg_loss,
+                        backbone_lr, proj_lr,
+                    )
+                    pbar.set_postfix(loss=f"{avg_loss:.4f}")
+                    step_metrics.update({
+                        "train/loss":        avg_loss,
+                        "train/backbone_lr": backbone_lr,
+                        "train/proj_lr":     proj_lr,
+                    })
+
+                if use_wandb and step_metrics and is_main:
+                    wandb.log(step_metrics, step=global_step)
+
+        # ── Validation (loss) ─────────────────────────────────────────────────
+        model.eval()
+        projector.eval()
+        val_loss_sum = torch.zeros(1, device=device)
+        n_batches    = torch.zeros(1, device=device)
+
+        with torch.no_grad():
+            for batch in tqdm(val_loader, desc="Validation", leave=False,
+                              disable=not is_main):
+                pose_feat      = batch.pop("pose_feat").to(dtype=torch.bfloat16)
+                labels         = batch.pop("labels")
+                pose_positions = batch.pop("pose_positions")
+
+                pose_embeds = projector(pose_feat)
+                hook_fn = _make_pose_hook(pose_embeds, pose_positions)
+                handle = lang_model.register_forward_pre_hook(hook_fn, with_kwargs=True)
+
+                backbone_out = model.model(
+                    input_ids=batch.get("input_ids"),
+                    attention_mask=batch.get("attention_mask"),
+                    pixel_values=batch.get("pixel_values"),
+                    image_grid_thw=batch.get("image_grid_thw"),
+                    pixel_values_videos=batch.get("pixel_values_videos"),
+                    video_grid_thw=batch.get("video_grid_thw"),
+                    mm_token_type_ids=batch.get("mm_token_type_ids"),
+                )
+                handle.remove()
+
+                hidden = backbone_out.last_hidden_state.to(torch.bfloat16)
+                logits = model.lm_head(hidden).float()
+                loss_v = F.cross_entropy(
+                    logits[:, :-1, :].contiguous().view(-1, logits.size(-1)),
+                    labels[:, 1:].contiguous().view(-1),
+                    ignore_index=-100,
+                )
+                val_loss_sum += loss_v.detach()
+                n_batches    += 1
+
+        val_loss_sum = accelerator.reduce(val_loss_sum, reduction="sum")
+        n_batches    = accelerator.reduce(n_batches,    reduction="sum")
+        val_loss = (val_loss_sum / n_batches.clamp(min=1)).item()
+
+        if is_main:
+            log.info("=== Epoch %d  val_loss=%.4f ===", epoch, val_loss)
+            if use_wandb:
+                wandb.log({"val/loss": val_loss, "epoch": epoch}, step=global_step)
+
+        # ── Generative validation (full val set, end of epoch) ────────────────
+        if is_main:
+            log.info("Running end-of-epoch generative validation …")
+        gen_results = _run_generative_validation(
+            model, projector, val_ds, processor, tokenizer, accelerator,
+            pose_sample_n=args.pose_sample_n,
+            max_new_tokens=args.val_max_new_tokens,
+            max_samples=0,
         )
-
-        if use_wandb:
-            wandb.log({
-                "val/loss":      val_loss,
-                "val/sft_loss":  val_sft,
-                "val/pose_loss": val_pose,
-                "val/accuracy":  val_acc,
-                "epoch":         epoch,
-            }, step=global_step)
+        if is_main:
+            _log_gen_results(f"Epoch {epoch} gen-val", gen_results)
+            if use_wandb:
+                wandb.log({
+                    "val_gen_epoch/accuracy_strict":  gen_results["overall_strict"],
+                    "val_gen_epoch/accuracy_lenient": gen_results["overall_lenient"],
+                    **{f"val_gen_epoch/{ds}_strict": s["strict"]
+                       for ds, s in gen_results["by_dataset"].items()},
+                    **{f"val_gen_epoch/{ds}_lenient": s["lenient"]
+                       for ds, s in gen_results["by_dataset"].items()},
+                    "epoch": epoch,
+                }, step=global_step)
 
         # ── Checkpointing ─────────────────────────────────────────────────────
-        # Save projector weights every epoch (small, fast)
         ckpt_dir = output_dir / f"epoch-{epoch}"
-        ckpt_dir.mkdir(exist_ok=True)
-        torch.save(projector.state_dict(), ckpt_dir / "pose_projector.pt")
-        _save_config(ckpt_dir, feat_dim, hidden_size, args)
+        if is_main:
+            ckpt_dir.mkdir(exist_ok=True)
+        accelerator.wait_for_everyone()
 
-        if val_loss < best_val_loss:
+        proj_state = accelerator.get_state_dict(projector)
+        if is_main:
+            torch.save(proj_state, ckpt_dir / "pose_projector.pt")
+            _save_config(ckpt_dir, feat_dim, hidden_size, args)
+
+        new_best = val_loss < best_val_loss
+        if new_best:
             best_val_loss = val_loss
             best_dir = output_dir / "best"
-            best_dir.mkdir(exist_ok=True)
-            torch.save(projector.state_dict(), best_dir / "pose_projector.pt")
-            _save_config(best_dir, feat_dim, hidden_size, args)
-            # Save full model at best checkpoint (large — ~14 GB for 7B)
-            if args.save_full_model:
-                log.info("Saving full model to %s …", best_dir / "model")
-                model.save_pretrained(best_dir / "model")
-                processor.save_pretrained(best_dir / "model")
-            log.info("New best val_loss=%.4f saved to %s", best_val_loss, best_dir)
+            if is_main:
+                best_dir.mkdir(exist_ok=True)
+                torch.save(proj_state, best_dir / "pose_projector.pt")
+                _save_config(best_dir, feat_dim, hidden_size, args)
+            accelerator.wait_for_everyone()
 
-        # Save full resume checkpoint (model + projector + optimizer + scheduler)
+            if args.save_full_model:
+                if is_main:
+                    log.info("Saving full model to %s …", best_dir / "model")
+                unwrapped = accelerator.unwrap_model(model)
+                full_state = accelerator.get_state_dict(model)
+                unwrapped.save_pretrained(
+                    best_dir / "model",
+                    is_main_process=is_main,
+                    save_function=accelerator.save,
+                    state_dict=full_state,
+                )
+                if is_main:
+                    processor.save_pretrained(best_dir / "model")
+            if is_main:
+                log.info("New best val_loss=%.4f saved to %s", best_val_loss, best_dir)
+
         _save_resume_checkpoint(
-            resume_ckpt, model, projector, optimizer, scheduler, processor,
+            accelerator, resume_ckpt,
             next_epoch=epoch + 1, global_step=global_step,
+            step_in_epoch=0,
             best_val_loss=best_val_loss, feat_dim=feat_dim, hidden_size=hidden_size,
         )
 
-    log.info("Training complete. Best val_loss: %.4f", best_val_loss)
-    if use_wandb:
-        wandb.finish()
+    if is_main:
+        log.info("Training complete. Best val_loss: %.4f", best_val_loss)
+        if use_wandb:
+            wandb.finish()
 
 
 def _save_config(directory: Path, feat_dim: int, hidden_size: int, args) -> None:
@@ -665,63 +1284,57 @@ def _save_config(directory: Path, feat_dim: int, hidden_size: int, args) -> None
         json.dump(cfg, f, indent=2)
 
 
+def _reset_fsdp_training_state(accelerator) -> None:
+    """Workaround for PyTorch FSDP bug: after backward(), handle._training_state
+    stays at BACKWARD_POST and only resets on the next forward. Calling
+    state_dict() in between trips an assertion. Force every FSDP module / handle
+    back to IDLE so save_state can unshard cleanly."""
+    try:
+        from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
+        from torch.distributed.fsdp._common_utils import TrainingState
+        from torch.distributed.fsdp._flat_param import HandleTrainingState
+    except ImportError:
+        return
+    for model in accelerator._models:
+        for module in FSDP.fsdp_modules(model):
+            module.training_state = TrainingState.IDLE
+            handle = getattr(module, "_handle", None)
+            if handle is not None:
+                handle._training_state = HandleTrainingState.IDLE
+
+
 def _save_resume_checkpoint(
+    accelerator,
     ckpt_dir: Path,
-    model,
-    projector: PoseFeatureProjector,
-    optimizer,
-    scheduler,
-    processor,
     next_epoch: int,
     global_step: int,
+    step_in_epoch: int,
     best_val_loss: float,
     feat_dim: int,
     hidden_size: int,
 ) -> None:
-    """Save everything needed to resume training from the next epoch."""
-    ckpt_dir.mkdir(parents=True, exist_ok=True)
-    log.info("Saving resume checkpoint to %s …", ckpt_dir)
-    model.save_pretrained(ckpt_dir / "model")
-    processor.save_pretrained(ckpt_dir / "model")
-    torch.save(projector.state_dict(), ckpt_dir / "pose_projector.pt")
-    torch.save(optimizer.state_dict(), ckpt_dir / "optimizer.pt")
-    torch.save(scheduler.state_dict(), ckpt_dir / "scheduler.pt")
-    state = {
-        "next_epoch":    next_epoch,
-        "global_step":   global_step,
-        "best_val_loss": best_val_loss,
-        "feat_dim":      feat_dim,
-        "hidden_size":   hidden_size,
-    }
-    with open(ckpt_dir / "train_state.json", "w") as f:
-        json.dump(state, f, indent=2)
-    log.info("Resume checkpoint saved (next_epoch=%d, global_step=%d)", next_epoch, global_step)
-
-
-def _load_resume_checkpoint(
-    ckpt_dir: Path,
-    projector: PoseFeatureProjector,
-    optimizer,
-    scheduler,
-    lm_head_device: torch.device,
-) -> dict:
-    """Load projector, optimizer, and scheduler states; return train_state dict."""
-    log.info("Loading resume checkpoint from %s …", ckpt_dir)
-    with open(ckpt_dir / "train_state.json") as f:
-        state = json.load(f)
-    projector.load_state_dict(
-        torch.load(ckpt_dir / "pose_projector.pt", map_location=lm_head_device, weights_only=True)
-    )
-    opt_state = torch.load(ckpt_dir / "optimizer.pt", map_location="cpu", weights_only=True)
-    optimizer.load_state_dict(opt_state)
-    scheduler.load_state_dict(
-        torch.load(ckpt_dir / "scheduler.pt", map_location="cpu", weights_only=True)
-    )
-    log.info(
-        "Resumed: next_epoch=%d  global_step=%d  best_val_loss=%.4f",
-        state["next_epoch"], state["global_step"], state["best_val_loss"],
-    )
-    return state
+    """Save accelerator state (model + projector + optimizer + scheduler + RNG)
+    plus a small train_state.json for bookkeeping."""
+    ckpt_dir = Path(ckpt_dir)
+    accelerator.wait_for_everyone()
+    if accelerator.is_main_process:
+        ckpt_dir.mkdir(parents=True, exist_ok=True)
+        log.info("Saving resume checkpoint to %s …", ckpt_dir)
+    _reset_fsdp_training_state(accelerator)
+    accelerator.save_state(str(ckpt_dir / "accel_state"))
+    if accelerator.is_main_process:
+        state = {
+            "next_epoch":    next_epoch,
+            "global_step":   global_step,
+            "step_in_epoch": step_in_epoch,
+            "best_val_loss": best_val_loss,
+            "feat_dim":      feat_dim,
+            "hidden_size":   hidden_size,
+        }
+        with open(ckpt_dir / "train_state.json", "w") as f:
+            json.dump(state, f, indent=2)
+        log.info("Resume checkpoint saved (next_epoch=%d, global_step=%d)",
+                 next_epoch, global_step)
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
@@ -733,14 +1346,15 @@ def parse_args():
     # Model
     p.add_argument("--model_name",   default="Qwen/Qwen3.5-9B")
     p.add_argument("--output_dir",   default="/orcd/compute/ppliang/001/qwen_multi")
-    p.add_argument("--resume_ckpt",  default="/home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt",
-                   help="Directory to save/load full resume checkpoints (model + optimizer + scheduler).")
+    p.add_argument("--resume_ckpt", default="/orcd/compute/ppliang/001/qwen_multi/resume_ckpt")
+    # p.add_argument("--resume_ckpt",  default="/home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt",
+    #                help="Directory to save/load full resume checkpoints (model + optimizer + scheduler).")
 
     # Data
     p.add_argument("--pose_feature_dim", type=int, default=None,
                    help="Auto-detected from first .pt file if not set.")
     p.add_argument("--pose_sample_n",   type=int,   default=16)
-    p.add_argument("--fps",             type=float, default=2.0,
+    p.add_argument("--fps",             type=float, default=1.0,
                    help="Target sampling rate (frames/sec) for video frames fed to the vision encoder.")
     p.add_argument("--max_frames",      type=int,   default=8,
                    help="Maximum number of video frames per clip (caps fps-based sampling).")
@@ -764,20 +1378,31 @@ def parse_args():
     p.add_argument("--gradient_checkpointing", action="store_true", default=True)
     p.add_argument("--no_gradient_checkpointing", dest="gradient_checkpointing",
                    action="store_false")
-    p.add_argument("--torch_compile",  action="store_true", default=True,
-                   help="Use torch.compile for faster execution.")
+    p.add_argument("--torch_compile",  action="store_true", default=False,
+                   help="Use torch.compile for faster execution. Off by default under FSDP.")
     p.add_argument("--no_torch_compile", dest="torch_compile", action="store_false")
-    p.add_argument("--save_full_model", action="store_true", default=False,
+    p.add_argument("--save_full_model", action="store_true", default=True,
                    help="Save full Qwen model at best checkpoint (~14 GB).")
-    p.add_argument("--save_steps", type=int, default=100,
-                   help="Save resume checkpoint every N training steps (default: 100).")
+    p.add_argument("--save_steps", type=int, default=10,
+                   help="Save resume checkpoint every N training steps (default: 10).")
+    p.add_argument("--val_steps", type=int, default=10,
+                   help="Run generative validation every N training steps (0 = only at end of epoch).")
+    p.add_argument("--val_max_samples", type=int, default=200,
+                   help="Max samples for mid-training generative validation (0 = all). "
+                        "End-of-epoch validation always uses the full set.")
+    p.add_argument("--val_max_new_tokens", type=int, default=32,
+                   help="Max tokens to generate per sample during generative validation.")
 
     # Logging
     p.add_argument("--log_steps",       type=int,  default=10)
-    p.add_argument("--wandb_project",   type=str,  default="qwen-multi-video-2")
+    p.add_argument("--wandb_project",   type=str,  default="qwen-multi-video-3")
     p.add_argument("--wandb_run_name",  type=str,  default=None)
     p.add_argument("--no_wandb",        action="store_true",
                    help="Disable WandB logging.")
+    p.add_argument("--log_dir",         type=str, default="/orcd/compute/ppliang/001/qwen_multi/logs",
+                   help="Directory for run log files.  A timestamped "
+                        "run_YYYYMMDD_HHMMSS.log is created automatically.  "
+                        "Defaults to <output_dir>/logs.")
 
     return p.parse_args()
 

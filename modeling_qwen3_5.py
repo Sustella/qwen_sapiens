@@ -2077,29 +2077,10 @@ class Qwen3_5ForConditionalGeneration(Qwen3_5PreTrainedModel, GenerationMixin):
 
         hidden_states = outputs[0]
 
-        # --- Pose feature injection (VideoNSA style) ---
-        # Pose tokens are appended after the LLM hidden states so that the LM head
-        # can use them as the last positions in the sequence.  During generation the
-        # first response token is therefore predicted from the last pose embedding,
-        # which directly conditions on the MediaPipe features.
-        # During training the pose positions carry labels=-100 and do not contribute
-        # to the LM loss; gradients reach the projector via the generation-time path.
-        pose_embeds = None
-        if video_paths is not None and self.pose_projector is not None:
-            pose_embeds = self._extract_and_project_pose(video_paths, hidden_states)
-
-        if pose_embeds is not None:
-            pose_embeds = pose_embeds.to(hidden_states.device, hidden_states.dtype)
-            hidden_states = torch.cat([hidden_states, pose_embeds], dim=1)
-            if labels is not None:
-                num_pose_tokens = pose_embeds.shape[1]
-                pose_labels = torch.full(
-                    (labels.shape[0], num_pose_tokens),
-                    -100,
-                    dtype=labels.dtype,
-                    device=labels.device,
-                )
-                labels = torch.cat([labels, pose_labels], dim=1)
+        # NOTE: Pose feature injection is now handled in train.py via a
+        # forward pre-hook on self.model.language_model that replaces
+        # placeholder embeddings with projected pose features BEFORE the
+        # transformer layers, so the model attends to them during generation.
 
         # Only compute necessary logits, and do not upcast them to float if we are not computing the loss
         slice_indices = slice(-logits_to_keep, None) if isinstance(logits_to_keep, int) else logits_to_keep
