@@ -14,9 +14,12 @@ Checkpoint formats (auto-detected)
   HF format   : --checkpoint points to a dir containing model/ saved via
                 save_pretrained (e.g. best/ or epoch-N/ from train.py).
   Accel format: --checkpoint points to a dir containing accel_state/ saved via
-                accelerator.save_state (i.e. the resume_ckpt from train.py).
+                accelerator.save_state (i.e. the resume_ckpt from train.py or
+                train_baseline.py).  Supports both FSDP sharded weights
+                (pytorch_model_fsdp_0/) and non-sharded weights
+                (model.safetensors / pytorch_model.bin).
                 Requires --base_model so the architecture can be instantiated
-                before loading the FSDP sharded weights.
+                before loading the checkpoint weights.
 
 Results are printed to stdout and saved to --output_dir/eval_<mode>_<timestamp>.json.
 
@@ -152,11 +155,12 @@ def is_correct_lenient(pred: str, gt: str, task_type: str) -> bool:
 
 # ── Collate for generation ────────────────────────────────────────────────────
 
-def _collate_gen(batch: List[dict], processor, embed_device, pose_sample_n: int = 16) -> dict:
+def _collate_gen(batch: List[dict], processor, embed_device, pose_tokens_per_frame: int = 16) -> dict:
     """
-    Build prompt-only inputs with pose placeholder tokens appended at the end
-    (right before where generation would start).  Matches the collate used
-    during training so the model sees the same input layout.
+    Build prompt-only inputs with per-frame pose placeholder tokens appended
+    at the end (right before where generation would start). Matches the
+    per-frame collate used during training so the model sees the same input
+    layout.
     """
     texts, all_images = [], []
     for ex in batch:
@@ -183,8 +187,19 @@ def _collate_gen(batch: List[dict], processor, embed_device, pose_sample_n: int 
     pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
 
     B, orig_len = input_ids.shape
-    n_pose = pose_sample_n
-    new_len = orig_len + n_pose
+
+    # Pad per-sample pose features to the batch max frame count.
+    feats = [ex["pose_feat"] for ex in batch]            # each (N_i, D)
+    n_frames_per = [f.shape[0] for f in feats]
+    n_max = max(n_frames_per)
+    feat_dim = feats[0].shape[-1]
+    pose_feat_padded = torch.zeros(B, n_max, feat_dim, dtype=feats[0].dtype)
+    for i, f in enumerate(feats):
+        pose_feat_padded[i, : f.shape[0]] = f
+
+    n_pose_per = [n * pose_tokens_per_frame for n in n_frames_per]
+    n_pose_max = max(n_pose_per)
+    new_len = orig_len + n_pose_max
 
     new_ids  = torch.full((B, new_len), pad_id, dtype=input_ids.dtype)
     new_mask = torch.zeros((B, new_len), dtype=inputs["attention_mask"].dtype)
@@ -195,7 +210,8 @@ def _collate_gen(batch: List[dict], processor, embed_device, pose_sample_n: int 
     for i in range(B):
         nonpad = (input_ids[i] != pad_id).sum().item()
         ap = nonpad  # insert at end of prompt
-        ps, pe = ap, ap + n_pose
+        n_pose_i = n_pose_per[i]
+        ps, pe = ap, ap + n_pose_i
 
         new_ids[i, :ap]    = input_ids[i, :ap]
         new_mask[i, :ap]   = inputs["attention_mask"][i, :ap]
@@ -221,7 +237,8 @@ def _collate_gen(batch: List[dict], processor, embed_device, pose_sample_n: int 
         "answers":         [ex["answer"]    for ex in batch],
         "datasets":        [ex["dataset"]   for ex in batch],
         "task_types":      [ex["task_type"] for ex in batch],
-        "pose_feat":       torch.stack([ex["pose_feat"] for ex in batch]).to(embed_device),
+        "pose_feat":       pose_feat_padded.to(embed_device),
+        "n_frames_per":    n_frames_per,
     }
     if has_mm:
         result["mm_token_type_ids"] = new_mm.to(embed_device)
@@ -283,6 +300,7 @@ def _generate_with_projector(model, projector, batch, max_new_tokens, pad_id, eo
     """
     pose_feat = batch.pop("pose_feat").to(dtype=torch.bfloat16)
     pose_positions = batch.pop("pose_positions")
+    batch.pop("n_frames_per", None)
 
     pose_embeds = projector(pose_feat.to(next(projector.parameters()).device))
 
@@ -351,6 +369,7 @@ def evaluate_model(model, processor, loader, max_new_tokens: int,
             # Drop pose-related keys — not needed without projector
             batch.pop("pose_feat", None)
             batch.pop("pose_positions", None)
+            batch.pop("n_frames_per", None)
             prompt_len = batch["input_ids"].shape[1]
             gen_kwargs = {k: v for k, v in batch.items() if v is not None}
             gen_ids = model.generate(
@@ -611,16 +630,36 @@ def load_model(model_path: str):
 
 def load_model_from_accel_checkpoint(checkpoint_dir: str, base_model_name: str):
     """
-    Load a fine-tuned model from an accelerate FSDP sharded checkpoint.
+    Load a fine-tuned model from an accelerate checkpoint.
 
-    The checkpoint is expected to contain ``accel_state/pytorch_model_fsdp_0/``
-    (backbone weights saved by ``accelerator.save_state()``).  The base
-    pretrained model is loaded first for its architecture and tokenizer, then
-    the FSDP sharded weights are overlaid via ``torch.distributed.checkpoint``.
+    Supports two sub-formats (auto-detected):
+
+    * **FSDP sharded** (train.py): ``accel_state/pytorch_model_fsdp_0/``
+      containing DCP shards.  Weights are loaded via
+      ``torch.distributed.checkpoint``.
+    * **Non-sharded** (train_baseline.py): ``accel_state/model.safetensors``
+      (or ``pytorch_model.bin``).  Weights are loaded directly with
+      ``safetensors`` / ``torch.load``.
+
+    In both cases the base pretrained model is loaded first for its
+    architecture and tokenizer, then the checkpoint weights are overlaid.
     """
-    model_shard_dir = Path(checkpoint_dir) / "accel_state" / "pytorch_model_fsdp_0"
-    if not model_shard_dir.exists():
-        log.error("FSDP model shards not found at %s", model_shard_dir)
+    accel_dir = Path(checkpoint_dir) / "accel_state"
+    model_shard_dir = accel_dir / "pytorch_model_fsdp_0"
+    safetensors_path = accel_dir / "model.safetensors"
+    bin_path = accel_dir / "pytorch_model.bin"
+
+    use_dcp = model_shard_dir.exists()
+    use_safetensors = safetensors_path.exists()
+    use_bin = bin_path.exists()
+
+    if not (use_dcp or use_safetensors or use_bin):
+        log.error(
+            "No model weights found in %s — expected one of: "
+            "pytorch_model_fsdp_0/ (FSDP shards), model.safetensors, "
+            "or pytorch_model.bin",
+            accel_dir,
+        )
         sys.exit(1)
 
     log.info("Loading base model architecture from: %s", base_model_name)
@@ -631,11 +670,25 @@ def load_model_from_accel_checkpoint(checkpoint_dir: str, base_model_name: str):
         low_cpu_mem_usage=True,
     )
 
-    log.info("Loading FSDP sharded weights from: %s", model_shard_dir)
-    loaded = _load_dcp_state_dict(model.state_dict(), model_shard_dir)
-    model.load_state_dict(loaded, strict=False)
-    model.tie_weights()
-    del loaded
+    if use_dcp:
+        log.info("Loading FSDP sharded weights from: %s", model_shard_dir)
+        loaded = _load_dcp_state_dict(model.state_dict(), model_shard_dir)
+        model.load_state_dict(loaded, strict=False)
+        model.tie_weights()
+        del loaded
+    elif use_safetensors:
+        log.info("Loading non-sharded weights from: %s", safetensors_path)
+        from safetensors.torch import load_file
+        state_dict = load_file(str(safetensors_path))
+        model.load_state_dict(state_dict, strict=False)
+        model.tie_weights()
+        del state_dict
+    else:
+        log.info("Loading non-sharded weights from: %s", bin_path)
+        state_dict = torch.load(str(bin_path), map_location="cpu", weights_only=True)
+        model.load_state_dict(state_dict, strict=False)
+        model.tie_weights()
+        del state_dict
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = model.to(device)
@@ -739,7 +792,10 @@ def load_projector_from_hf(checkpoint_dir: str, device) -> "PoseFeatureProjector
     with open(config_path) as f:
         cfg = json.load(f)
 
-    projector = PoseFeatureProjector(cfg["pose_feature_dim"], cfg["hidden_size"])
+    tokens_per_frame = cfg.get("pose_tokens_per_frame", 16)
+    projector = PoseFeatureProjector(
+        cfg["pose_feature_dim"], cfg["hidden_size"], tokens_per_frame=tokens_per_frame,
+    )
     projector.load_state_dict(
         torch.load(proj_path, map_location="cpu", weights_only=True)
     )
@@ -747,8 +803,8 @@ def load_projector_from_hf(checkpoint_dir: str, device) -> "PoseFeatureProjector
     projector.eval()
     for p in projector.parameters():
         p.requires_grad = False
-    log.info("Loaded pose projector from %s (%d → %d)",
-             proj_path, cfg["pose_feature_dim"], cfg["hidden_size"])
+    log.info("Loaded pose projector from %s (%d → %d × %d tokens/frame)",
+             proj_path, cfg["pose_feature_dim"], cfg["hidden_size"], tokens_per_frame)
     return projector
 
 
@@ -766,15 +822,18 @@ def load_projector_from_accel(checkpoint_dir: str, device) -> "PoseFeatureProjec
     with open(state_path) as f:
         ts = json.load(f)
 
-    projector = PoseFeatureProjector(ts["feat_dim"], ts["hidden_size"])
+    tokens_per_frame = ts.get("pose_tokens_per_frame", 16)
+    projector = PoseFeatureProjector(
+        ts["feat_dim"], ts["hidden_size"], tokens_per_frame=tokens_per_frame,
+    )
     loaded = _load_dcp_state_dict(projector.state_dict(), proj_shard_dir)
     projector.load_state_dict(loaded)
     projector = projector.to(dtype=torch.bfloat16, device=device)
     projector.eval()
     for p in projector.parameters():
         p.requires_grad = False
-    log.info("Loaded pose projector from %s (%d → %d)",
-             proj_shard_dir, ts["feat_dim"], ts["hidden_size"])
+    log.info("Loaded pose projector from %s (%d → %d × %d tokens/frame)",
+             proj_shard_dir, ts["feat_dim"], ts["hidden_size"], tokens_per_frame)
     return projector
 
 
@@ -835,7 +894,7 @@ def main(args):
     if args.max_samples is not None:
         eval_samples = eval_samples[:args.max_samples]
         log.info("Limiting to %d samples (--max_samples)", args.max_samples)
-    log.info("Eval split: %d samples (after pose-file filtering happens in Dataset)", len(eval_samples))
+    log.info("Eval split: %d samples (pose features extracted online per frame)", len(eval_samples))
 
     output = {"timestamp": timestamp, "args": vars(args)}
 
@@ -872,12 +931,12 @@ def main(args):
             eval_samples,
             fps=args.fps,
             max_frames=args.max_frames,
-            pose_sample_n=args.pose_sample_n,
-            skip_missing_pose=True,  # consistent with training; ensures same samples across modes
         )
 
         if projector is not None:
-            collate_fn = lambda b: _collate_gen(b, processor, embed_device, args.pose_sample_n)
+            collate_fn = lambda b: _collate_gen(
+                b, processor, embed_device, args.pose_tokens_per_frame,
+            )
         else:
             collate_fn = lambda b: _collate_gen_vanilla(b, processor, embed_device)
 
@@ -1000,7 +1059,8 @@ def parse_args():
     p.add_argument("--batch_size",    type=int,   default=1)
     p.add_argument("--fps",           type=float, default=2.0)
     p.add_argument("--max_frames",    type=int,   default=32)
-    p.add_argument("--pose_sample_n", type=int,   default=16)
+    p.add_argument("--pose_tokens_per_frame", type=int, default=16,
+                   help="Pose tokens emitted per sampled video frame (default: 16).")
     p.add_argument(
         "--output_dir", default="/orcd/compute/ppliang/001/qwen_multi/results",
         help="Directory for timestamped JSON output (default: ./eval_results)",

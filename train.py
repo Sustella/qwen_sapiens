@@ -11,7 +11,7 @@ Usage
 -----
   python train.py \\
       --model_name Qwen/Qwen3.5-VL-7B-Instruct \\
-      --output_dir /orcd/compute/ppliang/001/qwen_multi
+      --output_dir /orcd/compute/ppliang/001/qwen_multi_new
 """
 
 import argparse
@@ -20,6 +20,12 @@ import json
 import logging
 import math
 import os
+
+# Silence MediaPipe / TFLite stderr spam so the tqdm bar isn't drowned out
+# by warnings during pose extraction. Must be set before mediapipe is imported.
+os.environ.setdefault("GLOG_minloglevel", "2")        # absl/glog: ERROR+ only
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")    # TFLite XNNPACK chatter
+
 import random
 import re
 import sys
@@ -63,6 +69,66 @@ except ImportError:
     WANDB_AVAILABLE = False
 
 from multi_dataset import get_all_samples
+
+# Path setup so utils/pose_features.py is importable here.
+_REPO_DIR = Path(__file__).resolve().parent
+if str(_REPO_DIR / "utils") not in sys.path:
+    sys.path.insert(0, str(_REPO_DIR / "utils"))
+from pose_features import LandmarkerManager, TOTAL_DIM as POSE_TOTAL_DIM  # noqa: E402
+
+# ── Online pose extractor ────────────────────────────────────────────────────
+# Mirrors the offline `extract_features_for_frames` from utils/pose_features.py:
+# fresh `LandmarkerManager(running_mode='video')` per video, monotonically
+# increasing 33ms timestamps, same feature concatenation order. The only
+# difference vs offline is *which* frames are fed in — here it's the same
+# PIL frames the vision encoder will see, processed in temporal order.
+POSE_FEATURE_TYPES = ["pose", "face", "left_hand", "right_hand"]
+
+
+def _extract_pose_for_frames(pil_images: List[Image.Image]) -> torch.Tensor:
+    """Run MediaPipe on each PIL frame in temporal order with a fresh per-video
+    LandmarkerManager (running_mode='video'); return (N_frames, 1659) float
+    tensor. Concatenation order: pose(33*3) + face(478*3) + L_hand(21*3) +
+    R_hand(21*3) = 1659.
+    """
+    import numpy as np
+    lm = LandmarkerManager(
+        feature_types=POSE_FEATURE_TYPES,
+        running_mode="video",
+    )
+    try:
+        rows = []
+        for img in pil_images:
+            rgb = np.asarray(img.convert("RGB"))
+            feats = lm.process(rgb)
+            rows.append(np.concatenate([
+                feats.get("pose",       np.zeros(33 * 3,  dtype=np.float32)),
+                feats.get("face",       np.zeros(478 * 3, dtype=np.float32)),
+                feats.get("left_hand",  np.zeros(21 * 3,  dtype=np.float32)),
+                feats.get("right_hand", np.zeros(21 * 3,  dtype=np.float32)),
+            ]))
+    finally:
+        lm.close()
+    return torch.from_numpy(np.stack(rows, axis=0)).float()  # (N, 1659)
+
+
+def _per_frame_cache_path(s: dict, fps: float, max_frames: int) -> Path:
+    """Cache path for offline-extracted per-frame pose features. Keyed by fps
+    and max_frames so different sampling configs don't collide."""
+    p = Path(s["pose_path"])
+    return p.with_name(p.stem + f".perframe_fps{fps:.2f}_max{max_frames}.pt")
+
+
+def _is_video_readable(video_path: str) -> bool:
+    """Quick check: cv2 can open the file and it has at least one frame."""
+    import cv2
+    cap = cv2.VideoCapture(video_path)
+    try:
+        if not cap.isOpened():
+            return False
+        return int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) > 0
+    finally:
+        cap.release()
 
 
 # ── Answer matching (mirrors evaluate_multidataset.py) ───────────────────────
@@ -121,18 +187,33 @@ log = logging.getLogger(__name__)
 # ── Pose projector ────────────────────────────────────────────────────────────
 
 class PoseFeatureProjector(nn.Module):
-    """2-layer MLP: pose feature dim → LLM hidden dim."""
+    """Per-frame pose projector.
 
-    def __init__(self, feature_dim: int, hidden_size: int):
+    Takes (..., feature_dim) per-frame pose features and produces
+    `tokens_per_frame` tokens of width `hidden_size` for each frame.
+
+    Forward input  : (B, N_frames, feature_dim)
+    Forward output : (B, N_frames, tokens_per_frame, hidden_size)
+
+    The intermediate hidden width matches `hidden_size`. The output head
+    Linear maps to `tokens_per_frame * hidden_size` and is reshaped.
+    """
+
+    def __init__(self, feature_dim: int, hidden_size: int, tokens_per_frame: int = 16):
         super().__init__()
+        self.feature_dim      = feature_dim
+        self.hidden_size      = hidden_size
+        self.tokens_per_frame = tokens_per_frame
         self.proj = nn.Sequential(
             nn.Linear(feature_dim, hidden_size),
             nn.GELU(),
-            nn.Linear(hidden_size, hidden_size),
+            nn.Linear(hidden_size, tokens_per_frame * hidden_size),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.proj(x)
+        # x : (..., feature_dim) → (..., tokens_per_frame, hidden_size)
+        out = self.proj(x)
+        return out.view(*x.shape[:-1], self.tokens_per_frame, self.hidden_size)
 
 
 # ── Dataset ───────────────────────────────────────────────────────────────────
@@ -141,6 +222,20 @@ class MultiVideoDataset(Dataset):
     """
     Unified dataset over QVID, Kinetics-400, and HMDB51.
     Each sample is a (video_frames, pose_features, question, answer) tuple.
+
+    Pose features may come from either source, transparently per-sample:
+      • offline cache file at ``_per_frame_cache_path(s, fps, max_frames)``
+        (produced by ``extract_poses_per_frame.py``) — loaded directly.
+      • otherwise extracted online in the DataLoader worker via MediaPipe
+        on the same PIL frames the vision encoder sees.
+
+    Either way the resulting tensor has shape ``(N_frames, 1659)`` aligned
+    1-to-1 with the frames in ``pil_images``, and the projector emits
+    ``tokens_per_frame`` tokens per video frame.
+
+    Unreadable videos are dropped at init via a one-time pre-scan with a
+    progress bar (mirrors the old ``skip_missing_pose=True`` behavior, which
+    excluded samples whose offline ``.pt`` failed to extract).
     """
 
     def __init__(
@@ -148,20 +243,41 @@ class MultiVideoDataset(Dataset):
         samples: List[dict],
         fps: float = 2.0,
         max_frames: int = 32,
-        pose_sample_n: int = 16,
-        skip_missing_pose: bool = True,
+        # Back-compat shim: callers may still pass `pose_sample_n=`; it is
+        # ignored under the per-frame regime (pose count is now derived
+        # from the number of sampled video frames). The number of *tokens
+        # per pose frame* is decided downstream by the projector.
+        pose_sample_n: int = None,
+        skip_unreadable: bool = True,
+        scan_desc: str = "Scanning videos",
     ):
         self.fps = fps
         self.max_frames = max_frames
-        self.pose_sample_n = pose_sample_n
-        self.examples: List[dict] = []
 
-        for s in samples:
-            if skip_missing_pose and not Path(s["pose_path"]).exists():
-                continue
-            self.examples.append(s)
+        if skip_unreadable:
+            self.examples: List[dict] = []
+            n_drop = 0
+            for s in tqdm(samples, desc=scan_desc, file=sys.stdout):
+                if _is_video_readable(s["video_path"]):
+                    self.examples.append(s)
+                else:
+                    n_drop += 1
+            if n_drop:
+                log.warning(
+                    "MultiVideoDataset: dropped %d / %d unreadable videos",
+                    n_drop, len(samples),
+                )
+        else:
+            self.examples = list(samples)
 
-        log.info("MultiVideoDataset: %d examples loaded", len(self.examples))
+        n_cached = sum(
+            1 for s in self.examples
+            if _per_frame_cache_path(s, fps, max_frames).exists()
+        )
+        log.info(
+            "MultiVideoDataset: %d examples loaded — %d cached, %d will be extracted online",
+            len(self.examples), n_cached, len(self.examples) - n_cached,
+        )
 
     def __len__(self) -> int:
         return len(self.examples)
@@ -169,11 +285,20 @@ class MultiVideoDataset(Dataset):
     def __getitem__(self, idx: int) -> dict:
         s = self.examples[idx]
 
-        # Sample frames at target fps up to max_frames
+        # Sample frames at target fps up to max_frames.
         pil_images = _sample_frames(s["video_path"], self.fps, self.max_frames)
 
-        # Load pre-extracted pose features
-        pose_feat = _load_pose_features(s["pose_path"], self.pose_sample_n)
+        # Pose features: load from cache if present, else extract online.
+        # Both paths produce (N_frames, 1659) aligned with `pil_images`.
+        cache_path = _per_frame_cache_path(s, self.fps, self.max_frames)
+        if cache_path.exists():
+            pose_feat = torch.load(cache_path, map_location="cpu", weights_only=False).float()
+            # Defensive: if the cache was produced for a different N (e.g. fps
+            # or max_frames was bumped), fall through to online extraction.
+            if pose_feat.shape[0] != len(pil_images):
+                pose_feat = _extract_pose_for_frames(pil_images)
+        else:
+            pose_feat = _extract_pose_for_frames(pil_images)
 
         return {
             "pil_images": pil_images,
@@ -238,33 +363,29 @@ def _sample_frames(video_path: str, fps: float, max_frames: int) -> List[Image.I
     ]
 
 
-def _load_pose_features(pose_path: str, target_n: int) -> torch.Tensor:
-    """Load .pt pose file and resample to target_n frames → (target_n, feat_dim)."""
-    raw = torch.load(pose_path, map_location="cpu", weights_only=False)
-
-    if isinstance(raw, torch.Tensor):
-        feat = raw.float()
-    elif isinstance(raw, dict):
-        parts = [raw[k].float() for k in ("pose", "face", "left_hand", "right_hand") if k in raw]
-        feat = torch.cat(parts, dim=-1) if parts else torch.zeros(1, 1659)
-    else:
-        feat = torch.zeros(target_n, 1659)
-
-    if feat.shape[0] != target_n:
-        feat = F.interpolate(
-            feat.T.unsqueeze(0), size=target_n, mode="linear", align_corners=False
-        ).squeeze(0).T
-
-    return feat  # (target_n, feat_dim)
-
-
 # ── Collate ───────────────────────────────────────────────────────────────────
 
-def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dict:
+def _pad_pose_feat(batch: List[dict]) -> tuple[torch.Tensor, List[int]]:
+    """Stack a batch of (N_i, feat_dim) pose tensors into (B, N_max, feat_dim)
+    with zero-padding. Returns the padded tensor and per-sample frame counts."""
+    feats = [ex["pose_feat"] for ex in batch]                    # each (N_i, D)
+    n_per = [f.shape[0] for f in feats]
+    n_max = max(n_per)
+    feat_dim = feats[0].shape[-1]
+    out = torch.zeros(len(feats), n_max, feat_dim, dtype=feats[0].dtype)
+    for i, f in enumerate(feats):
+        out[i, : f.shape[0]] = f
+    return out, n_per
+
+
+def _collate(batch: List[dict], processor, tokenizer, pose_tokens_per_frame: int) -> dict:
     """
-    Build processor inputs for a batch, inserting pose placeholder tokens at
-    the prompt/answer boundary.  The placeholder embeddings are replaced by the
-    projector output via a forward hook (see ``_make_pose_hook``).
+    Build processor inputs for a batch, inserting per-frame pose placeholder
+    tokens at the prompt/answer boundary. Each sampled video frame contributes
+    ``pose_tokens_per_frame`` tokens, so the pose-block length per sample is
+    ``N_frames_i * pose_tokens_per_frame``. Across a batch this varies if the
+    samples have different frame counts; the sequence is right-padded to the
+    batch max via ``pad_id`` placeholders that are masked out.
 
     Labels are -100 for prompt and pose positions; only answer tokens have real
     labels so the loss is on answer tokens conditioned on [prompt + pose].
@@ -291,7 +412,7 @@ def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dic
         )
         all_images.append(ex["pil_images"])
 
-    # Compute answer token lengths (text-only; no visual tokens in answer)
+    # Per-sample answer token lengths (text-only; no visual tokens in answer)
     answer_lens = []
     for full_t, prompt_t in zip(full_texts, prompt_texts):
         answer_text = full_t[len(prompt_t):]
@@ -305,16 +426,20 @@ def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dic
     input_ids = inputs["input_ids"]  # (B, seq_len)
     pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
 
-    # Find where the answer starts for each sample
     B, orig_len = input_ids.shape
-    n_pose = pose_sample_n
+
+    # Pose-block length per sample = N_frames_i * pose_tokens_per_frame
+    pose_feat_padded, n_frames_per = _pad_pose_feat(batch)
+    n_pose_per = [n * pose_tokens_per_frame for n in n_frames_per]
+    n_pose_max = max(n_pose_per)
+
     first_ans_positions = []
     for i, ans_len in enumerate(answer_lens):
         nonpad = (input_ids[i] != pad_id).sum().item()
         first_ans_positions.append(max(1, nonpad - ans_len))
 
-    # ── Insert pose placeholders at the prompt/answer boundary ────────────
-    new_len = orig_len + n_pose
+    # New seq length = orig_len + n_pose_max (right-pad shorter pose blocks)
+    new_len = orig_len + n_pose_max
     new_ids  = torch.full((B, new_len), pad_id, dtype=input_ids.dtype)
     new_lbl  = torch.full((B, new_len), -100,   dtype=input_ids.dtype)
     new_mask = torch.zeros((B, new_len), dtype=inputs["attention_mask"].dtype)
@@ -324,21 +449,20 @@ def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dic
     pose_positions = []  # (start, end) per sample — used by the hook
     for i in range(B):
         ap = first_ans_positions[i]
-        ps, pe = ap, ap + n_pose
+        n_pose_i = n_pose_per[i]
+        ps, pe = ap, ap + n_pose_i
 
         # Prompt portion  [0 .. ap)
         new_ids[i, :ap]  = input_ids[i, :ap]
         new_mask[i, :ap] = inputs["attention_mask"][i, :ap]
         if has_mm:
             new_mm[i, :ap] = inputs["mm_token_type_ids"][i, :ap]
-        # labels stay -100 for prompt
 
-        # Pose placeholders  [ap .. ap+n_pose)
-        new_ids[i, ps:pe]  = pad_id   # placeholder token (will be replaced)
-        new_mask[i, ps:pe] = 1        # attend to pose tokens
-        # labels and mm_type stay 0 / -100
+        # Pose placeholders  [ap .. ap+n_pose_i)
+        new_ids[i, ps:pe]  = pad_id   # placeholder; replaced by hook
+        new_mask[i, ps:pe] = 1
 
-        # Answer portion  [ap+n_pose ..)
+        # Answer portion  [ap+n_pose_i ..)
         remaining = orig_len - ap
         new_ids[i, pe:pe + remaining]  = input_ids[i, ap:orig_len]
         new_mask[i, pe:pe + remaining] = inputs["attention_mask"][i, ap:orig_len]
@@ -348,8 +472,8 @@ def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dic
         # Labels: only answer tokens (shifted positions)
         nonpad = (input_ids[i] != pad_id).sum().item()
         for j in range(answer_lens[i]):
-            src = nonpad - answer_lens[i] + j          # position in original
-            dst = pe + (src - ap)                       # shifted position
+            src = nonpad - answer_lens[i] + j
+            dst = pe + (src - ap)
             if 0 <= src < orig_len and 0 <= dst < new_len:
                 new_lbl[i, dst] = input_ids[i, src]
 
@@ -360,7 +484,8 @@ def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dic
         "attention_mask":  new_mask,
         "labels":          new_lbl,
         "pose_positions":  pose_positions,
-        "pose_feat":       torch.stack([ex["pose_feat"] for ex in batch], dim=0),
+        "pose_feat":       pose_feat_padded,    # (B, N_max, feat_dim)
+        "n_frames_per":    n_frames_per,        # used by the projection hook
     }
     if has_mm:
         result["mm_token_type_ids"] = new_mm
@@ -370,10 +495,10 @@ def _collate(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dic
     return result
 
 
-def _collate_gen(batch: List[dict], processor, tokenizer, pose_sample_n: int) -> dict:
-    """Build prompt-only inputs with pose placeholders appended at the end
-    (right before where generation would start).  Passes through GT answers
-    and metadata for accuracy computation."""
+def _collate_gen(batch: List[dict], processor, tokenizer, pose_tokens_per_frame: int) -> dict:
+    """Build prompt-only inputs with per-frame pose placeholders appended at
+    the end (right before where generation would start). Same per-frame pose
+    semantics as ``_collate``."""
     texts, all_images = [], []
     for ex in batch:
         content = [{"type": "image"} for _ in ex["pil_images"]]
@@ -391,8 +516,11 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_sample_n: int) ->
     pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
 
     B, orig_len = input_ids.shape
-    n_pose = pose_sample_n
-    new_len = orig_len + n_pose
+
+    pose_feat_padded, n_frames_per = _pad_pose_feat(batch)
+    n_pose_per = [n * pose_tokens_per_frame for n in n_frames_per]
+    n_pose_max = max(n_pose_per)
+    new_len = orig_len + n_pose_max
 
     new_ids  = torch.full((B, new_len), pad_id, dtype=input_ids.dtype)
     new_mask = torch.zeros((B, new_len), dtype=inputs["attention_mask"].dtype)
@@ -403,7 +531,8 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_sample_n: int) ->
     for i in range(B):
         nonpad = (input_ids[i] != pad_id).sum().item()
         ap = nonpad  # insert at end of prompt (all tokens are prompt)
-        ps, pe = ap, ap + n_pose
+        n_pose_i = n_pose_per[i]
+        ps, pe = ap, ap + n_pose_i
 
         new_ids[i, :ap]    = input_ids[i, :ap]
         new_mask[i, :ap]   = inputs["attention_mask"][i, :ap]
@@ -413,7 +542,6 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_sample_n: int) ->
         new_ids[i, ps:pe]  = pad_id
         new_mask[i, ps:pe] = 1
 
-        # Copy any remaining pad from original (shouldn't matter, but be safe)
         rem = orig_len - ap
         if rem > 0:
             new_ids[i, pe:pe + rem]  = input_ids[i, ap:orig_len]
@@ -430,7 +558,8 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_sample_n: int) ->
         "answers":         [ex["answer"]    for ex in batch],
         "datasets":        [ex["dataset"]   for ex in batch],
         "task_types":      [ex["task_type"] for ex in batch],
-        "pose_feat":       torch.stack([ex["pose_feat"] for ex in batch], dim=0),
+        "pose_feat":       pose_feat_padded,
+        "n_frames_per":    n_frames_per,
     }
     if has_mm:
         result["mm_token_type_ids"] = new_mm
@@ -446,8 +575,11 @@ def _make_pose_hook(pose_embeds: torch.Tensor, pose_positions: List[tuple]):
     """Return a forward pre-hook for the language_model that replaces pose
     placeholder embeddings with projected pose features.
 
-    ``pose_embeds``: (B, pose_sample_n, H) from the projector.
-    ``pose_positions``: list of (start, end) per batch element.
+    ``pose_embeds``: (B, N_max, tokens_per_frame, H) from the projector. Each
+    sample's pose block is the per-frame tokens flattened in time-major order:
+    [frame_0 token_0, frame_0 token_1, …, frame_(N-1) token_(K-1)].
+    ``pose_positions``: list of (start, end) per batch element. ``end - start``
+    equals ``n_frames_i * tokens_per_frame`` and may differ across the batch.
 
     The hook fires once (on the prefill forward) then becomes a no-op so
     that subsequent generate() steps are unaffected.
@@ -462,9 +594,15 @@ def _make_pose_hook(pose_embeds: torch.Tensor, pose_positions: List[tuple]):
             return
         new_ie = ie.clone()
         pe = pose_embeds.to(device=new_ie.device, dtype=new_ie.dtype)
+        if pe.dim() == 4:
+            B, N_max, K, H = pe.shape
+            pe_flat = pe.reshape(B, N_max * K, H)
+        else:
+            pe_flat = pe
         for i, (ps, pe_end) in enumerate(pose_positions):
-            if pe_end <= new_ie.shape[1]:
-                new_ie[i, ps:pe_end] = pe[i]
+            length = pe_end - ps
+            if pe_end <= new_ie.shape[1] and length > 0:
+                new_ie[i, ps:pe_end] = pe_flat[i, :length]
         state["applied"] = True
         return args, {**kwargs, "inputs_embeds": new_ie}
 
@@ -508,14 +646,14 @@ def _stratified_subset(dataset, max_samples: int):
 
 def _run_generative_validation(
     model, projector, val_ds, processor, tokenizer, accelerator,
-    pose_sample_n: int, max_new_tokens: int = 32, max_samples: int = 0,
+    pose_tokens_per_frame: int, max_new_tokens: int = 32, max_samples: int = 0,
 ) -> dict:
     """Generate with pose-injected prompts and compute strict/lenient accuracy."""
     is_main = accelerator.is_main_process
 
     subset = _stratified_subset(val_ds, max_samples)
 
-    collate_fn = lambda b: _collate_gen(b, processor, tokenizer, pose_sample_n)
+    collate_fn = lambda b: _collate_gen(b, processor, tokenizer, pose_tokens_per_frame)
     gen_loader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0,
                             collate_fn=collate_fn)
     gen_loader = accelerator.prepare(gen_loader)
@@ -537,12 +675,20 @@ def _run_generative_validation(
     projector.eval()
 
     with torch.no_grad():
-        for batch in tqdm(gen_loader, desc="Gen-val", leave=False, disable=not is_main):
+        gen_bar = tqdm(gen_loader, desc="Gen-val", leave=False,
+                       disable=not is_main, file=sys.stdout)
+        gen_bar.refresh()
+        if is_main:
+            print(f"[gen-val] starting, total={len(gen_loader)}", flush=True)
+        for _gv_idx, batch in enumerate(gen_bar):
+            if is_main:
+                print(f"[gen-val] batch {_gv_idx + 1}/{len(gen_loader)}", flush=True)
             answers        = batch.pop("answers")
             datasets       = batch.pop("datasets")
             task_types     = batch.pop("task_types")
             pose_feat      = batch.pop("pose_feat").to(dtype=torch.bfloat16)
             pose_positions = batch.pop("pose_positions")
+            batch.pop("n_frames_per", None)
 
             pose_embeds = projector(pose_feat.to(next(projector.parameters()).device))
 
@@ -661,7 +807,14 @@ def _run_generative_validation_pretrained(
     model.eval()
 
     with torch.no_grad():
-        for batch in tqdm(gen_loader, desc="Pretrained-val", leave=False, disable=not is_main):
+        pre_bar = tqdm(gen_loader, desc="Pretrained-val", leave=False,
+                       disable=not is_main, file=sys.stdout)
+        pre_bar.refresh()
+        if is_main:
+            print(f"[pretrained-val] starting, total={len(gen_loader)}", flush=True)
+        for _pv_idx, batch in enumerate(pre_bar):
+            if is_main:
+                print(f"[pretrained-val] batch {_pv_idx + 1}/{len(gen_loader)}", flush=True)
             answers    = batch.pop("answers")
             datasets   = batch.pop("datasets")
             task_types = batch.pop("task_types")
@@ -845,42 +998,35 @@ def train(args):
     log.info("Total params: %s", f"{total_params:,}")
 
     # ── Pose projector ────────────────────────────────────────────────────────
+    # Pose features are extracted online; the dim is fixed by the MediaPipe
+    # landmark counts (33+478+21+21 keypoints * xyz = 1659).
     feat_dim = (resume_state["feat_dim"] if resume_state else None) or args.pose_feature_dim
     if feat_dim is None:
-        splits_tmp = get_all_samples()
-        for split_samples in splits_tmp.values():
-            for s in split_samples:
-                if Path(s["pose_path"]).exists():
-                    sample_feat = _load_pose_features(s["pose_path"], 1)
-                    feat_dim = sample_feat.shape[-1]
-                    log.info("Auto-detected pose_feature_dim = %d", feat_dim)
-                    break
-            if feat_dim is not None:
-                break
-        if feat_dim is None:
-            raise RuntimeError(
-                "Could not auto-detect pose_feature_dim. "
-                "Make sure pose features are extracted first, or pass --pose_feature_dim."
-            )
+        feat_dim = POSE_TOTAL_DIM
+        log.info("Using pose_feature_dim = %d (MediaPipe pose+face+L_hand+R_hand)", feat_dim)
 
     hidden_size = model.config.get_text_config().hidden_size
-    projector = PoseFeatureProjector(feat_dim, hidden_size).to(dtype=torch.bfloat16)
+    projector = PoseFeatureProjector(
+        feat_dim, hidden_size, tokens_per_frame=args.pose_tokens_per_frame,
+    ).to(dtype=torch.bfloat16)
     log.info(
-        "PoseFeatureProjector: %d → %d  (%s params)",
-        feat_dim, hidden_size,
+        "PoseFeatureProjector: %d → %d × %d tokens/frame  (%s params)",
+        feat_dim, hidden_size, args.pose_tokens_per_frame,
         f"{sum(p.numel() for p in projector.parameters()):,}",
     )
 
     # ── Datasets ──────────────────────────────────────────────────────────────
     splits = get_all_samples()
     train_ds = MultiVideoDataset(
-        splits["train"], fps=args.fps, max_frames=args.max_frames, pose_sample_n=args.pose_sample_n
+        splits["train"], fps=args.fps, max_frames=args.max_frames,
+        scan_desc="Scanning train videos",
     )
     val_ds = MultiVideoDataset(
-        splits["val"], fps=args.fps, max_frames=args.max_frames, pose_sample_n=args.pose_sample_n
+        splits["val"], fps=args.fps, max_frames=args.max_frames,
+        scan_desc="Scanning val videos",
     )
 
-    collate_fn = lambda b: _collate(b, processor, tokenizer, args.pose_sample_n)
+    collate_fn = lambda b: _collate(b, processor, tokenizer, args.pose_tokens_per_frame)
 
     train_loader = DataLoader(
         train_ds, batch_size=args.batch_size, shuffle=True,
@@ -896,9 +1042,13 @@ def train(args):
     )
 
     # ── Prepare model + projector + loaders (FSDP wrap happens here) ──────────
+    if is_main:
+        print("[stage] accelerator.prepare(model, projector, loaders) — FSDP wrap …", flush=True)
     model, projector, train_loader, val_loader = accelerator.prepare(
         model, projector, train_loader, val_loader
     )
+    if is_main:
+        print("[stage] accelerator.prepare(model, …) done.", flush=True)
 
     # torch.compile AFTER FSDP wrap (if enabled).
     if args.torch_compile:
@@ -933,13 +1083,22 @@ def train(args):
         if step < warmup_steps:
             return (step + 1) / max(1, warmup_steps)
         progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
+        # Clamp at 1.0 so cos doesn't wrap past π back up to +1 — without this,
+        # any step beyond total_steps (e.g. on a resumed run whose new
+        # total_steps is smaller than the saved scheduler step) sends the LR
+        # back to peak and drives loss back UP.
+        progress = min(1.0, progress)
         return 0.5 * (1.0 + math.cos(math.pi * progress))
 
     model_scheduler = torch.optim.lr_scheduler.LambdaLR(model_optimizer, lr_lambda)
     proj_scheduler = torch.optim.lr_scheduler.LambdaLR(proj_optimizer, lr_lambda)
+    if is_main:
+        print("[stage] accelerator.prepare(optimizers, schedulers) …", flush=True)
     model_optimizer, proj_optimizer, model_scheduler, proj_scheduler = accelerator.prepare(
         model_optimizer, proj_optimizer, model_scheduler, proj_scheduler
     )
+    if is_main:
+        print("[stage] accelerator.prepare(optimizers, …) done.", flush=True)
 
     # ── Training loop ─────────────────────────────────────────────────────────
     output_dir = Path(args.output_dir)
@@ -1001,7 +1160,7 @@ def train(args):
         # (2) Pretrained model + randomly initialized projector (with pose tokens)
         rp_results = _run_generative_validation(
             model, projector, val_ds, processor, tokenizer, accelerator,
-            pose_sample_n=args.pose_sample_n,
+            pose_tokens_per_frame=args.pose_tokens_per_frame,
             max_new_tokens=args.val_max_new_tokens,
             max_samples=args.val_max_samples,
         )
@@ -1037,7 +1196,9 @@ def train(args):
             active_loader, desc=f"Epoch {epoch}/{args.num_epochs}",
             leave=True, disable=not is_main,
             initial=step_offset, total=len(train_loader),
+            file=sys.stdout,
         )
+        pbar.refresh()
 
         for local_step, batch in enumerate(pbar):
             step = local_step + step_offset
@@ -1045,6 +1206,7 @@ def train(args):
                 pose_feat      = batch.pop("pose_feat").to(dtype=torch.bfloat16)
                 labels         = batch.pop("labels")
                 pose_positions = batch.pop("pose_positions")
+                batch.pop("n_frames_per", None)
 
                 # Project pose features and register hook to inject them
                 pose_embeds = projector(pose_feat)
@@ -1105,27 +1267,28 @@ def train(args):
                         next_epoch=epoch, global_step=global_step,
                         step_in_epoch=step + 1,
                         best_val_loss=best_val_loss, feat_dim=feat_dim, hidden_size=hidden_size,
+                        tokens_per_frame=args.pose_tokens_per_frame,
                     )
 
-                    if args.val_steps > 0 and global_step % args.val_steps == 0:
-                        if is_main:
-                            log.info("Running generative validation at step %d …", global_step)
-                        gen_results = _run_generative_validation(
-                            model, projector, val_ds, processor, tokenizer, accelerator,
-                            pose_sample_n=args.pose_sample_n,
-                            max_new_tokens=args.val_max_new_tokens,
-                            max_samples=args.val_max_samples,
-                        )
-                        if is_main:
-                            _log_gen_results(f"  gen-val step {global_step}", gen_results)
-                            step_metrics.update({
-                                "val_gen/accuracy_strict":  gen_results["overall_strict"],
-                                "val_gen/accuracy_lenient": gen_results["overall_lenient"],
-                                **{f"val_gen/{ds}_strict": s["strict"]
-                                   for ds, s in gen_results["by_dataset"].items()},
-                                **{f"val_gen/{ds}_lenient": s["lenient"]
-                                   for ds, s in gen_results["by_dataset"].items()},
-                            })
+                if args.val_steps > 0 and global_step % args.val_steps == 0:
+                    if is_main:
+                        log.info("Running generative validation at step %d …", global_step)
+                    gen_results = _run_generative_validation(
+                        model, projector, val_ds, processor, tokenizer, accelerator,
+                        pose_tokens_per_frame=args.pose_tokens_per_frame,
+                        max_new_tokens=args.val_max_new_tokens,
+                        max_samples=args.val_max_samples,
+                    )
+                    if is_main:
+                        _log_gen_results(f"  gen-val step {global_step}", gen_results)
+                        step_metrics.update({
+                            "val_gen/accuracy_strict":  gen_results["overall_strict"],
+                            "val_gen/accuracy_lenient": gen_results["overall_lenient"],
+                            **{f"val_gen/{ds}_strict": s["strict"]
+                               for ds, s in gen_results["by_dataset"].items()},
+                            **{f"val_gen/{ds}_lenient": s["lenient"]
+                               for ds, s in gen_results["by_dataset"].items()},
+                        })
 
                 if global_step % args.log_steps == 0 and is_main:
                     n = args.log_steps * args.grad_accum
@@ -1158,11 +1321,14 @@ def train(args):
         n_batches    = torch.zeros(1, device=device)
 
         with torch.no_grad():
-            for batch in tqdm(val_loader, desc="Validation", leave=False,
-                              disable=not is_main):
+            val_bar = tqdm(val_loader, desc="Validation", leave=False,
+                           disable=not is_main, file=sys.stdout)
+            val_bar.refresh()
+            for batch in val_bar:
                 pose_feat      = batch.pop("pose_feat").to(dtype=torch.bfloat16)
                 labels         = batch.pop("labels")
                 pose_positions = batch.pop("pose_positions")
+                batch.pop("n_frames_per", None)
 
                 pose_embeds = projector(pose_feat)
                 hook_fn = _make_pose_hook(pose_embeds, pose_positions)
@@ -1203,7 +1369,7 @@ def train(args):
             log.info("Running end-of-epoch generative validation …")
         gen_results = _run_generative_validation(
             model, projector, val_ds, processor, tokenizer, accelerator,
-            pose_sample_n=args.pose_sample_n,
+            pose_tokens_per_frame=args.pose_tokens_per_frame,
             max_new_tokens=args.val_max_new_tokens,
             max_samples=0,
         )
@@ -1262,6 +1428,7 @@ def train(args):
             next_epoch=epoch + 1, global_step=global_step,
             step_in_epoch=0,
             best_val_loss=best_val_loss, feat_dim=feat_dim, hidden_size=hidden_size,
+            tokens_per_frame=args.pose_tokens_per_frame,
         )
 
     if is_main:
@@ -1272,13 +1439,13 @@ def train(args):
 
 def _save_config(directory: Path, feat_dim: int, hidden_size: int, args) -> None:
     cfg = {
-        "pose_feature_dim": feat_dim,
-        "hidden_size":      hidden_size,
-        "pose_sample_n":    args.pose_sample_n,
-        "model_name":       args.model_name,
-        "backbone_lr":      args.backbone_lr,
-        "lr":               args.lr,
-        "pose_loss_weight": args.pose_loss_weight,
+        "pose_feature_dim":      feat_dim,
+        "hidden_size":           hidden_size,
+        "pose_tokens_per_frame": args.pose_tokens_per_frame,
+        "model_name":            args.model_name,
+        "backbone_lr":           args.backbone_lr,
+        "lr":                    args.lr,
+        "pose_loss_weight":      args.pose_loss_weight,
     }
     with open(directory / "config.json", "w") as f:
         json.dump(cfg, f, indent=2)
@@ -1312,6 +1479,7 @@ def _save_resume_checkpoint(
     best_val_loss: float,
     feat_dim: int,
     hidden_size: int,
+    tokens_per_frame: int = 16,
 ) -> None:
     """Save accelerator state (model + projector + optimizer + scheduler + RNG)
     plus a small train_state.json for bookkeeping."""
@@ -1324,12 +1492,13 @@ def _save_resume_checkpoint(
     accelerator.save_state(str(ckpt_dir / "accel_state"))
     if accelerator.is_main_process:
         state = {
-            "next_epoch":    next_epoch,
-            "global_step":   global_step,
-            "step_in_epoch": step_in_epoch,
-            "best_val_loss": best_val_loss,
-            "feat_dim":      feat_dim,
-            "hidden_size":   hidden_size,
+            "next_epoch":             next_epoch,
+            "global_step":            global_step,
+            "step_in_epoch":          step_in_epoch,
+            "best_val_loss":          best_val_loss,
+            "feat_dim":               feat_dim,
+            "hidden_size":            hidden_size,
+            "pose_tokens_per_frame":  tokens_per_frame,
         }
         with open(ckpt_dir / "train_state.json", "w") as f:
             json.dump(state, f, indent=2)
@@ -1345,18 +1514,20 @@ def parse_args():
     )
     # Model
     p.add_argument("--model_name",   default="Qwen/Qwen3.5-9B")
-    p.add_argument("--output_dir",   default="/orcd/compute/ppliang/001/qwen_multi")
-    p.add_argument("--resume_ckpt", default="/orcd/compute/ppliang/001/qwen_multi/resume_ckpt")
+    p.add_argument("--output_dir",   default="/orcd/compute/ppliang/001/qwen_multi_new")
+    p.add_argument("--resume_ckpt", default="/orcd/compute/ppliang/001/qwen_multi_new/resume_ckpt")
     # p.add_argument("--resume_ckpt",  default="/home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt",
     #                help="Directory to save/load full resume checkpoints (model + optimizer + scheduler).")
 
     # Data
     p.add_argument("--pose_feature_dim", type=int, default=None,
-                   help="Auto-detected from first .pt file if not set.")
-    p.add_argument("--pose_sample_n",   type=int,   default=16)
+                   help="Defaults to MediaPipe TOTAL_DIM (1659) if not set.")
+    p.add_argument("--pose_tokens_per_frame", type=int, default=16,
+                   help="Number of pose tokens emitted per sampled video frame "
+                        "(replaces the old --pose_sample_n).")
     p.add_argument("--fps",             type=float, default=1.0,
                    help="Target sampling rate (frames/sec) for video frames fed to the vision encoder.")
-    p.add_argument("--max_frames",      type=int,   default=8,
+    p.add_argument("--max_frames",      type=int,   default=16,
                    help="Maximum number of video frames per clip (caps fps-based sampling).")
     p.add_argument("--seed",            type=int,   default=42)
     p.add_argument("--num_workers",     type=int,   default=4,
@@ -1395,11 +1566,11 @@ def parse_args():
 
     # Logging
     p.add_argument("--log_steps",       type=int,  default=10)
-    p.add_argument("--wandb_project",   type=str,  default="qwen-multi-video-3")
+    p.add_argument("--wandb_project",   type=str,  default="qwen-multi-video")
     p.add_argument("--wandb_run_name",  type=str,  default=None)
     p.add_argument("--no_wandb",        action="store_true",
                    help="Disable WandB logging.")
-    p.add_argument("--log_dir",         type=str, default="/orcd/compute/ppliang/001/qwen_multi/logs",
+    p.add_argument("--log_dir",         type=str, default="/orcd/compute/ppliang/001/qwen_multi_new/logs",
                    help="Directory for run log files.  A timestamped "
                         "run_YYYYMMDD_HHMMSS.log is created automatically.  "
                         "Defaults to <output_dir>/logs.")
