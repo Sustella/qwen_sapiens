@@ -31,6 +31,7 @@ Usage
 """
 
 import argparse
+import multiprocessing as mp
 import sys
 from pathlib import Path
 from typing import List
@@ -54,6 +55,10 @@ from multi_dataset import (  # noqa: E402
     get_qvid_samples,
     get_kinetics_samples,
     get_hmdb51_samples,
+    get_llava_video_samples,
+    get_sharegpt4video_samples,
+    get_av_asd_samples,
+    get_scrape_asd_samples,
 )
 
 
@@ -76,12 +81,43 @@ def _process_one(s: dict, fps: float, max_frames: int, overwrite: bool) -> str:
         return "fail"
 
 
+# Top-level worker wrapper — must be picklable for multiprocessing.
+def _worker(task: tuple) -> str:
+    s, fps, max_frames, overwrite = task
+    return _process_one(s, fps, max_frames, overwrite)
+
+
 def _process_samples(
-    name: str, samples: List[dict], fps: float, max_frames: int, overwrite: bool,
+    name: str,
+    samples: List[dict],
+    fps: float,
+    max_frames: int,
+    overwrite: bool,
+    workers: int = 1,
 ) -> None:
     counts = {"ok": 0, "skip-existing": 0, "skip-bad": 0, "fail": 0}
-    for s in tqdm(samples, desc=name, file=sys.stdout):
-        counts[_process_one(s, fps, max_frames, overwrite)] += 1
+
+    if workers <= 1:
+        for s in tqdm(samples, desc=name, file=sys.stdout):
+            counts[_process_one(s, fps, max_frames, overwrite)] += 1
+    else:
+        # Use fork (Linux default) so 64 workers don't each re-import torch /
+        # transformers / mediapipe. LandmarkerManager is constructed lazily
+        # inside _extract_pose_for_frames, so there is no pre-fork native
+        # state to worry about.
+        ctx = mp.get_context("fork")
+        # Bigger chunksize cuts IPC overhead; smaller helps load-balance when
+        # videos differ wildly in duration. 4 is a reasonable middle ground
+        # for ~14 sec/clip with 64 workers.
+        chunksize = max(1, min(8, len(samples) // (workers * 8) or 1))
+        tasks = [(s, fps, max_frames, overwrite) for s in samples]
+        with ctx.Pool(processes=workers) as pool:
+            for result in tqdm(
+                pool.imap_unordered(_worker, tasks, chunksize=chunksize),
+                total=len(tasks), desc=f"{name} (×{workers})", file=sys.stdout,
+            ):
+                counts[result] += 1
+
     print(
         f"  {name}: ok={counts['ok']} skip-existing={counts['skip-existing']} "
         f"skip-bad={counts['skip-bad']} fail={counts['fail']}",
@@ -96,7 +132,12 @@ def main() -> int:
     )
     parser.add_argument(
         "--dataset",
-        choices=["qvid", "kinetics", "hmdb51", "all"],
+        choices=[
+            "qvid", "kinetics", "hmdb51",
+            "llava_video", "sharegpt4video",
+            "av_asd", "scrape_asd",
+            "all",
+        ],
         default="all",
     )
     parser.add_argument(
@@ -120,6 +161,12 @@ def main() -> int:
         "--seed", type=int, default=42,
         help="Random seed for deterministic dataset splits (default: 42).",
     )
+    parser.add_argument(
+        "--workers", type=int, default=1,
+        help="Number of parallel worker processes (default: 1). MediaPipe is "
+             "single-threaded, so set this to the number of CPU cores you "
+             "want to dedicate (each worker spins up its own extractor).",
+    )
     args = parser.parse_args()
 
     if args.dataset == "qvid":
@@ -128,11 +175,23 @@ def main() -> int:
         loaders = [("Kinetics-400", get_kinetics_samples(args.seed))]
     elif args.dataset == "hmdb51":
         loaders = [("HMDB51", get_hmdb51_samples(args.seed))]
+    elif args.dataset == "llava_video":
+        loaders = [("LLaVA-Video", get_llava_video_samples(args.seed))]
+    elif args.dataset == "sharegpt4video":
+        loaders = [("ShareGPT4Video", get_sharegpt4video_samples(args.seed))]
+    elif args.dataset == "av_asd":
+        loaders = [("av-asd", get_av_asd_samples())]
+    elif args.dataset == "scrape_asd":
+        loaders = [("scrape_asd", get_scrape_asd_samples(args.seed))]
     else:
         loaders = [
-            ("QVID",         get_qvid_samples(args.seed)),
-            ("Kinetics-400", get_kinetics_samples(args.seed)),
-            ("HMDB51",       get_hmdb51_samples(args.seed)),
+            ("QVID",           get_qvid_samples(args.seed)),
+            ("Kinetics-400",   get_kinetics_samples(args.seed)),
+            ("HMDB51",         get_hmdb51_samples(args.seed)),
+            ("LLaVA-Video",    get_llava_video_samples(args.seed)),
+            ("ShareGPT4Video", get_sharegpt4video_samples(args.seed)),
+            ("av-asd",         get_av_asd_samples()),
+            ("scrape_asd",     get_scrape_asd_samples(args.seed)),
         ]
 
     target_splits = ["train", "val", "eval"] if args.split == "all" else [args.split]
@@ -150,6 +209,7 @@ def main() -> int:
             _process_samples(
                 f"{dataset_name}/{split_name}",
                 samples, args.fps, args.max_frames, args.overwrite,
+                workers=args.workers,
             )
 
     print("\nAll done.")

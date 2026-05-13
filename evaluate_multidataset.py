@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 """
 evaluate_multidataset.py — Evaluate a Qwen checkpoint on the eval split of
-QVID + Kinetics-400 + HMDB51 using full auto-regressive generation.
+QVID + Kinetics-400 + HMDB51 + ShareGPT4Video using full auto-regressive
+generation.
+
+The exact dataset mix is whatever ``multi_dataset.get_all_samples()`` returns,
+so this script automatically follows that loader. LLaVA-Video is intentionally
+excluded from the default mix (loading its 4.4M-line label file dominates
+launch wall time); opt in by patching ``get_all_samples`` if you need it. To
+evaluate on the autism datasets (av-asd / scrape_asd) instead, run via
+``evaluate_autism.py``.
 
 Modes
 -----
@@ -1018,7 +1026,8 @@ def main(args):
 
 def parse_args():
     p = argparse.ArgumentParser(
-        description="Evaluate Qwen checkpoints on the QVID+Kinetics+HMDB51 eval split"
+        description="Evaluate Qwen checkpoints on the "
+                    "QVID+Kinetics+HMDB51+ShareGPT4Video eval split"
     )
     p.add_argument(
         "--from_json", default=None, metavar="PATH",

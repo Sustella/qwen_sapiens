@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-train.py — Fine-tune Qwen3.5-VL on QVID + Kinetics-400 + HMDB51 with pose features.
+train.py — Fine-tune Qwen3.5-VL on the default multi-dataset mix
+(QVID + Kinetics-400 + HMDB51 + ShareGPT4Video) with pose features.
 
 Pose features are projected into the LLM embedding space and injected into the
 input sequence (between the prompt and answer tokens) so the transformer attends
@@ -1510,12 +1511,12 @@ def _save_resume_checkpoint(
 
 def parse_args():
     p = argparse.ArgumentParser(
-        description="Train Qwen3.5-VL on QVID+Kinetics+HMDB51 with pose features"
+        description="Train Qwen3.5-VL on QVID+Kinetics+HMDB51+ShareGPT4Video with pose features"
     )
     # Model
     p.add_argument("--model_name",   default="Qwen/Qwen3.5-9B")
-    p.add_argument("--output_dir",   default="/orcd/compute/ppliang/001/qwen_multi_new")
-    p.add_argument("--resume_ckpt", default="/orcd/compute/ppliang/001/qwen_multi_new/resume_ckpt")
+    p.add_argument("--output_dir",   default="/orcd/compute/ppliang/001/qwen_multi_big")
+    p.add_argument("--resume_ckpt", default="/orcd/compute/ppliang/001/qwen_multi_big/resume_ckpt")
     # p.add_argument("--resume_ckpt",  default="/home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt",
     #                help="Directory to save/load full resume checkpoints (model + optimizer + scheduler).")
 
