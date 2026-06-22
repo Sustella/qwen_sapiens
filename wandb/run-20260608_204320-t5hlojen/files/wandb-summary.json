@@ -1,1 +1,0 @@
-{"baseline/pretrained_lenient":0.585,"epoch":1,"_timestamp":1.780966523807935e+09,"_runtime":725.336338968,"_wandb":{"runtime":725},"baseline/pretrained_strict":0.46,"baseline/random_proj_strict":0.17,"_step":5,"baseline/random_proj_lenient":0.66}
