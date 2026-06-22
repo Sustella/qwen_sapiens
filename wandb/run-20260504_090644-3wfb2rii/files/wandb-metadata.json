@@ -1,0 +1,28 @@
+{
+  "os": "Linux-4.18.0-372.9.1.el8.x86_64-x86_64-with-glibc2.28",
+  "python": "CPython 3.11.14",
+  "startedAt": "2026-05-04T13:06:44.016732Z",
+  "program": "/orcd/home/002/ixzhu/qwen_model/train.py",
+  "codePath": "train.py",
+  "codePathLocal": "train.py",
+  "git": {
+    "remote": "https://github.com/iz05/qwen_custom.git",
+    "commit": "6de53940f8e112ca1e3d482e55421399f5504f14"
+  },
+  "email": "ixzhu@mit.edu",
+  "root": "/orcd/home/002/ixzhu/qwen_model",
+  "host": "orcd-login002.mit.edu",
+  "executable": "/home/ixzhu/miniconda3/envs/qwen35/bin/python",
+  "cpu_count": 224,
+  "cpu_count_logical": 448,
+  "disk": {
+    "/": {
+      "total": "474165116928",
+      "used": "79216730112"
+    }
+  },
+  "memory": {
+    "total": "810780303360"
+  },
+  "writerId": "vc4ci3qjypembft44lc9e61kz36rxgxg"
+}

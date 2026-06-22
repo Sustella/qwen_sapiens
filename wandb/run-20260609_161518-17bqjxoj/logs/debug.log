@@ -1,0 +1,19 @@
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_setup.py:_flush():81] Current SDK version is 0.27.2
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_setup.py:_flush():81] Configure stats pid to 2966867
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /home/stellasu/qwen_model/wandb/run-20260609_161518-17bqjxoj/logs/debug.log
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /home/stellasu/qwen_model/wandb/run-20260609_161518-17bqjxoj/logs/debug-internal.log
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_init.py:init():766] calling init triggers
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_init.py:init():771] wandb.init called with sweep_config: {}
+config: {'model_name': 'Qwen/Qwen3.5-9B', 'output_dir': '/home/stellasu/scratch/stellasu/qwen_mediapipe/output/run1', 'resume_ckpt': '/home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1', 'pose_feature_dim': None, 'pose_tokens_per_frame': 16, 'fps': 1.0, 'max_frames': 16, 'seed': 42, 'num_workers': 0, 'num_epochs': 2, 'batch_size': 1, 'grad_accum': 4, 'backbone_lr': 1e-05, 'lr': 0.0001, 'weight_decay': 0.05, 'warmup_ratio': 0.1, 'max_grad_norm': 1.0, 'pose_loss_weight': 0.1, 'gradient_checkpointing': True, 'torch_compile': False, 'save_full_model': True, 'save_steps': 10, 'val_steps': 10, 'val_max_samples': 200, 'val_max_new_tokens': 32, 'log_steps': 10, 'wandb_project': 'qwen-mediapipe', 'wandb_run_name': None, 'no_wandb': False, 'log_dir': '/home/stellasu/scratch/stellasu/qwen_mediapipe/logs/run1', '_wandb': {}}
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_init.py:init():814] starting backend
+2026-06-09 16:15:18,244 INFO    MainThread:2966867 [wandb_init.py:init():829] sending inform_init request
+2026-06-09 16:15:18,862 INFO    MainThread:2966867 [wandb_init.py:init():834] backend started and connected
+2026-06-09 16:15:18,866 INFO    MainThread:2966867 [wandb_init.py:init():904] updated telemetry
+2026-06-09 16:15:18,874 INFO    MainThread:2966867 [wandb_init.py:init():927] communicating run to backend with 90.0 second timeout
+2026-06-09 16:15:19,149 INFO    MainThread:2966867 [wandb_init.py:init():972] starting run threads in backend
+2026-06-09 16:15:19,261 INFO    MainThread:2966867 [wandb_run.py:_console_start():2523] atexit reg
+2026-06-09 16:15:19,261 INFO    MainThread:2966867 [wandb_run.py:_redirect():2373] redirect: wrap_raw
+2026-06-09 16:15:19,261 INFO    MainThread:2966867 [wandb_run.py:_redirect():2442] Wrapping output streams.
+2026-06-09 16:15:19,261 INFO    MainThread:2966867 [wandb_run.py:_redirect():2465] Redirects installed.
+2026-06-09 16:15:19,264 INFO    MainThread:2966867 [wandb_init.py:init():1010] run started, returning control to user process

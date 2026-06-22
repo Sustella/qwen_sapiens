@@ -1,0 +1,7 @@
+{"time":"2026-04-02T17:31:57.482556119-04:00","level":"INFO","msg":"main: starting server","port-filename":"/home/ixzhu/orcd/pool/tmp/tmpjm8caj4v/port-1110283.txt","pid":1110283,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-04-02T17:31:57.483594682-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":1110283}
+{"time":"2026-04-02T17:31:57.483588659-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/home/ixzhu/orcd/pool/tmp/wandb-1110283-1110364-472591824/socket","Net":"unix"}}
+{"time":"2026-04-02T17:31:57.660940579-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-04-02T17:31:57.669325419-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"shb10v6v","id":"1(@)"}
+{"time":"2026-04-02T17:31:57.916014825-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"shb10v6v","id":"1(@)"}
+{"time":"2026-04-02T17:32:04.207926691-04:00","level":"INFO","msg":"connection: cancelling request","id":"1(@)","requestId":"fiqexyvct8h5"}

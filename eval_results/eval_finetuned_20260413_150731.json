@@ -1,0 +1,738 @@
+{
+  "timestamp": "20260413_150731",
+  "args": {
+    "mode": "finetuned",
+    "checkpoint": "/home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt",
+    "pretrained_model": null,
+    "max_new_tokens": 32,
+    "max_samples": 100,
+    "batch_size": 1,
+    "fps": 2.0,
+    "max_frames": 32,
+    "pose_sample_n": 16,
+    "output_dir": "./eval_results"
+  },
+  "finetuned": {
+    "overall": {
+      "accuracy": 0.52,
+      "correct": 52,
+      "total": 100
+    },
+    "by_dataset": {
+      "qvid": {
+        "accuracy": 0.52,
+        "correct": 52,
+        "total": 100
+      }
+    },
+    "by_task_type": {
+      "open_ended": {
+        "accuracy": 0.52,
+        "correct": 52,
+        "total": 100
+      }
+    }
+  },
+  "finetuned_samples": [
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A Rubik's cube",
+      "pred": "A Rubik's cube",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "3",
+      "pred": "3",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Black",
+      "pred": "Black",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Left",
+      "pred": "Left",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "Yes",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A stick",
+      "pred": "A stick",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "On",
+      "pred": "On",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Right",
+      "pred": "Left",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "NA",
+      "pred": "Yes",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Still clapping",
+      "pred": "10",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A balloon",
+      "pred": "A man blowing up a balloon",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "2",
+      "pred": "2",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "2",
+      "pred": "2",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "4",
+      "pred": "4",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Long",
+      "pred": "Long",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Green",
+      "pred": "Yellow",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "2",
+      "pred": "2",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A curtain",
+      "pred": "Clothes",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Right",
+      "pred": "Left",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "7",
+      "pred": "9",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Left",
+      "pred": "Left",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Microwave",
+      "pred": "Microwave",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Holding",
+      "pred": "Talking on phone",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Green",
+      "pred": "Green",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "2",
+      "pred": "2",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "2",
+      "pred": "2",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "White wall",
+      "pred": "Wall",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Behind",
+      "pred": "Behind",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Off",
+      "pred": "On",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "1",
+      "pred": "1",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "No",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Closed",
+      "pred": "Closed",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Left",
+      "pred": "Left",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "8",
+      "pred": "10",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "On",
+      "pred": "Off",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "1",
+      "pred": "0",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Drinking water",
+      "pred": "Drinking water",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Black",
+      "pred": "Grey",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Over your head",
+      "pred": "Above my head",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Blue and black",
+      "pred": "Black and blue",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "1",
+      "pred": "1",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "No",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A goatee beard",
+      "pred": "Yes",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "3",
+      "pred": "3",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A picture",
+      "pred": "A poster",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Your nose",
+      "pred": "Nose",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A wall clock",
+      "pred": "A clock",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "3",
+      "pred": "2",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Blue",
+      "pred": "Blue",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Left",
+      "pred": "Left",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "No",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "Yes",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Blueish",
+      "pred": "Grey",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A pillow",
+      "pred": "A pillow",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yellow and maroon",
+      "pred": "Yellow",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Clapping",
+      "pred": "Talking",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "1",
+      "pred": "1",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Red",
+      "pred": "Red",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Circle",
+      "pred": "Heart",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Red",
+      "pred": "Yes",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Both",
+      "pred": "Both",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A hair brush",
+      "pred": "Hairbrush",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "No",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "No",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "None",
+      "pred": "A light",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Right",
+      "pred": "Left",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Black and red",
+      "pred": "Black, red, yellow",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "5",
+      "pred": "5",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "9",
+      "pred": "10",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Nose",
+      "pred": "My nose",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Pointing at something",
+      "pred": "Pointing",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A glass",
+      "pred": "A glass",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A hat",
+      "pred": "Hat",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Blue plastic cup",
+      "pred": "Cup",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A pen",
+      "pred": "A pen",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A pencil",
+      "pred": "A straw",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Yes",
+      "pred": "Yes",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "8",
+      "pred": "10",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "6",
+      "pred": "2",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Mahogany",
+      "pred": "Brown",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "No",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Brown",
+      "pred": "Brown",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Combing",
+      "pred": "Combing hair",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "No",
+      "pred": "No",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Earphones",
+      "pred": "Earphones",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "5",
+      "pred": "2",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A measuring tape",
+      "pred": "Tape measure",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Right",
+      "pred": "Right",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "A heart",
+      "pred": "Heart",
+      "correct": false
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "7",
+      "pred": "7",
+      "correct": true
+    },
+    {
+      "dataset": "qvid",
+      "task_type": "open_ended",
+      "gt": "Removing sweat",
+      "pred": "Brushing hair",
+      "correct": false
+    }
+  ]
+}

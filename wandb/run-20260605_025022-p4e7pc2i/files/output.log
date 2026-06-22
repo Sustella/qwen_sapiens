@@ -1,0 +1,89 @@
+02:50:23 INFO WandB run: faithful-energy-4
+02:50:23 INFO Found resume checkpoint at /home/stellasu/scratch/stellasu/qwen_custom/checkpoints/run1 (next_epoch=1)
+02:50:23 INFO Loading model: Qwen/Qwen3.5-9B
+02:50:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:23 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+02:50:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+02:50:23 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+02:50:23 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+02:50:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+02:50:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+02:50:23 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+02:50:23 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 4 files: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 11848.32it/s]
+Download complete: : 0.00B [00:00, ?B/s]                                                                                                                                                                                               | 0/4 [00:00<?, ?it/s]
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 760/760 [00:00<00:00, 7682.43it/s]
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.jinja "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/chat_template.jinja "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+02:50:24 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+02:50:24 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+02:50:25 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+02:50:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+02:50:25 INFO Gradient checkpointing enabled.
+02:50:25 INFO Total params: 9,409,813,744
+02:50:27 INFO PoseFeatureProjector: 1659 → 4096 × 16 tokens/frame  (275,300,352 params)
+[Dataset] Loading QVID …
+  [train] total=2342  qvid=2342
+  [val] total=296  qvid=296
+  [eval] total=262  qvid=262
+Scanning train videos: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2342/2342 [00:09<00:00, 258.12it/s]
+02:50:36 INFO MultiVideoDataset: 2342 examples loaded — 0 cached, 2342 will be extracted online
+Scanning val videos: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 296/296 [00:01<00:00, 255.90it/s]
+02:50:37 INFO MultiVideoDataset: 296 examples loaded — 0 cached, 296 will be extracted online
+[stage] accelerator.prepare(model, projector, loaders) — FSDP wrap …
+[stage] accelerator.prepare(model, …) done.
+[stage] accelerator.prepare(optimizers, schedulers) …
+[stage] accelerator.prepare(optimizers, …) done.
+Traceback (most recent call last):
+  File "/home/stellasu/qwen_model/train.py", line 1592, in <module>
+    train(parse_args())
+  File "/home/stellasu/qwen_model/train.py", line 1127, in train
+    accelerator.load_state(str(resume_ckpt / "accel_state"))
+  File "/home/stellasu/miniconda3/envs/qwen_custom/lib/python3.10/site-packages/accelerate/accelerator.py", line 3771, in load_state
+    raise ValueError(f"Tried to find {input_dir} but folder does not exist")
+ValueError: Tried to find /home/stellasu/scratch/stellasu/qwen_custom/checkpoints/run1/accel_state but folder does not exist
+Traceback (most recent call last):
+  File "/home/stellasu/qwen_model/train.py", line 1592, in <module>
+    train(parse_args())
+  File "/home/stellasu/qwen_model/train.py", line 1127, in train
+    accelerator.load_state(str(resume_ckpt / "accel_state"))
+  File "/home/stellasu/miniconda3/envs/qwen_custom/lib/python3.10/site-packages/accelerate/accelerator.py", line 3771, in load_state
+    raise ValueError(f"Tried to find {input_dir} but folder does not exist")
+ValueError: Tried to find /home/stellasu/scratch/stellasu/qwen_custom/checkpoints/run1/accel_state but folder does not exist

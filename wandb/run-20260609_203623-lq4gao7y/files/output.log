@@ -1,0 +1,161 @@
+20:36:23 INFO WandB run: upbeat-universe-47
+20:36:23 INFO Loading model: Qwen/Qwen3.5-9B
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+20:36:24 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+20:36:24 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 4 files: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 33156.55it/s]
+Download complete: : 0.00B [00:00, ?B/s]                                                                                                                                                                                              | 0/4 [00:00<?, ?it/s]
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 760/760 [00:00<00:00, 8138.83it/s]
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:25 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.json "HTTP/1.1 404 Not Found"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.jinja "HTTP/1.1 307 Temporary Redirect"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/chat_template.jinja "HTTP/1.1 200 OK"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:25 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+20:36:25 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+20:36:25 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+20:36:26 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:36:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:36:26 INFO Gradient checkpointing enabled.
+20:36:26 INFO Total params: 9,409,813,744
+20:36:26 INFO Using pose_feature_dim = 1659 (MediaPipe pose+face+L_hand+R_hand)
+20:36:28 INFO PoseFeatureProjector: 1659 → 4096 × 16 tokens/frame  (275,300,352 params)
+[Dataset] Loading QVID …
+  [train] total=2342  qvid=2342
+  [val] total=296  qvid=296
+  [eval] total=262  qvid=262
+Scanning train videos: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2342/2342 [00:09<00:00, 252.92it/s]
+20:36:37 INFO MultiVideoDataset: 2342 examples loaded — 2342 cached, 0 will be extracted online
+Scanning val videos: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 296/296 [00:01<00:00, 256.55it/s]
+20:36:38 INFO MultiVideoDataset: 296 examples loaded — 296 cached, 0 will be extracted online
+[stage] accelerator.prepare(model, projector, loaders) — FSDP wrap …
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/fully_sharded_data_parallel.py:478: UserWarning: FSDP is switching to use `NO_SHARD` instead of ShardingStrategy.FULL_SHARD since the world size is 1.
+  _init_core_state(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2026: UserWarning: Upcasted low precision parameters in Qwen3_5VisionModel because mixed precision turned on in FSDP. Affects: patch_embed.proj.weight, patch_embed.proj.bias, pos_embed.weight, blocks.0.norm1.weight, blocks.0.norm1.bias, blocks.0.norm2.weight, blocks.0.norm2.bias, blocks.0.attn.qkv.weight, blocks.0.attn.qkv.bias, blocks.0.attn.proj.weight, blocks.0.attn.proj.bias, blocks.0.mlp.linear_fc1.weight, blocks.0.mlp.linear_fc1.bias, blocks.0.mlp.linear_fc2.weight, blocks.0.mlp.linear_fc2.bias, blocks.1.norm1.weight, blocks.1.norm1.bias, blocks.1.norm2.weight, blocks.1.norm2.bias, blocks.1.attn.qkv.weight, blocks.1.attn.qkv.bias, blocks.1.attn.proj.weight, blocks.1.attn.proj.bias, blocks.1.mlp.linear_fc1.weight, blocks.1.mlp.linear_fc1.bias, blocks.1.mlp.linear_fc2.weight, blocks.1.mlp.linear_fc2.bias, blocks.2.norm1.weight, blocks.2.norm1.bias, blocks.2.norm2.weight, blocks.2.norm2.bias, blocks.2.attn.qkv.weight, blocks.2.attn.qkv.bias, blocks.2.attn.proj.weight, blocks.2.attn.proj.bias, blocks.2.mlp.linear_fc1.weight, blocks.2.mlp.linear_fc1.bias, blocks.2.mlp.linear_fc2.weight, blocks.2.mlp.linear_fc2.bias, blocks.3.norm1.weight, blocks.3.norm1.bias, blocks.3.norm2.weight, blocks.3.norm2.bias, blocks.3.attn.qkv.weight, blocks.3.attn.qkv.bias, blocks.3.attn.proj.weight, blocks.3.attn.proj.bias, blocks.3.mlp.linear_fc1.weight, blocks.3.mlp.linear_fc1.bias, blocks.3.mlp.linear_fc2.weight, blocks.3.mlp.linear_fc2.bias, blocks.4.norm1.weight, blocks.4.norm1.bias, blocks.4.norm2.weight, blocks.4.norm2.bias, blocks.4.attn.qkv.weight, blocks.4.attn.qkv.bias, blocks.4.attn.proj.weight, blocks.4.attn.proj.bias, blocks.4.mlp.linear_fc1.weight, blocks.4.mlp.linear_fc1.bias, blocks.4.mlp.linear_fc2.weight, blocks.4.mlp.linear_fc2.bias, blocks.5.norm1.weight, blocks.5.norm1.bias, blocks.5.norm2.weight, blocks.5.norm2.bias, blocks.5.attn.qkv.weight, blocks.5.attn.qkv.bias, blocks.5.attn.proj.weight, blocks.5.attn.proj.bias, blocks.5.mlp.linear_fc1.weight, blocks.5.mlp.linear_fc1.bias, blocks.5.mlp.linear_fc2.weight, blocks.5.mlp.linear_fc2.bias, blocks.6.norm1.weight, blocks.6.norm1.bias, blocks.6.norm2.weight, blocks.6.norm2.bias, blocks.6.attn.qkv.weight, blocks.6.attn.qkv.bias, blocks.6.attn.proj.weight, blocks.6.attn.proj.bias, blocks.6.mlp.linear_fc1.weight, blocks.6.mlp.linear_fc1.bias, blocks.6.mlp.linear_fc2.weight, blocks.6.mlp.linear_fc2.bias, blocks.7.norm1.weight, blocks.7.norm1.bias, blocks.7.norm2.weight, blocks.7.norm2.bias, blocks.7.attn.qkv.weight, blocks.7.attn.qkv.bias, blocks.7.attn.proj.weight, blocks.7.attn.proj.bias, blocks.7.mlp.linear_fc1.weight, blocks.7.mlp.linear_fc1.bias, blocks.7.mlp.linear_fc2.weight, blocks.7.mlp.linear_fc2.bias, blocks.8.norm1.weight, blocks.8.norm1.bias, blocks.8.norm2.weight, blocks.8.norm2.bias, blocks.8.attn.qkv.weight, blocks.8.attn.qkv.bias, blocks.8.attn.proj.weight, blocks.8.attn.proj.bias, blocks.8.mlp.linear_fc1.weight, blocks.8.mlp.linear_fc1.bias, blocks.8.mlp.linear_fc2.weight, blocks.8.mlp.linear_fc2.bias, blocks.9.norm1.weight, blocks.9.norm1.bias, blocks.9.norm2.weight, blocks.9.norm2.bias, blocks.9.attn.qkv.weight, blocks.9.attn.qkv.bias, blocks.9.attn.proj.weight, blocks.9.attn.proj.bias, blocks.9.mlp.linear_fc1.weight, blocks.9.mlp.linear_fc1.bias, blocks.9.mlp.linear_fc2.weight, blocks.9.mlp.linear_fc2.bias, blocks.10.norm1.weight, blocks.10.norm1.bias, blocks.10.norm2.weight, blocks.10.norm2.bias, blocks.10.attn.qkv.weight, blocks.10.attn.qkv.bias, blocks.10.attn.proj.weight, blocks.10.attn.proj.bias, blocks.10.mlp.linear_fc1.weight, blocks.10.mlp.linear_fc1.bias, blocks.10.mlp.linear_fc2.weight, blocks.10.mlp.linear_fc2.bias, blocks.11.norm1.weight, blocks.11.norm1.bias, blocks.11.norm2.weight, blocks.11.norm2.bias, blocks.11.attn.qkv.weight, blocks.11.attn.qkv.bias, blocks.11.attn.proj.weight, blocks.11.attn.proj.bias, blocks.11.mlp.linear_fc1.weight, blocks.11.mlp.linear_fc1.bias, blocks.11.mlp.linear_fc2.weight, blocks.11.mlp.linear_fc2.b
+  warnings.warn(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2026: UserWarning: Upcasted low precision parameters in Qwen3_5TextModel because mixed precision turned on in FSDP. Affects: layers.0.linear_attn.dt_bias, layers.0.linear_attn.A_log, layers.0.linear_attn.conv1d.weight, layers.0.linear_attn.norm.weight, layers.0.linear_attn.out_proj.weight, layers.0.linear_attn.in_proj_qkv.weight, layers.0.linear_attn.in_proj_z.weight, layers.0.linear_attn.in_proj_b.weight, layers.0.linear_attn.in_proj_a.weight, layers.0.input_layernorm.weight, layers.0.post_attention_layernorm.weight, layers.1.linear_attn.dt_bias, layers.1.linear_attn.A_log, layers.1.linear_attn.conv1d.weight, layers.1.linear_attn.norm.weight, layers.1.linear_attn.out_proj.weight, layers.1.linear_attn.in_proj_qkv.weight, layers.1.linear_attn.in_proj_z.weight, layers.1.linear_attn.in_proj_b.weight, layers.1.linear_attn.in_proj_a.weight, layers.1.input_layernorm.weight, layers.1.post_attention_layernorm.weight, layers.2.linear_attn.dt_bias, layers.2.linear_attn.A_log, layers.2.linear_attn.conv1d.weight, layers.2.linear_attn.norm.weight, layers.2.linear_attn.out_proj.weight, layers.2.linear_attn.in_proj_qkv.weight, layers.2.linear_attn.in_proj_z.weight, layers.2.linear_attn.in_proj_b.weight, layers.2.linear_attn.in_proj_a.weight, layers.2.input_layernorm.weight, layers.2.post_attention_layernorm.weight, layers.3.self_attn.q_proj.weight, layers.3.self_attn.k_proj.weight, layers.3.self_attn.v_proj.weight, layers.3.self_attn.o_proj.weight, layers.3.self_attn.q_norm.weight, layers.3.self_attn.k_norm.weight, layers.3.input_layernorm.weight, layers.3.post_attention_layernorm.weight, layers.4.linear_attn.dt_bias, layers.4.linear_attn.A_log, layers.4.linear_attn.conv1d.weight, layers.4.linear_attn.norm.weight, layers.4.linear_attn.out_proj.weight, layers.4.linear_attn.in_proj_qkv.weight, layers.4.linear_attn.in_proj_z.weight, layers.4.linear_attn.in_proj_b.weight, layers.4.linear_attn.in_proj_a.weight, layers.4.input_layernorm.weight, layers.4.post_attention_layernorm.weight, layers.5.linear_attn.dt_bias, layers.5.linear_attn.A_log, layers.5.linear_attn.conv1d.weight, layers.5.linear_attn.norm.weight, layers.5.linear_attn.out_proj.weight, layers.5.linear_attn.in_proj_qkv.weight, layers.5.linear_attn.in_proj_z.weight, layers.5.linear_attn.in_proj_b.weight, layers.5.linear_attn.in_proj_a.weight, layers.5.input_layernorm.weight, layers.5.post_attention_layernorm.weight, layers.6.linear_attn.dt_bias, layers.6.linear_attn.A_log, layers.6.linear_attn.conv1d.weight, layers.6.linear_attn.norm.weight, layers.6.linear_attn.out_proj.weight, layers.6.linear_attn.in_proj_qkv.weight, layers.6.linear_attn.in_proj_z.weight, layers.6.linear_attn.in_proj_b.weight, layers.6.linear_attn.in_proj_a.weight, layers.6.input_layernorm.weight, layers.6.post_attention_layernorm.weight, layers.7.self_attn.q_proj.weight, layers.7.self_attn.k_proj.weight, layers.7.self_attn.v_proj.weight, layers.7.self_attn.o_proj.weight, layers.7.self_attn.q_norm.weight, layers.7.self_attn.k_norm.weight, layers.7.input_layernorm.weight, layers.7.post_attention_layernorm.weight, layers.8.linear_attn.dt_bias, layers.8.linear_attn.A_log, layers.8.linear_attn.conv1d.weight, layers.8.linear_attn.norm.weight, layers.8.linear_attn.out_proj.weight, layers.8.linear_attn.in_proj_qkv.weight, layers.8.linear_attn.in_proj_z.weight, layers.8.linear_attn.in_proj_b.weight, layers.8.linear_attn.in_proj_a.weight, layers.8.input_layernorm.weight, layers.8.post_attention_layernorm.weight, layers.9.linear_attn.dt_bias, layers.9.linear_attn.A_log, layers.9.linear_attn.conv1d.weight, layers.9.linear_attn.norm.weight, layers.9.linear_attn.out_proj.weight, layers.9.linear_attn.in_proj_qkv.weight, layers.9.linear_attn.in_proj_z.weight, layers.9.linear_attn.in_proj_b.weight, layers.9.linear_attn.in_proj_a.weight, layers.9.input_layernorm.weight, layers.9.post_attention_layernorm.weight, layers.10.linear_attn.dt_bias, layers.10.linear_attn.A_log, layers.10.linear_attn.conv1d.weight, layers.1
+  warnings.warn(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2026: UserWarning: Upcasted low precision parameters in Embedding because mixed precision turned on in FSDP. Affects: weight.
+  warnings.warn(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2026: UserWarning: Upcasted low precision parameters in Qwen3_5MLP because mixed precision turned on in FSDP. Affects: gate_proj.weight, up_proj.weight, down_proj.weight.
+  warnings.warn(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2026: UserWarning: Upcasted low precision parameters in Linear because mixed precision turned on in FSDP. Affects: weight.
+  warnings.warn(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2032: UserWarning: FSDP upcast of low precision parameters may affect the precision of model checkpoints.
+  warnings.warn(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2026: UserWarning: Upcasted low precision parameters in PoseFeatureProjector because mixed precision turned on in FSDP. Affects: proj.0.weight, proj.0.bias.
+  warnings.warn(
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/accelerate/accelerator.py:2026: UserWarning: Upcasted low precision parameters in Linear because mixed precision turned on in FSDP. Affects: weight, bias.
+  warnings.warn(
+[stage] accelerator.prepare(model, …) done.
+[stage] accelerator.prepare(optimizers, schedulers) …
+[stage] accelerator.prepare(optimizers, …) done.
+20:36:42 INFO Initializing FSDP …
+[transformers] `use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`.
+20:36:43 INFO Fresh run — evaluating pretrained baselines on validation …
+Pretrained-val:   0%|                                                                                                                                                                                                               | 0/200 [00:00<?, ?it/s][pretrained-val] starting, total=200
+[pretrained-val] batch 1/200
+Pretrained-val:   0%|▉                                                                                                                                                                                                      | 1/200 [00:00<03:04,  1.08it/s][pretrained-val] batch 2/200
+Pretrained-val:   1%|█▉                                                                                                                                                                                                     | 2/200 [00:01<02:21,  1.40it/s][pretrained-val] batch 3/200
+Pretrained-val:   2%|██▉                                                                                                                                                                                                    | 3/200 [00:01<02:01,  1.62it/s][pretrained-val] batch 4/200
+Pretrained-val:   2%|███▉                                                                                                                                                                                                   | 4/200 [00:02<01:48,  1.81it/s][pretrained-val] batch 5/200
+Pretrained-val:   2%|████▉                                                                                                                                                                                                  | 5/200 [00:02<01:39,  1.96it/s][pretrained-val] batch 6/200
+Pretrained-val:   3%|█████▉                                                                                                                                                                                                 | 6/200 [00:03<01:34,  2.05it/s][pretrained-val] batch 7/200
+Pretrained-val:   4%|██████▉                                                                                                                                                                                                | 7/200 [00:03<01:32,  2.09it/s][pretrained-val] batch 8/200
+Pretrained-val:   4%|███████▉                                                                                                                                                                                               | 8/200 [00:04<01:34,  2.03it/s][pretrained-val] batch 9/200
+Pretrained-val:   4%|████████▉                                                                                                                                                                                              | 9/200 [00:04<01:35,  1.99it/s][pretrained-val] batch 10/200
+Pretrained-val:   5%|█████████▉                                                                                                                                                                                            | 10/200 [00:05<01:34,  2.02it/s][pretrained-val] batch 11/200
+Pretrained-val:   6%|██████████▉                                                                                                                                                                                           | 11/200 [00:05<01:40,  1.89it/s][pretrained-val] batch 12/200
+Pretrained-val:   6%|███████████▉                                                                                                                                                                                          | 12/200 [00:06<01:39,  1.90it/s][pretrained-val] batch 13/200
+Pretrained-val:   6%|████████████▊                                                                                                                                                                                         | 13/200 [00:07<01:40,  1.86it/s][pretrained-val] batch 14/200
+Pretrained-val:   7%|█████████████▊                                                                                                                                                                                        | 14/200 [00:07<01:35,  1.94it/s][pretrained-val] batch 15/200
+Pretrained-val:   8%|██████████████▊                                                                                                                                                                                       | 15/200 [00:07<01:32,  2.00it/s][pretrained-val] batch 16/200
+Pretrained-val:   8%|███████████████▊                                                                                                                                                                                      | 16/200 [00:08<01:30,  2.03it/s][pretrained-val] batch 17/200
+Pretrained-val:   8%|████████████████▊                                                                                                                                                                                     | 17/200 [00:08<01:30,  2.02it/s][pretrained-val] batch 18/200
+Pretrained-val:   9%|█████████████████▊                                                                                                                                                                                    | 18/200 [00:09<01:28,  2.06it/s][pretrained-val] batch 19/200
+Pretrained-val:  10%|██████████████████▊                                                                                                                                                                                   | 19/200 [00:09<01:30,  1.99it/s][pretrained-val] batch 20/200
+Pretrained-val:  10%|███████████████████▊                                                                                                                                                                                  | 20/200 [00:10<01:34,  1.90it/s][pretrained-val] batch 21/200
+Pretrained-val:  10%|████████████████████▊                                                                                                                                                                                 | 21/200 [00:11<01:35,  1.88it/s][pretrained-val] batch 22/200
+Pretrained-val:  11%|█████████████████████▊                                                                                                                                                                                | 22/200 [00:11<01:37,  1.83it/s][pretrained-val] batch 23/200
+Pretrained-val:  12%|██████████████████████▊                                                                                                                                                                               | 23/200 [00:12<01:41,  1.75it/s][pretrained-val] batch 24/200
+Pretrained-val:  12%|███████████████████████▊                                                                                                                                                                              | 24/200 [00:12<01:35,  1.83it/s][pretrained-val] batch 25/200
+Pretrained-val:  12%|████████████████████████▊                                                                                                                                                                             | 25/200 [00:13<01:37,  1.79it/s][pretrained-val] batch 26/200
+Pretrained-val:  13%|█████████████████████████▋                                                                                                                                                                            | 26/200 [00:13<01:35,  1.82it/s][pretrained-val] batch 27/200
+Pretrained-val:  14%|██████████████████████████▋                                                                                                                                                                           | 27/200 [00:14<01:36,  1.79it/s][pretrained-val] batch 28/200
+Pretrained-val:  14%|███████████████████████████▋                                                                                                                                                                          | 28/200 [00:14<01:29,  1.92it/s][pretrained-val] batch 29/200
+
+Traceback (most recent call last):
+  File "/home/stellasu/qwen_model/train_original.py", line 1588, in <module>
+    train(parse_args())
+  File "/home/stellasu/qwen_model/train_original.py", line 1153, in train
+    pt_results = _run_generative_validation_pretrained(
+  File "/home/stellasu/qwen_model/train_original.py", line 835, in _run_generative_validation_pretrained
+    preds = [tokenizer.decode(ids, skip_special_tokens=True).strip()
+  File "/home/stellasu/qwen_model/train_original.py", line 835, in <listcomp>
+    preds = [tokenizer.decode(ids, skip_special_tokens=True).strip()
+  File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 2882, in decode
+    token_ids = to_py_obj(token_ids)
+  File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/utils/generic.py", line 332, in to_py_obj
+    framework_to_test_func = _get_frameworks_and_test_func(obj)
+  File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/utils/generic.py", line 131, in _get_frameworks_and_test_func
+    return {f: framework_to_test[f] for f in frameworks}
+  File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/utils/generic.py", line 131, in <dictcomp>
+    return {f: framework_to_test[f] for f in frameworks}
+KeyboardInterrupt
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/stellasu/qwen_model/train_original.py", line 1588, in <module>
+[rank0]:     train(parse_args())
+[rank0]:   File "/home/stellasu/qwen_model/train_original.py", line 1153, in train
+[rank0]:     pt_results = _run_generative_validation_pretrained(
+[rank0]:   File "/home/stellasu/qwen_model/train_original.py", line 835, in _run_generative_validation_pretrained
+[rank0]:     preds = [tokenizer.decode(ids, skip_special_tokens=True).strip()
+[rank0]:   File "/home/stellasu/qwen_model/train_original.py", line 835, in <listcomp>
+[rank0]:     preds = [tokenizer.decode(ids, skip_special_tokens=True).strip()
+[rank0]:   File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 2882, in decode
+[rank0]:     token_ids = to_py_obj(token_ids)
+[rank0]:   File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/utils/generic.py", line 332, in to_py_obj
+[rank0]:     framework_to_test_func = _get_frameworks_and_test_func(obj)
+[rank0]:   File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/utils/generic.py", line 131, in _get_frameworks_and_test_func
+[rank0]:     return {f: framework_to_test[f] for f in frameworks}
+[rank0]:   File "/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/transformers/utils/generic.py", line 131, in <dictcomp>
+[rank0]:     return {f: framework_to_test[f] for f in frameworks}
+[rank0]: KeyboardInterrupt

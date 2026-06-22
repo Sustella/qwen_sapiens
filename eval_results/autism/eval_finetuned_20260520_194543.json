@@ -1,0 +1,1300 @@
+{
+  "timestamp": "20260520_194543",
+  "args": {
+    "from_json": null,
+    "mode": "finetuned",
+    "checkpoint": "/orcd/compute/ppliang/001/qwen_multi_base/resume_ckpt",
+    "base_model": "Qwen/Qwen3.5-9B",
+    "pretrained_model": "Qwen/Qwen3.5-9B",
+    "max_new_tokens": 64,
+    "max_samples": null,
+    "batch_size": 1,
+    "fps": 2.0,
+    "max_frames": 32,
+    "pose_tokens_per_frame": 16,
+    "output_dir": "/orcd/compute/ppliang/001/qwen_autism/results"
+  },
+  "finetuned": {
+    "overall": {
+      "accuracy": 0.2967741935483871,
+      "correct": 46,
+      "total": 155,
+      "accuracy_lenient": 0.3161290322580645,
+      "correct_lenient": 49
+    },
+    "by_dataset": {
+      "av_asd": {
+        "accuracy": 0.2727272727272727,
+        "correct": 39,
+        "total": 143,
+        "accuracy_lenient": 0.2937062937062937,
+        "correct_lenient": 42
+      },
+      "scrape_asd": {
+        "accuracy": 0.5833333333333334,
+        "correct": 7,
+        "total": 12,
+        "accuracy_lenient": 0.5833333333333334,
+        "correct_lenient": 7
+      }
+    },
+    "by_task_type": {
+      "multiple_choice": {
+        "accuracy": 0.5833333333333334,
+        "correct": 7,
+        "total": 12,
+        "accuracy_lenient": 0.5833333333333334,
+        "correct_lenient": 7
+      },
+      "open_ended": {
+        "accuracy": 0.2727272727272727,
+        "correct": 39,
+        "total": 143,
+        "accuracy_lenient": 0.2937062937062937,
+        "correct_lenient": 42
+      }
+    }
+  },
+  "finetuned_samples": [
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior, Upper Limb Stereotypies",
+      "pred": "Hyper- or Hyporeactivity to Sensory Input",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Aggressive Behavior, Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Limited Response to Name",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction, Self-Spinning or Spinning Objects",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Hyper- or Hyporeactivity to Sensory Input",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Hyper- or Hyporeactivity to Sensory Input, Non-Responsiveness to Verbal Interaction",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Hyper- or Hyporeactivity to Sensory Input",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Hyper- or Hyporeactivity to Sensory Input, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction, Upper Limb Stereotypies",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Aggressive Behavior, Upper Limb Stereotypies",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Aggressive Behavior, Hyper- or Hyporeactivity to Sensory Input, Non-Responsiveness to Verbal Interaction, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Object Lining-Up",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Upper Limb Stereotypies",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Background",
+      "pred": "Background",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Object Lining-Up",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Hyper- or Hyporeactivity to Sensory Input",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Non-Typical Language, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Self-Hitting or Self-Injurious Behavior",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact",
+      "pred": "Absence or Avoidance of Eye Contact, Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Self-Hitting or Self-Injurious Behavior",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Aggressive Behavior, Non-Responsiveness to Verbal Interaction, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Hyper- or Hyporeactivity to Sensory Input, Non-Responsiveness to Verbal Interaction",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Hitting or Self-Injurious Behavior",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Hitting or Self-Injurious Behavior",
+      "pred": "Self-Hitting or Self-Injurious Behavior",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Hyper- or Hyporeactivity to Sensory Input, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Object Lining-Up, Upper Limb Stereotypies",
+      "pred": "Object Lining-Up",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Typical Language",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input, Non-Typical Language, Self-Spinning or Spinning Objects",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Self-Spinning or Spinning Objects",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Hitting or Self-Injurious Behavior",
+      "pred": "Self-Hitting or Self-Injurious Behavior",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Self-Hitting or Self-Injurious Behavior",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Hyper- or Hyporeactivity to Sensory Input",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Responsiveness to Verbal Interaction, Non-Typical Language, Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Hyper- or Hyporeactivity to Sensory Input",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input, Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input, Self-Spinning or Spinning Objects",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Hyper- or Hyporeactivity to Sensory Input, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Non-Responsiveness to Verbal Interaction",
+      "pred": "Hyper- or Hyporeactivity to Sensory Input",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Responsiveness to Verbal Interaction",
+      "pred": "Non-Responsiveness to Verbal Interaction",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Responsiveness to Verbal Interaction, Self-Spinning or Spinning Objects",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Aggressive Behavior",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input, Upper Limb Stereotypies",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input, Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction, Non-Typical Language",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Background",
+      "pred": "Background",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Hitting or Self-Injurious Behavior",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Background",
+      "pred": "Background",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Toe walking, Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Background",
+      "pred": "Background",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Background",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Self-Hitting or Self-Injurious Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Aggressive Behavior",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Spinning or Spinning Objects, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior, Non-Typical Language, Self-Hitting or Self-Injurious Behavior, Upper Limb Stereotypies",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input, Non-Responsiveness to Verbal Interaction",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Object Lining-Up",
+      "pred": "Object Lining-Up",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Self-Hitting or Self-Injurious Behavior",
+      "pred": "Self-Hitting or Self-Injurious Behavior",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Self-Spinning or Spinning Objects",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Background",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Aggressive Behavior",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction",
+      "pred": "Self-Spinning or Spinning Objects",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Responsiveness to Verbal Interaction, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Background",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Non-Typical Language, Upper Limb Stereotypies",
+      "pred": "Upper Limb Stereotypies",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Hyper- or Hyporeactivity to Sensory Input",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "av_asd",
+      "task_type": "open_ended",
+      "gt": "Absence or Avoidance of Eye Contact, Aggressive Behavior",
+      "pred": "Absence or Avoidance of Eye Contact",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "A",
+      "pred": "A",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "B",
+      "pred": "A",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "A",
+      "pred": "A",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "A",
+      "pred": "A",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "A",
+      "pred": "A",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "B",
+      "pred": "A",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "B",
+      "pred": "B",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "A",
+      "pred": "A",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "B",
+      "pred": "A",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "B",
+      "pred": "B",
+      "correct": true,
+      "correct_lenient": true
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "B",
+      "pred": "A",
+      "correct": false,
+      "correct_lenient": false
+    },
+    {
+      "dataset": "scrape_asd",
+      "task_type": "multiple_choice",
+      "gt": "B",
+      "pred": "A",
+      "correct": false,
+      "correct_lenient": false
+    }
+  ]
+}

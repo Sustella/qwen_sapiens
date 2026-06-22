@@ -1,0 +1,935 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1778645795.603906 2884200 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1778645795.608304 2884199 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1778645795.622248 2884198 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645795.799009 2884395 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645795.810038 2884393 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645795.830019 2884394 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+W0000 00:00:1778645796.050886 2884232 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.066539 2884284 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.082730 2884327 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.506839 2884343 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.506840 2884243 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.558140 2884299 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.596075 2884400 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645796.596342 2884401 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645796.596468 2884399 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645796.653987 2884401 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645796.653987 2884399 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645796.654053 2884400 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645796.750187 2884576 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645796.754672 2884577 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645796.762929 2884578 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645796.779446 2884450 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.782147 2884531 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.784223 2884420 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.829418 2884467 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.846004 2884441 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645796.850420 2884543 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645797.011420 2884583 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645797.011431 2884584 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645797.011420 2884585 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645797.089358 2884806 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645797.123812 2884808 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645797.130331 2884807 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645797.273811 2884742 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645797.273872 2884713 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645797.273902 2884684 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645797.403284 2884758 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645797.396548 2884644 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645797.395417 2884736 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645797.662472 2884285 landmark_projection_calculator.cc:78] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+W0000 00:00:1778645797.659607 2884234 landmark_projection_calculator.cc:78] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+W0000 00:00:1778645797.659044 2884339 landmark_projection_calculator.cc:78] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1778645798.177692 2884582 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645798.388974 2884813 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+W0000 00:00:1778645799.039254 2884596 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645800.330782 2884688 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645800.376373 2884815 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645800.399773 2884815 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645800.437296 2884874 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645800.441931 2884858 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645800.455928 2884863 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645800.498872 2884876 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645800.533989 2884929 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645800.550079 2884888 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645800.567632 2884894 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645800.788220 2884607 landmark_projection_calculator.cc:78] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+I0000 00:00:1778645801.400493 2884946 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645801.517374 2885012 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645801.617757 2884960 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645802.331693 2884970 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645802.463649 2885014 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645802.550262 2885014 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645802.793920 2885075 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645802.821598 2885029 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645802.868203 2885059 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645802.872547 2885074 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645802.872688 2885054 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645802.961092 2885206 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645802.963011 2885205 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645802.978943 2885207 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645803.032176 2885262 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645803.137398 2885077 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.148566 2885162 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.159497 2885256 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.235534 2885223 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.543344 2885088 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.543344 2885177 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.634691 2885265 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645803.634748 2885264 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645803.677647 2885264 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645803.677649 2885265 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645803.767679 2885382 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645803.783170 2885383 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645803.799708 2885302 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.800256 2885328 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.844118 2885309 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645803.971781 2885327 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645804.188004 2885404 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645804.188004 2885405 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645804.305432 2885511 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645804.305506 2885510 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645804.461136 2885449 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645804.461137 2885480 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645804.584136 2885483 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645804.584136 2885426 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645807.787178 2885519 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645807.837168 2885584 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645807.907707 2885534 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645808.125148 2885545 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645808.139586 2885597 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645808.160551 2885597 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645808.242777 2885656 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645808.247323 2885637 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645808.251192 2885657 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645808.312835 2885727 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645808.338669 2885644 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645808.374142 2885676 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645808.519878 2885730 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645808.670673 2885783 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645808.960243 2885748 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645808.991874 2885679 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645809.079237 2885785 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645809.136304 2885761 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645809.213253 2885785 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645809.400665 2885844 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645809.513524 2885796 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645809.675291 2885809 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645810.121586 2885846 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645810.199074 2885900 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645810.293688 2885851 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645810.464124 2885891 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645810.691579 2885847 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645810.772672 2885966 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645810.973495 2885947 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645811.314874 2885960 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645811.386453 2885969 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645811.442498 2885969 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645811.442787 2885968 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645811.528319 2886092 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645811.532607 2886093 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645811.551573 2886038 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645811.601765 2886065 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645811.660042 2885984 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645811.813712 2886096 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645811.948962 2886149 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645812.062524 2886121 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645812.061996 2885980 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645812.144243 2886151 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645812.152562 2886104 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645812.218692 2886151 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645812.288755 2886210 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645812.333727 2886152 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645812.388958 2886178 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645812.640300 2886212 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645812.743256 2886265 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645812.930310 2886230 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645813.178812 2886256 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645814.502369 2886273 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645814.619897 2886338 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645814.780267 2886274 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645815.328511 2886329 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645815.402813 2886340 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645815.464054 2886340 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645815.570759 2886399 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645815.655754 2886345 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645815.702880 2886365 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645815.852151 2886401 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645815.907173 2886454 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645816.007866 2886411 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645816.089047 2886425 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645818.230742 2886471 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645818.265132 2886472 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645818.369580 2886602 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645818.370449 2886537 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645818.444748 2886486 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645818.530756 2886553 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645818.700860 2886497 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645818.782204 2886606 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645818.797525 2886542 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645818.866069 2886609 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645818.897193 2886606 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645818.942141 2886609 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645819.017194 2886670 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645819.021382 2886731 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645819.023237 2886605 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645819.050799 2886628 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.056195 2886705 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645819.091727 2886797 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645819.104384 2886698 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.110140 2886636 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.230149 2886769 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645819.387208 2886800 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645819.387056 2886799 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645819.489535 2886906 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645819.490280 2886905 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645819.595153 2886830 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.595069 2886853 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.679362 2886781 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.723637 2886823 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.723658 2886841 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645819.778903 2886910 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645819.832287 2886910 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645819.843458 2886909 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645819.893632 2887033 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645819.922672 2886923 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645819.929253 2887034 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645819.968583 2886942 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645820.042664 2886982 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645820.146796 2887037 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645820.262194 2887090 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645820.413120 2886996 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645820.415401 2887051 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645820.499927 2887092 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645820.498694 2887059 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645820.575201 2887092 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645820.680787 2887151 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645820.708935 2887093 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645820.806867 2887116 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645821.006868 2887153 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645821.066050 2887206 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645821.162702 2887157 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645821.250462 2887158 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645825.865988 2887223 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645826.010639 2887294 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645826.152759 2887359 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645826.169690 2887293 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645826.291555 2887248 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645826.340572 2887326 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645826.676657 2887229 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645826.745301 2887337 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645827.000653 2887362 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645827.001365 2887363 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645827.234674 2887362 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645827.234779 2887363 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645827.450325 2887481 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645827.449213 2887480 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645827.539289 2887402 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645827.600419 2887367 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645827.612636 2887412 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645827.682467 2887420 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645827.811887 2887485 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645827.811764 2887486 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645827.884134 2887591 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645827.945075 2887592 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645827.974200 2887484 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645828.067947 2887501 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645828.071639 2887515 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645828.157069 2887659 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645828.198651 2887525 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645828.198599 2887570 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645828.270112 2887624 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645828.535964 2887661 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645828.709219 2887726 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645828.725081 2887653 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645828.877962 2887728 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645829.004103 2887667 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645829.070944 2887728 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645829.144524 2887787 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645829.188258 2887735 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645829.252546 2887746 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645829.550645 2887680 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645829.673965 2887789 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645829.747956 2887790 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645829.771935 2887843 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645829.861312 2887819 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645829.910214 2887790 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645830.007507 2887827 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645830.023099 2887903 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645830.082673 2887862 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645830.159138 2887871 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645830.413683 2887905 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645830.484200 2887958 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645830.726789 2887909 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645830.809473 2887926 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645831.971609 2887970 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645831.971921 2887971 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645832.034314 2888100 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645832.076038 2888101 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645832.187926 2888054 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645832.521850 2888073 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645832.529008 2887975 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645832.581274 2888104 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645832.671758 2888104 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645832.778867 2888163 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645832.820822 2888158 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645832.879353 2887991 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645832.935081 2888165 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645832.993712 2888165 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645833.068890 2888224 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645833.068577 2888161 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645833.101697 2888178 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645833.152124 2888186 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645833.225972 2888226 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645833.225972 2888227 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645833.296649 2888333 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645833.309302 2888334 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645833.400582 2888247 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645833.453045 2888275 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645833.548023 2888249 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645833.548023 2888308 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645837.012447 2888352 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645837.120158 2888434 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645837.407795 2888408 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645837.525331 2888437 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645837.525331 2888436 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645837.611893 2888567 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645837.630204 2888566 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645837.806665 2888474 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645837.806664 2888490 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645837.910388 2888379 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.108680 2888570 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645838.258026 2888503 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.258026 2888542 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.303695 2888629 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645838.308395 2888630 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645838.310888 2888570 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645838.346346 2888629 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645838.380322 2888630 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645838.381000 2888631 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645838.414399 2888571 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645838.436675 2888749 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645838.443487 2888750 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645838.458642 2888702 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.461330 2888592 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.474532 2888637 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.515367 2888701 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.534443 2888659 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645838.618258 2888754 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645838.618313 2888755 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645838.634659 2888753 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645838.738381 2888914 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645838.742667 2888913 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645838.781777 2888912 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645838.799065 2888776 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.841940 2888862 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.869937 2888770 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.932872 2888792 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645838.932825 2888882 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645839.007341 2888812 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645842.887501 2888923 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645842.980312 2888988 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645843.204235 2888938 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645843.606851 2888949 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645843.695021 2888995 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645843.823801 2888995 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645844.030905 2889054 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645844.303858 2889001 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645844.382887 2889043 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645844.719562 2889056 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645844.870296 2889109 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645844.986193 2889106 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645845.219831 2889073 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645845.877541 2889112 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645845.975569 2889182 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645846.376534 2889185 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645846.388010 2889127 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645846.438024 2889251 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645846.587956 2889199 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645846.634577 2889143 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645846.693621 2889257 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645846.903508 2889257 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645847.033229 2889205 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645847.081466 2889316 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645847.113586 2889319 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645847.134571 2889260 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645847.178214 2889319 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645847.282127 2889378 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645847.300915 2889334 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645847.342774 2889365 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645847.518541 2889277 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645847.578159 2889380 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645847.655967 2889434 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645847.673725 2889381 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645847.674465 2889435 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645847.753616 2889388 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645847.756158 2889553 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645847.758453 2889554 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645847.859772 2889437 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645847.895189 2889456 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645847.954521 2889488 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645848.126995 2889399 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645848.237344 2889475 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645848.287453 2889557 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645848.374579 2889557 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645848.460265 2889616 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645848.512081 2889602 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645848.596107 2889568 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645848.794924 2889618 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645848.866751 2889671 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645848.957501 2889622 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645849.043857 2889621 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645850.361604 2889678 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645850.433117 2889743 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645850.651722 2889680 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645851.254417 2889709 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645851.357900 2889745 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645851.428433 2889745 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645851.564861 2889804 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645851.590131 2889773 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645851.685632 2889786 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645851.873122 2889806 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645851.939281 2889859 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645852.027180 2889808 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645852.150710 2889825 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645853.528198 2889866 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645853.659659 2889931 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645853.799682 2889895 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645854.180773 2889892 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645854.265729 2889938 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645854.341608 2889938 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645854.482666 2889997 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645854.509947 2889993 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645854.585502 2889939 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645854.786655 2890004 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645854.911846 2890057 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645855.018311 2890036 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645855.251306 2890059 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645855.322670 2890124 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645855.333111 2890045 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645855.424383 2890078 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645855.445879 2890126 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645855.543648 2890191 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645855.733531 2890108 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645855.774740 2890145 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645855.810650 2890193 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645855.876964 2890193 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645855.938038 2890252 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645855.967703 2890194 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645856.118186 2890212 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645856.247298 2890160 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645856.303961 2890259 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645856.377240 2890259 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645856.399443 2890260 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645856.456414 2890319 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645856.539791 2890372 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645856.542956 2890315 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645856.669961 2890328 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645856.744846 2890313 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645856.904133 2890375 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645857.008358 2890428 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645857.028299 2890342 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645857.120691 2890389 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645857.191786 2890407 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645857.300947 2890430 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645857.398289 2890500 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645857.517582 2890436 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645857.850077 2890456 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645858.001087 2890503 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645858.049876 2890502 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645858.049964 2890503 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645858.121869 2890627 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645858.135382 2890626 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645858.173253 2890558 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645858.278813 2890526 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645858.326279 2890535 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645858.539191 2890630 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645858.629367 2890683 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645858.673654 2890519 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645858.744141 2890647 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645858.821562 2890685 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645858.843013 2890663 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645858.893045 2890685 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645858.957266 2890744 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645859.007288 2890731 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645859.065577 2890686 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645859.222621 2890746 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645859.302956 2890800 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645859.447690 2890751 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645859.542690 2890788 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645861.860338 2890807 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645861.906274 2890872 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645861.969944 2890808 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645862.215849 2890841 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645862.241393 2890879 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645862.308170 2890879 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645862.432981 2890940 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645862.512303 2890893 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645862.874159 2890945 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645863.023134 2891010 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645863.168134 2890995 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645863.178402 2890901 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645863.622488 2891008 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645863.717326 2891012 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645863.720579 2891014 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645863.786107 2891067 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645863.804322 2891014 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645863.941682 2891127 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645863.980436 2891017 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645863.980607 2891100 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645864.049487 2891112 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645864.134574 2891040 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645864.336916 2891129 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645864.408856 2891182 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645864.510747 2891183 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645864.606474 2891249 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645864.698316 2891142 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645864.763966 2891197 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645864.806225 2891158 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645865.152102 2891218 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645865.234179 2891256 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645865.305712 2891256 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645865.409215 2891315 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645865.469225 2891262 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645865.541450 2891283 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645865.727616 2891336 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645865.820065 2891390 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645865.930193 2891355 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645866.112233 2891389 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645866.243783 2891456 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645866.447232 2891404 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645866.543972 2891379 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645866.954875 2891396 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645867.020256 2891458 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645867.073034 2891458 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645867.141520 2891517 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645867.180059 2891482 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645867.228591 2891501 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645867.275661 2891519 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645867.322187 2891572 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645867.392760 2891535 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645867.470815 2891543 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645869.505148 2891579 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645869.738147 2891654 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645869.962504 2891602 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645870.113765 2891656 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645870.224001 2891721 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645870.933958 2891613 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645871.046627 2891658 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645871.056250 2891723 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645871.116901 2891723 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645871.208866 2891783 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645871.292130 2891737 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645871.317740 2891724 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645871.380229 2891686 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645871.430243 2891849 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645871.449420 2891851 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645871.482155 2891851 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645871.574528 2891798 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645871.584122 2891910 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645871.633722 2891894 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645871.670806 2891896 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645871.688097 2891754 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645871.798953 2891912 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645871.798944 2891913 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645871.870074 2892019 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645871.883219 2892018 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645871.978574 2891928 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645871.988643 2891945 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645872.067215 2891985 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645872.114715 2891957 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645872.303725 2891817 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645872.370704 2892022 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645872.441288 2892022 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645872.563470 2892081 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645872.638846 2892056 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645872.757238 2892050 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645872.973431 2892083 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645873.022107 2892136 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645873.102509 2892084 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645873.160669 2892092 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645875.579214 2892143 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645875.670980 2892208 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645875.785263 2892146 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645876.509623 2892172 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645876.684797 2892220 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645876.865978 2892220 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645877.190679 2892279 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645877.293947 2892239 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645877.733827 2892281 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645877.766309 2892222 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645877.821873 2892346 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645877.923870 2892304 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645877.976977 2892348 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645877.995946 2892349 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645878.076544 2892413 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645878.076448 2892467 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645878.185413 2892364 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645878.235678 2892419 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645878.299620 2892326 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645878.333112 2892374 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645878.400722 2892470 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645878.500304 2892470 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645878.608089 2892418 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645878.624325 2892529 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645878.662444 2892531 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645878.671706 2892479 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645878.688287 2892489 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645878.721392 2892531 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645878.812508 2892590 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645878.824954 2892591 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645878.858015 2892535 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645878.862476 2892645 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645878.935457 2892607 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645879.052286 2892619 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645879.077057 2892565 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645879.236359 2892647 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645879.307274 2892700 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645879.608250 2892649 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645879.712742 2892668 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645882.245138 2892707 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645882.300551 2892772 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645882.439297 2892770 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645882.838406 2892725 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645882.931797 2892779 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645883.014578 2892779 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645883.107070 2892838 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645883.182566 2892799 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645883.257482 2892784 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645883.613059 2892840 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645883.743299 2892893 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645883.968250 2892850 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645884.079436 2892892 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645884.905180 2892895 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645884.995576 2892960 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645885.126465 2892905 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645885.461558 2892922 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645885.572748 2892967 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645885.740269 2892967 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645885.870825 2893026 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645885.993523 2892980 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645886.063773 2893011 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645886.235448 2893028 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645886.299092 2893082 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645886.336884 2893029 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645886.445992 2893033 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645886.465914 2893148 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645886.597861 2893087 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645886.696897 2893054 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645887.127548 2893132 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645887.277656 2893150 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645887.341171 2893150 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645887.530842 2893209 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645887.545491 2893155 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645887.760014 2893177 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645888.005787 2893211 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645888.086380 2893269 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645888.289735 2893224 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645888.417766 2893261 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645888.983617 2893271 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645889.075984 2893340 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645889.185944 2893316 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645889.816470 2893343 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645889.945863 2893408 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645890.015651 2893328 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645890.067022 2893410 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645890.107478 2893410 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645890.182792 2893469 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645890.241688 2893411 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645890.332774 2893367 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645890.783734 2893431 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645890.812255 2893368 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645890.854883 2893476 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645890.927335 2893478 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645890.927335 2893476 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645891.026394 2893589 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645891.032680 2893590 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645891.061710 2893480 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645891.078578 2893477 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645891.109693 2893492 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645891.135301 2893548 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645891.239362 2893657 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645891.251298 2893556 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645891.309100 2893659 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645891.351893 2893712 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645891.381269 2893671 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645891.403107 2893601 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645891.465711 2893686 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645891.723772 2893627 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645891.819219 2893714 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645891.907153 2893714 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645891.978131 2893778 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645892.089228 2893740 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645892.219309 2893764 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645892.524198 2893780 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645892.634024 2893834 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645892.753931 2893833 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645892.848614 2893900 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645892.991609 2893841 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645893.046136 2893790 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645893.162903 2893832 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645893.400407 2893862 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645893.479230 2893902 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645893.555709 2893902 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645893.630171 2893961 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645893.668580 2893908 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645893.721490 2893926 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645893.906148 2893963 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645893.977348 2894016 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645894.033518 2893974 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645894.144354 2893987 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645895.385040 2894039 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645895.502987 2894104 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645895.853158 2894043 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645896.036548 2894071 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645896.055683 2894106 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645896.079168 2894106 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645896.158082 2894165 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645896.195641 2894158 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645896.259354 2894114 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645896.579959 2894177 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645896.913055 2894230 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645897.641801 2894190 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645897.779490 2894232 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645897.779543 2894233 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645897.879793 2894362 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645897.895074 2894363 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645898.024183 2894311 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.033071 2894246 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.052675 2894205 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.425443 2894333 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.431402 2894261 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.470924 2894368 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645898.470924 2894367 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645898.528423 2894368 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645898.528490 2894367 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645898.604512 2894485 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645898.651306 2894486 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645898.670367 2894376 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.680184 2894373 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.697406 2894421 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645898.758169 2894415 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645898.869216 2894489 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645898.869239 2894490 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645898.956069 2894595 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645898.981374 2894596 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645899.074810 2894527 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645899.124099 2894492 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645899.340034 2894570 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645899.339794 2894515 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645901.208582 2894604 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645901.304821 2894669 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645901.427728 2894620 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645901.916542 2894629 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645902.056282 2894671 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645902.136058 2894671 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645902.209478 2894730 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645902.242474 2894711 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645902.294033 2894693 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645902.418403 2894732 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645902.514995 2894785 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645902.823325 2894747 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645902.939960 2894757 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645903.505552 2894792 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645903.600164 2894857 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645903.731040 2894806 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645904.138966 2894818 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645904.236561 2894859 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645904.309114 2894859 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645904.506433 2894920 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645904.618746 2894889 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645904.721667 2894874 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645905.049205 2894925 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645905.119064 2894978 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645905.235330 2894946 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645905.431622 2894980 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645905.509100 2895045 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645905.535943 2894958 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645905.652343 2894993 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645906.128427 2895001 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645906.205737 2895049 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645906.235660 2895049 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645906.289220 2895111 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645906.296670 2895055 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645906.428510 2895072 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645906.581525 2895113 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645906.749030 2895166 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645907.362529 2895123 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645907.566475 2895164 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645908.574400 2895173 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645908.585963 2895174 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645908.664490 2895303 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645908.693269 2895304 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645908.878019 2895267 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645909.067301 2895194 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645909.539169 2895270 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645909.669214 2895313 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645909.684676 2895206 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645909.724727 2895313 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645909.740510 2895365 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645909.787267 2895373 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645909.814141 2895365 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645909.817786 2895312 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645909.859382 2895498 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645909.887683 2895380 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645909.915445 2895497 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645909.926725 2895387 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645909.929961 2895331 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645910.015969 2895340 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645910.108933 2895502 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645910.108969 2895501 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645910.201846 2895608 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645910.227452 2895607 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645910.312620 2895563 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645910.366243 2895506 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645910.461567 2895568 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645910.532451 2895565 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645910.543741 2895445 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645910.862361 2895450 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645910.933004 2895611 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645911.000116 2895611 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645911.106266 2895670 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645911.172380 2895622 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645911.214265 2895634 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645911.383048 2895672 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645911.479475 2895730 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645911.641083 2895683 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645911.794113 2895700 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645912.331468 2895732 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645912.435273 2895797 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645912.565831 2895749 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645912.924247 2895755 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645912.978146 2895799 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645913.040886 2895799 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645913.113515 2895858 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645913.191060 2895846 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645913.241475 2895840 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645913.426102 2895860 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645913.524688 2895913 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645913.625009 2895886 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645913.762816 2895892 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645916.529195 2895925 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645916.601960 2895990 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645916.820984 2895939 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645917.345494 2895997 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645917.420185 2896062 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645917.519574 2896017 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645917.870969 2896028 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645917.959976 2895951 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645917.971681 2896064 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645918.008424 2896065 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645918.057219 2896065 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645918.056522 2896064 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645918.135408 2896183 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645918.135597 2896182 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645918.200101 2896067 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645918.205274 2896155 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645918.259071 2896167 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645918.293398 2896087 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645918.533463 2896186 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645918.533252 2896187 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645918.646328 2896292 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645918.683504 2896293 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645918.767680 2896256 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645918.796986 2896198 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645918.857056 2896261 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645918.938322 2896296 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645919.001859 2896213 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645919.031282 2896361 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645919.140812 2896303 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645919.497584 2896322 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645919.558144 2896363 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645919.624796 2896363 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645919.706143 2896422 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645919.757229 2896375 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645919.837467 2896386 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645919.984705 2896424 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645920.068489 2896477 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645920.176954 2896445 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645920.403731 2896451 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645922.704054 2896485 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645922.941578 2896557 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645923.154791 2896552 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645923.179463 2896562 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645923.286667 2896627 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645923.415372 2896576 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645923.511972 2896501 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645923.723799 2896629 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1778645923.842501 2896608 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645923.920544 2896630 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645923.951776 2896629 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645924.052425 2896689 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645924.083367 2896630 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645924.129661 2896749 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645924.134872 2896637 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645924.173166 2896702 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645924.209567 2896704 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645924.493665 2896751 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645924.538992 2896674 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645924.582522 2896804 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645924.665942 2896807 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645924.676218 2896761 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645924.750688 2896860 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645924.765038 2896806 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+W0000 00:00:1778645924.777759 2896779 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645924.828060 2896926 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645924.843384 2896812 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645924.900424 2896827 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645924.936442 2896863 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645925.394754 2896884 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645925.465618 2896928 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645925.529722 2896928 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645925.597339 2896987 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645925.652594 2896972 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645925.747024 2896981 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645925.895968 2896989 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645925.997379 2897046 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645926.109250 2896992 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645926.190882 2897013 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645928.253750 2897711 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645928.390764 2897810 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645928.538424 2897763 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645929.002126 2897774 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645929.026963 2897840 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645929.052294 2897840 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645929.092228 2897899 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645929.098103 2897855 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645929.122400 2897867 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645929.176499 2897906 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645929.264681 2897959 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645929.349064 2897914 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645929.411599 2897929 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645929.508085 2897961 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645929.580363 2898030 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645929.775256 2897968 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645930.236087 2897997 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645930.370892 2898036 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645930.470724 2898036 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645930.604738 2898095 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645930.684013 2898041 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645931.321335 2898069 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645931.525210 2898106 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645931.584220 2898161 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+I0000 00:00:1778645931.682703 2898160 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645931.760645 2898227 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645931.934755 2898153 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645932.016021 2898111 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645932.201055 2898168 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645932.421779 2898191 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645932.440871 2898236 face_landmarker_graph.cc:174] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+I0000 00:00:1778645932.472938 2898236 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645932.546805 2898295 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645932.564188 2898252 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645932.610047 2898273 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+I0000 00:00:1778645932.675183 2898297 gl_context_egl.cc:85] Successfully initialized EGL. Major : 1 Minor: 5
+I0000 00:00:1778645932.729644 2898350 gl_context.cc:385] GL version: 3.2 (OpenGL ES 3.2 NVIDIA 590.48.01), renderer: NVIDIA L40S/PCIe/SSE2
+W0000 00:00:1778645932.784748 2898321 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1778645932.863267 2898324 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.

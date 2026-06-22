@@ -1,0 +1,14 @@
+{"time":"2026-04-29T08:54:57.649358388-04:00","level":"INFO","msg":"main: starting server","port-filename":"/home/ixzhu/orcd/pool/tmp/tmpyrub2naj/port-1221293.txt","pid":1221293,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-04-29T08:54:57.742536934-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":1221293}
+{"time":"2026-04-29T08:54:57.742523834-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/home/ixzhu/orcd/pool/tmp/wandb-1221293-1233132-2299190603/socket","Net":"unix"}}
+{"time":"2026-04-29T08:54:57.939935729-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-04-29T08:54:58.341327419-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"003ejg56","id":"1(@)"}
+{"time":"2026-04-29T08:55:01.032375827-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"003ejg56","id":"1(@)"}
+{"time":"2026-04-29T08:55:01.207772335-04:00","level":"INFO","msg":"connection: cancelling request","id":"1(@)","requestId":"0usju70i0sdp"}
+{"time":"2026-04-29T08:55:01.274288849-04:00","level":"INFO","msg":"handleInformTeardown: server teardown initiated","id":"1(@)"}
+{"time":"2026-04-29T08:55:01.274338429-04:00","level":"INFO","msg":"connection: closing","id":"1(@)"}
+{"time":"2026-04-29T08:55:01.27440769-04:00","level":"INFO","msg":"connection: closed successfully","id":"1(@)"}
+{"time":"2026-04-29T08:55:01.27447597-04:00","level":"INFO","msg":"server is shutting down"}
+{"time":"2026-04-29T08:55:01.275646249-04:00","level":"INFO","msg":"server: listener closed","addr":{"Name":"/home/ixzhu/orcd/pool/tmp/wandb-1221293-1233132-2299190603/socket","Net":"unix"}}
+{"time":"2026-04-29T08:55:02.727993877-04:00","level":"ERROR","msg":"processOutgoingData: flush error","error":"write unix /home/ixzhu/orcd/pool/tmp/wandb-1221293-1233132-2299190603/socket->@: use of closed network connection","id":"1(@)"}
+{"time":"2026-04-29T08:55:03.039776908-04:00","level":"INFO","msg":"server: parent process exited, terminating service process"}

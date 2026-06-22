@@ -1,0 +1,9 @@
+{"time":"2026-05-04T09:09:53.525872471-04:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-05-04T09:09:53.532786274-04:00","level":"INFO","msg":"stream: starting","core version":"0.25.1"}
+{"time":"2026-05-04T09:09:53.765810498-04:00","level":"INFO","msg":"stream: created new stream","id":"ipa4fx51"}
+{"time":"2026-05-04T09:09:53.765844177-04:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-05-04T09:09:53.766525077-04:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-05-04T09:09:53.766535473-04:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-05-04T09:09:53.766532543-04:00","level":"INFO","msg":"writer: started","stream_id":"ipa4fx51"}
+{"time":"2026-05-04T09:09:54.575192621-04:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-05-04T09:09:54.769137607-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}

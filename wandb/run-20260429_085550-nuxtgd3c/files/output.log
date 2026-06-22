@@ -1,0 +1,15 @@
+08:55:52 INFO WandB run: snowy-monkey-4
+08:55:52 INFO Loading fine-tuned backbone from: /orcd/compute/ppliang/001/qwen_multi/best/model
+Loading weights: 100%|██████████████████████████████████████████████████████████████████████████████████████████████| 760/760 [00:00<00:00, 4053.47it/s]
+08:55:55 INFO Gradient checkpointing enabled.
+08:55:55 INFO Backbone params: 9,409,813,744  trainable: 9,409,813,744
+Traceback (most recent call last):
+  File "/orcd/home/002/ixzhu/qwen_model/train_no_video/train_no_video.py", line 1300, in <module>
+    train(parse_args())
+  File "/orcd/home/002/ixzhu/qwen_model/train_no_video/train_no_video.py", line 756, in train
+    projector.load_state_dict(proj_sd)
+  File "/home/ixzhu/miniconda3/envs/qwen35/lib/python3.11/site-packages/torch/nn/modules/module.py", line 2629, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for PoseFeatureProjector:
+	size mismatch for proj.2.weight: copying a param with shape torch.Size([4096, 4096]) from checkpoint, the shape in current model is torch.Size([65536, 4096]).
+	size mismatch for proj.2.bias: copying a param with shape torch.Size([4096]) from checkpoint, the shape in current model is torch.Size([65536]).

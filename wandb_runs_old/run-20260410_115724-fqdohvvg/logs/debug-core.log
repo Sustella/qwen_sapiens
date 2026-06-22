@@ -1,0 +1,15 @@
+{"time":"2026-04-10T11:57:24.958905111-04:00","level":"INFO","msg":"main: starting server","port-filename":"/home/ixzhu/orcd/pool/tmp/tmpoewaextn/port-3736946.txt","pid":3736946,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-04-10T11:57:24.96097719-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":3736946}
+{"time":"2026-04-10T11:57:24.960971159-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/home/ixzhu/orcd/pool/tmp/wandb-3736946-3740137-1850868027/socket","Net":"unix"}}
+{"time":"2026-04-10T11:57:25.13789428-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-04-10T11:57:25.143910439-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"fqdohvvg","id":"1(@)"}
+{"time":"2026-04-10T11:57:25.387923384-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"fqdohvvg","id":"1(@)"}
+{"time":"2026-04-10T11:57:31.077797858-04:00","level":"INFO","msg":"connection: cancelling request","id":"1(@)","requestId":"0w456kjldo87"}
+{"time":"2026-04-10T12:05:52.501934929-04:00","level":"INFO","msg":"handleInformTeardown: server teardown initiated","id":"1(@)"}
+{"time":"2026-04-10T12:05:52.50222932-04:00","level":"INFO","msg":"server is shutting down"}
+{"time":"2026-04-10T12:05:52.502220945-04:00","level":"INFO","msg":"connection: closing","id":"1(@)"}
+{"time":"2026-04-10T12:05:52.502269896-04:00","level":"INFO","msg":"connection: closed successfully","id":"1(@)"}
+{"time":"2026-04-10T12:05:52.504196559-04:00","level":"INFO","msg":"server: listener closed","addr":{"Name":"/home/ixzhu/orcd/pool/tmp/wandb-3736946-3740137-1850868027/socket","Net":"unix"}}
+{"time":"2026-04-10T12:05:53.112664212-04:00","level":"INFO","msg":"handleInformTeardown: server shutdown complete","id":"1(@)"}
+{"time":"2026-04-10T12:05:53.112674507-04:00","level":"INFO","msg":"connection: ManageConnectionData: connection closed","id":"1(@)"}
+{"time":"2026-04-10T12:05:53.112680389-04:00","level":"INFO","msg":"server is closed"}

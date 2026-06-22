@@ -1,0 +1,181 @@
+_wandb:
+    value:
+        cli_version: 0.25.1
+        e:
+            o3r5tsogfg6poqcrnha9qjiledxorlys:
+                args:
+                    - --save_steps
+                    - "13"
+                codePath: train.py
+                codePathLocal: train.py
+                cpu_count: 120
+                cpu_count_logical: 240
+                cudaVersion: "13.1"
+                disk:
+                    /:
+                        total: "944364355584"
+                        used: "29760139264"
+                email: izzyzhunet@gmail.com
+                executable: /home/ixzhu/miniconda3/envs/qwen35/bin/python
+                git:
+                    commit: 888fb00b1c57c8c5377474a1f6c22e31900f9b48
+                    remote: https://github.com/iz05/qwen_custom.git
+                gpu: NVIDIA H200
+                gpu_count: 2
+                gpu_nvidia:
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-b31b3899-35b9-0c1a-5718-eb5cf02ab2b4
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-533bb7f3-c043-cd9e-cdc9-79f00629c10a
+                host: node2500
+                memory:
+                    total: "2163439616000"
+                os: Linux-4.18.0-372.9.1.el8.x86_64-x86_64-with-glibc2.28
+                program: /orcd/home/002/ixzhu/qwen_model/train.py
+                python: CPython 3.11.14
+                root: /orcd/home/002/ixzhu/qwen_model
+                slurm:
+                    cluster_name: eofe7
+                    conf: /etc/slurm/slurm.conf
+                    cpu_bind: quiet,mask_cpu:0x000000015555400000000000015500000000015555400000000000015500
+                    cpu_bind_list: 0x000000015555400000000000015500000000015555400000000000015500
+                    cpu_bind_type: 'mask_cpu:'
+                    cpu_bind_verbose: quiet
+                    cpus_on_node: "15"
+                    cpus_per_task: "15"
+                    distribution: block
+                    gpus_on_node: "2"
+                    gtids: "0"
+                    job_account: mit_general
+                    job_cpus_per_node: "15"
+                    job_end_time: "1775910966"
+                    job_gid: "241215"
+                    job_group: ixzhu
+                    job_id: "11533699"
+                    job_name: bash
+                    job_nodelist: node2500
+                    job_num_nodes: "1"
+                    job_partition: pi_ppliang
+                    job_qos: normal
+                    job_start_time: "1775824566"
+                    job_uid: "241215"
+                    job_user: ixzhu
+                    jobid: "11533699"
+                    launch_node_ipaddr: 10.1.221.2
+                    localid: "0"
+                    mem_per_node: "512000"
+                    nnodes: "1"
+                    nodeid: "0"
+                    nodelist: node2500
+                    nprocs: "1"
+                    ntasks: "1"
+                    oom_kill_step: "0"
+                    prio_process: "0"
+                    procid: "0"
+                    pty_port: "43635"
+                    pty_win_col: "153"
+                    pty_win_row: "19"
+                    script_context: prolog_task
+                    srun_comm_host: 10.1.221.2
+                    srun_comm_port: "43873"
+                    step_gpus: 5,7
+                    step_id: "0"
+                    step_launcher_port: "43873"
+                    step_nodelist: node2500
+                    step_num_nodes: "1"
+                    step_num_tasks: "1"
+                    step_tasks_per_node: "1"
+                    stepid: "0"
+                    submit_dir: /orcd/home/002/ixzhu
+                    submit_host: orcd-login002.mit.edu
+                    task_pid: "3621695"
+                    tasks_per_node: "1"
+                    topology_addr: node2500
+                    topology_addr_pattern: node
+                    tres_per_task: cpu=15
+                    umask: "0002"
+                startedAt: "2026-04-10T19:09:56.801956Z"
+                writerId: o3r5tsogfg6poqcrnha9qjiledxorlys
+        m: []
+        python_version: 3.11.14
+        t:
+            "1":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 71
+                - 105
+            "2":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 71
+                - 105
+            "3":
+                - 16
+                - 61
+            "4": 3.11.14
+            "5": 0.25.1
+            "6": 5.5.0.dev0
+            "12": 0.25.1
+            "13": linux-x86_64
+backbone_lr:
+    value: 1e-05
+batch_size:
+    value: 1
+fps:
+    value: 2
+grad_accum:
+    value: 8
+gradient_checkpointing:
+    value: true
+log_steps:
+    value: 10
+lr:
+    value: 0.0001
+max_frames:
+    value: 8
+max_grad_norm:
+    value: 1
+model_name:
+    value: Qwen/Qwen3.5-9B
+no_wandb:
+    value: false
+num_epochs:
+    value: 3
+num_workers:
+    value: 4
+output_dir:
+    value: /orcd/compute/ppliang/001/qwen_multi
+pose_feature_dim:
+    value: null
+pose_loss_weight:
+    value: 0.1
+pose_sample_n:
+    value: 16
+resume_ckpt:
+    value: /home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt
+save_full_model:
+    value: false
+save_steps:
+    value: 13
+seed:
+    value: 42
+torch_compile:
+    value: true
+wandb_project:
+    value: qwen-multi-video-2
+wandb_run_name:
+    value: null
+warmup_ratio:
+    value: 0.05
+weight_decay:
+    value: 0.05

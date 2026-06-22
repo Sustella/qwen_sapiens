@@ -1,0 +1,268 @@
+#!/usr/bin/env python3
+# Suppress MediaPipe / TFLite stderr spam before any imports.
+import os
+os.environ.setdefault("GLOG_minloglevel", "2")
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")
+
+"""
+extract_poses_per_frame.py — Offline pre-extraction of per-frame pose features
+that match what train.py extracts ONLINE.
+
+The on-disk artifact is shape ``(N_frames, 1659)`` per video, where N_frames
+is the number of frames the model would sample given ``--fps`` and
+``--max_frames`` (same logic as ``_sample_frames`` in train.py). Frames are
+processed in temporal order with a fresh ``LandmarkerManager(running_mode=
+'video')`` per video, so the resulting features are byte-identical to what
+the online extractor in train.py would produce.
+
+This is purely a speed optimization. ``MultiVideoDataset.__getitem__`` will
+prefer the cache file if present, and fall back to online extraction otherwise.
+
+Usage
+-----
+  # All datasets, all splits, fps=1 max_frames=8 (training defaults)
+  python extract_poses_per_frame.py --fps 1.0 --max_frames 8
+
+  # One dataset / split
+  python extract_poses_per_frame.py --dataset qvid --split train --fps 1.0 --max_frames 8
+
+  # Re-extract (overwrite existing cache files)
+  python extract_poses_per_frame.py --overwrite --fps 1.0 --max_frames 8
+"""
+
+import argparse
+import multiprocessing as mp
+import sys
+from pathlib import Path
+from typing import List
+
+import torch
+from tqdm import tqdm
+import cv2
+import torch
+
+from sapien_pose_features import _extract_features_from_img_list
+
+# Reuse the EXACT same sampling + extraction code as train.py so the cache is
+# guaranteed to match what online extraction would produce.
+_REPO_DIR = Path(__file__).resolve().parent
+if str(_REPO_DIR) not in sys.path:
+    sys.path.insert(0, str(_REPO_DIR))
+
+from train import (  # noqa: E402
+    _sample_frames,
+    # _extract_pose_for_frames,
+    _per_frame_cache_path,
+    _is_video_readable,
+)
+from multi_dataset import (  # noqa: E402
+    get_qvid_samples,
+    # get_kinetics_samples,
+    get_hmdb51_samples,
+    # get_llava_video_samples,
+    # get_sharegpt4video_samples,
+    # get_av_asd_samples,
+    # get_scrape_asd_samples,
+)
+
+
+def _process_one(s: dict, fps: float, max_frames: int, overwrite: bool) -> str:
+    """Returns one of: 'ok', 'skip-existing', 'skip-bad', 'fail'."""
+    out_path = _per_frame_cache_path(s, fps, max_frames)
+    if not overwrite and out_path.exists():
+        return "skip-existing"
+    if not _is_video_readable(s["video_path"]):
+        return "skip-bad"
+
+    # Check if pose_path exists
+    if Path(s["pose_path"]).exists():
+        pose_feat = torch.load(s["pose_path"])
+        keypoints = pose_feat['keypoints']  # Shape: (N_frames, 2, 133, 2)
+        scores = pose_feat['keypoint_scores']  # Shape: (N_frames, 2, 133)
+        
+        # Get Indices
+        cap = cv2.VideoCapture(s["video_path"])
+        video_fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
+        width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        
+        # total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        total = len(pose_feat["keypoints"])
+        stride = max(1.0, video_fps / fps)
+        indices: List[int] = []
+        pos = 0.0
+        while pos < total and len(indices) < max_frames:
+            indices.append(min(round(pos), total - 1))
+            pos += stride
+        if not indices:
+            indices = [0]
+        indices = sorted(list(set(indices)))
+        cap.release()
+
+        ## Normalize keypoints to 0 to 1
+        x_coords = keypoints[..., 0]
+        y_coords = keypoints[..., 1]
+        x_norm = x_coords / width
+        y_norm = y_coords / height
+        normalized_keypoints = torch.stack([x_norm, y_norm], dim=-1)
+        dummy_person = (scores.sum(dim=-1) == 0.0) 
+        dummy_person = dummy_person.unsqueeze(-1).unsqueeze(-1)
+        normalized_keypoints = torch.where(dummy_person, torch.tensor(-1.0), normalized_keypoints)
+        
+        # Flatten and Process
+        pose_feat = torch.cat([normalized_keypoints, scores.unsqueeze(-1)], dim=-1)
+        pose_feat = pose_feat[indices]
+        pose_feat = pose_feat.flatten(start_dim=1)
+        torch.save(pose_feat.contiguous().float().cpu(), out_path)
+        return "ok"
+        
+    try:
+        pil_images = _sample_frames(s["video_path"], fps, max_frames)
+        # feat = _extract_pose_for_frames(pil_images)  # (N, 1659)
+        feat = extract_features_from_img_list(pil_images)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        # Save as CPU float32 tensor; train.py loads via torch.load(... ).float().
+        torch.save(feat.contiguous().float().cpu(), out_path)
+        return "ok"
+    except Exception as e:  # noqa: BLE001 — we want to log and continue
+        print(f"  [ERROR] {s['video_path']}: {e}", flush=True)
+        return "fail"
+
+
+# Top-level worker wrapper — must be picklable for multiprocessing.
+def _worker(task: tuple) -> str:
+    s, fps, max_frames, overwrite = task
+    return _process_one(s, fps, max_frames, overwrite)
+
+
+def _process_samples(
+    name: str,
+    samples: List[dict],
+    fps: float,
+    max_frames: int,
+    overwrite: bool,
+    workers: int = 1,
+) -> None:
+    counts = {"ok": 0, "skip-existing": 0, "skip-bad": 0, "fail": 0}
+
+    if workers <= 1:
+        for s in tqdm(samples, desc=name, file=sys.stdout):
+            counts[_process_one(s, fps, max_frames, overwrite)] += 1
+    else:
+        # Use fork (Linux default) so 64 workers don't each re-import torch /
+        # transformers / mediapipe. LandmarkerManager is constructed lazily
+        # inside _extract_pose_for_frames, so there is no pre-fork native
+        # state to worry about.
+        ctx = mp.get_context("fork")
+        # Bigger chunksize cuts IPC overhead; smaller helps load-balance when
+        # videos differ wildly in duration. 4 is a reasonable middle ground
+        # for ~14 sec/clip with 64 workers.
+        chunksize = max(1, min(8, len(samples) // (workers * 8) or 1))
+        tasks = [(s, fps, max_frames, overwrite) for s in samples]
+        with ctx.Pool(processes=workers) as pool:
+            for result in tqdm(
+                pool.imap_unordered(_worker, tasks, chunksize=chunksize),
+                total=len(tasks), desc=f"{name} (×{workers})", file=sys.stdout,
+            ):
+                counts[result] += 1
+
+    print(
+        f"  {name}: ok={counts['ok']} skip-existing={counts['skip-existing']} "
+        f"skip-bad={counts['skip-bad']} fail={counts['fail']}",
+        flush=True,
+    )
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Pre-extract per-frame MediaPipe pose features matching "
+                    "train.py's online extractor."
+    )
+    parser.add_argument(
+        "--dataset",
+        choices=[
+            "qvid", "kinetics", "hmdb51",
+            "llava_video", "sharegpt4video",
+            "av_asd", "scrape_asd",
+            "all",
+        ],
+        default="all",
+    )
+    parser.add_argument(
+        "--split",
+        choices=["train", "val", "eval", "all"],
+        default="all",
+    )
+    parser.add_argument(
+        "--fps", type=float, default=1.0,
+        help="Target sampling rate (frames/sec). Must match training.",
+    )
+    parser.add_argument(
+        "--max_frames", type=int, default=16,
+        help="Cap on sampled frames per video. Must match training.",
+    )
+    parser.add_argument(
+        "--overwrite", action="store_true",
+        help="Re-extract even if the cache file already exists.",
+    )
+    parser.add_argument(
+        "--seed", type=int, default=42,
+        help="Random seed for deterministic dataset splits (default: 42).",
+    )
+    parser.add_argument(
+        "--workers", type=int, default=1,
+        help="Number of parallel worker processes (default: 1). MediaPipe is "
+             "single-threaded, so set this to the number of CPU cores you "
+             "want to dedicate (each worker spins up its own extractor).",
+    )
+    args = parser.parse_args()
+
+    if args.dataset == "qvid":
+        loaders = [("QVID", get_qvid_samples(args.seed))]
+    elif args.dataset == "kinetics":
+        loaders = [("Kinetics-400", get_kinetics_samples(args.seed))]
+    elif args.dataset == "hmdb51":
+        loaders = [("HMDB51", get_hmdb51_samples(args.seed))]
+    elif args.dataset == "llava_video":
+        loaders = [("LLaVA-Video", get_llava_video_samples(args.seed))]
+    elif args.dataset == "sharegpt4video":
+        loaders = [("ShareGPT4Video", get_sharegpt4video_samples(args.seed))]
+    elif args.dataset == "av_asd":
+        loaders = [("av-asd", get_av_asd_samples())]
+    elif args.dataset == "scrape_asd":
+        loaders = [("scrape_asd", get_scrape_asd_samples(args.seed))]
+    else:
+        loaders = [
+            ("QVID",           get_qvid_samples(args.seed)),
+            ("Kinetics-400",   get_kinetics_samples(args.seed)),
+            ("HMDB51",         get_hmdb51_samples(args.seed)),
+            ("LLaVA-Video",    get_llava_video_samples(args.seed)),
+            ("ShareGPT4Video", get_sharegpt4video_samples(args.seed)),
+            ("av-asd",         get_av_asd_samples()),
+            ("scrape_asd",     get_scrape_asd_samples(args.seed)),
+        ]
+
+    target_splits = ["train", "val", "eval"] if args.split == "all" else [args.split]
+
+    for dataset_name, splits in loaders:
+        print(f"\n{'='*60}")
+        print(f"Dataset: {dataset_name}  (fps={args.fps}, max_frames={args.max_frames})")
+        print(f"{'='*60}")
+        for split_name in target_splits:
+            samples = splits.get(split_name, [])
+            if not samples:
+                print(f"  [{split_name}] no samples, skipping.")
+                continue
+            print(f"  [{split_name}] {len(samples)} videos")
+            _process_samples(
+                f"{dataset_name}/{split_name}",
+                samples, args.fps, args.max_frames, args.overwrite,
+                workers=args.workers,
+            )
+
+    print("\nAll done.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

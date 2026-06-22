@@ -1,0 +1,17 @@
+{"time":"2026-06-09T20:23:10.081523216-04:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-09T20:23:10.0818403-04:00","level":"INFO","msg":"stream: starting","core version":"0.27.2"}
+{"time":"2026-06-09T20:23:10.412454591-04:00","level":"INFO","msg":"stream: created new stream","id":"fmnub9n1"}
+{"time":"2026-06-09T20:23:10.412523614-04:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-09T20:23:10.412660819-04:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-09T20:23:10.412736803-04:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-09T20:23:10.412740568-04:00","level":"INFO","msg":"writer: started","stream_id":"fmnub9n1"}
+{"time":"2026-06-09T20:23:10.966987318-04:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-09T20:23:11.175856926-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-09T20:23:25.967333175-04:00","level":"INFO","msg":"filestream: sending request","total_files":2,"events_offset":0,"events_lines":1,"console_offset":1,"console_lines":71,"uploaded_len":2}
+{"time":"2026-06-09T20:23:26.073243566-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-09T20:23:40.9678082-04:00","level":"INFO","msg":"filestream: sending request","total_files":2,"events_offset":1,"events_lines":2,"console_offset":71,"console_lines":1}
+{"time":"2026-06-09T20:23:41.096855992-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-09T20:23:55.967986344-04:00","level":"INFO","msg":"filestream: sending request","total_files":2,"events_offset":3,"events_lines":2,"console_offset":71,"console_lines":1}
+{"time":"2026-06-09T20:23:56.07028215-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-09T20:24:10.967758883-04:00","level":"INFO","msg":"filestream: sending request","total_files":2,"events_offset":5,"events_lines":2,"console_offset":71,"console_lines":1}
+{"time":"2026-06-09T20:24:11.131775536-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}

@@ -75,7 +75,8 @@ from multi_dataset import get_all_samples
 _REPO_DIR = Path(__file__).resolve().parent
 if str(_REPO_DIR / "utils") not in sys.path:
     sys.path.insert(0, str(_REPO_DIR / "utils"))
-from pose_features import LandmarkerManager, TOTAL_DIM as POSE_TOTAL_DIM  # noqa: E402
+# from pose_features import LandmarkerManager, TOTAL_DIM as POSE_TOTAL_DIM  # noqa: E402
+POSE_TOTAL_DIM = 798 #Sapiens: 798 = 2*133*3 #Mediapipe: 1659
 
 # ── Online pose extractor ────────────────────────────────────────────────────
 # Mirrors the offline `extract_features_for_frames` from utils/pose_features.py:
@@ -86,31 +87,31 @@ from pose_features import LandmarkerManager, TOTAL_DIM as POSE_TOTAL_DIM  # noqa
 POSE_FEATURE_TYPES = ["pose", "face", "left_hand", "right_hand"]
 
 
-def _extract_pose_for_frames(pil_images: List[Image.Image]) -> torch.Tensor:
-    """Run MediaPipe on each PIL frame in temporal order with a fresh per-video
-    LandmarkerManager (running_mode='video'); return (N_frames, 1659) float
-    tensor. Concatenation order: pose(33*3) + face(478*3) + L_hand(21*3) +
-    R_hand(21*3) = 1659.
-    """
-    import numpy as np
-    lm = LandmarkerManager(
-        feature_types=POSE_FEATURE_TYPES,
-        running_mode="video",
-    )
-    try:
-        rows = []
-        for img in pil_images:
-            rgb = np.asarray(img.convert("RGB"))
-            feats = lm.process(rgb)
-            rows.append(np.concatenate([
-                feats.get("pose",       np.zeros(33 * 3,  dtype=np.float32)),
-                feats.get("face",       np.zeros(478 * 3, dtype=np.float32)),
-                feats.get("left_hand",  np.zeros(21 * 3,  dtype=np.float32)),
-                feats.get("right_hand", np.zeros(21 * 3,  dtype=np.float32)),
-            ]))
-    finally:
-        lm.close()
-    return torch.from_numpy(np.stack(rows, axis=0)).float()  # (N, 1659)
+# def _extract_pose_for_frames(pil_images: List[Image.Image]) -> torch.Tensor:
+#     """Run MediaPipe on each PIL frame in temporal order with a fresh per-video
+#     LandmarkerManager (running_mode='video'); return (N_frames, 1659) float
+#     tensor. Concatenation order: pose(33*3) + face(478*3) + L_hand(21*3) +
+#     R_hand(21*3) = 1659.
+#     """
+#     import numpy as np
+#     lm = LandmarkerManager(
+#         feature_types=POSE_FEATURE_TYPES,
+#         running_mode="video",
+#     )
+#     try:
+#         rows = []
+#         for img in pil_images:
+#             rgb = np.asarray(img.convert("RGB"))
+#             feats = lm.process(rgb)
+#             rows.append(np.concatenate([
+#                 feats.get("pose",       np.zeros(33 * 3,  dtype=np.float32)),
+#                 feats.get("face",       np.zeros(478 * 3, dtype=np.float32)),
+#                 feats.get("left_hand",  np.zeros(21 * 3,  dtype=np.float32)),
+#                 feats.get("right_hand", np.zeros(21 * 3,  dtype=np.float32)),
+#             ]))
+#     finally:
+#         lm.close()
+#     return torch.from_numpy(np.stack(rows, axis=0)).float()  # (N, 1659)
 
 
 def _per_frame_cache_path(s: dict, fps: float, max_frames: int) -> Path:
@@ -294,12 +295,15 @@ class MultiVideoDataset(Dataset):
         cache_path = _per_frame_cache_path(s, self.fps, self.max_frames)
         if cache_path.exists():
             pose_feat = torch.load(cache_path, map_location="cpu", weights_only=False).float()
+            
             # Defensive: if the cache was produced for a different N (e.g. fps
             # or max_frames was bumped), fall through to online extraction.
-            if pose_feat.shape[0] != len(pil_images):
-                pose_feat = _extract_pose_for_frames(pil_images)
+            # if pose_feat.shape[0] != len(pil_images):
+            #     pose_feat = _extract_pose_for_frames(pil_images)
         else:
-            pose_feat = _extract_pose_for_frames(pil_images)
+            print(f"Failed to load {cache_path}")
+        #     pose_feat = _extract_pose_for_frames(pil_images)
+            pose_feat = torch.zeros(target_n, POSE_TOTAL_DIM)
 
         return {
             "pil_images": pil_images,
@@ -429,6 +433,11 @@ def _collate(batch: List[dict], processor, tokenizer, pose_tokens_per_frame: int
 
     B, orig_len = input_ids.shape
 
+    ### NEW Position
+    print(f"--- ALL KEYS PRESENT IN INPUTS: {list(inputs.keys())} ---")
+    if "position_ids" in inputs:
+        raise KeyError
+
     # Pose-block length per sample = N_frames_i * pose_tokens_per_frame
     pose_feat_padded, n_frames_per = _pad_pose_feat(batch)
     n_pose_per = [n * pose_tokens_per_frame for n in n_frames_per]
@@ -447,6 +456,9 @@ def _collate(batch: List[dict], processor, tokenizer, pose_tokens_per_frame: int
     has_mm   = "mm_token_type_ids" in inputs
     new_mm   = torch.zeros((B, new_len), dtype=inputs["mm_token_type_ids"].dtype) if has_mm else None
 
+    ## NEW Position
+    new_pos_ids = torch.zeros((4, B, new_len), dtype=torch.long, device=input_ids.device)
+
     pose_positions = []  # (start, end) per sample — used by the hook
     for i in range(B):
         ap = first_ans_positions[i]
@@ -459,16 +471,34 @@ def _collate(batch: List[dict], processor, tokenizer, pose_tokens_per_frame: int
         if has_mm:
             new_mm[i, :ap] = inputs["mm_token_type_ids"][i, :ap]
 
-        # Pose placeholders  [ap .. ap+n_pose_i)
-        new_ids[i, ps:pe]  = pad_id   # placeholder; replaced by hook
-        new_mask[i, ps:pe] = 1
-
         # Answer portion  [ap+n_pose_i ..)
         remaining = orig_len - ap
         new_ids[i, pe:pe + remaining]  = input_ids[i, ap:orig_len]
         new_mask[i, pe:pe + remaining] = inputs["attention_mask"][i, ap:orig_len]
         if has_mm:
             new_mm[i, pe:pe + remaining] = inputs["mm_token_type_ids"][i, ap:orig_len]
+
+        ## NEW Position
+        new_pos_ids[:, i, :ap] = torch.arange(ap, device=input_ids.device) ## Generate text positional
+
+        new_pos_ids[0, i, ps:pe] = torch.arange(ap, pe, device=input_ids.device)
+        n_frames = n_pose_i // pose_tokens_per_frame
+
+        # Temporal Layer
+        frame_indices = torch.arange(n_frames, device=input_ids.device)
+        new_pos_ids[1, i, ps:pe] = torch.repeat_interleave(frame_indices, pose_tokens_per_frame) ## Offset based off text tokens
+
+        # Y Layer
+        new_pos_ids[2, i, ps:pe] = 0
+
+        # X Layer
+        new_pos_ids[3, i, ps:pe] = torch.arange(pose_tokens_per_frame, device=input_ids.device).repeat(n_frames)
+
+        new_pos_ids[:, i, pe:pe + orig_len-ap] = torch.arange(ap, orig_len, device=input_ids.device).unsqueeze(0) + n_pose_i
+
+        # Pose placeholders  [ap .. ap+n_pose_i)
+        new_ids[i, ps:pe]  = pad_id   # placeholder; replaced by hook
+        new_mask[i, ps:pe] = 1
 
         # Labels: only answer tokens (shifted positions)
         nonpad = (input_ids[i] != pad_id).sum().item()
@@ -487,6 +517,7 @@ def _collate(batch: List[dict], processor, tokenizer, pose_tokens_per_frame: int
         "pose_positions":  pose_positions,
         "pose_feat":       pose_feat_padded,    # (B, N_max, feat_dim)
         "n_frames_per":    n_frames_per,        # used by the projection hook
+        "position_ids":    new_pos_ids, # NEW Position
     }
     if has_mm:
         result["mm_token_type_ids"] = new_mm
@@ -518,6 +549,11 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_tokens_per_frame:
 
     B, orig_len = input_ids.shape
 
+    ### NEW Position
+    print(f"--- ALL KEYS PRESENT IN INPUTS: {list(inputs.keys())} ---")
+    if "position_ids" in inputs:
+        raise KeyError
+
     pose_feat_padded, n_frames_per = _pad_pose_feat(batch)
     n_pose_per = [n * pose_tokens_per_frame for n in n_frames_per]
     n_pose_max = max(n_pose_per)
@@ -527,6 +563,9 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_tokens_per_frame:
     new_mask = torch.zeros((B, new_len), dtype=inputs["attention_mask"].dtype)
     has_mm   = "mm_token_type_ids" in inputs
     new_mm   = torch.zeros((B, new_len), dtype=inputs["mm_token_type_ids"].dtype) if has_mm else None
+
+    ## NEW Position
+    new_pos_ids = torch.zeros((4, B, new_len), dtype=torch.long, device=input_ids.device)
 
     pose_positions = []
     for i in range(B):
@@ -543,13 +582,31 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_tokens_per_frame:
         new_ids[i, ps:pe]  = pad_id
         new_mask[i, ps:pe] = 1
 
+        ## NEW Position
+        new_pos_ids[:, i, :ap] = torch.arange(ap, device=input_ids.device) ## Generate text positional
+
+        new_pos_ids[0, i, ps:pe] = torch.arange(ap, pe, device=input_ids.device)
+        n_frames = n_pose_i // pose_tokens_per_frame
+
+        # Temporal Layer
+        frame_indices = torch.arange(n_frames, device=input_ids.device)
+        new_pos_ids[1, i, ps:pe] = torch.repeat_interleave(frame_indices, pose_tokens_per_frame) + ap ## Offset based off text tokens
+
+        # Y Layer
+        new_pos_ids[2, i, ps:pe] = 0
+
+        # X Layer
+        new_pos_ids[3, i, ps:pe] = torch.arange(pose_tokens_per_frame, device=input_ids.device).repeat(n_frames)
+        
         rem = orig_len - ap
         if rem > 0:
             new_ids[i, pe:pe + rem]  = input_ids[i, ap:orig_len]
             new_mask[i, pe:pe + rem] = inputs["attention_mask"][i, ap:orig_len]
             if has_mm:
                 new_mm[i, pe:pe + rem] = inputs["mm_token_type_ids"][i, ap:orig_len]
-
+                
+            new_pos_ids[:, i, pe:pe + rem] = torch.arange(ap, orig_len, device=input_ids.device).unsqueeze(0) + n_pose_i
+            
         pose_positions.append((ps, pe))
 
     result = {
@@ -561,6 +618,7 @@ def _collate_gen(batch: List[dict], processor, tokenizer, pose_tokens_per_frame:
         "task_types":      [ex["task_type"] for ex in batch],
         "pose_feat":       pose_feat_padded,
         "n_frames_per":    n_frames_per,
+        "position_ids":    new_pos_ids, # NEW Position
     }
     if has_mm:
         result["mm_token_type_ids"] = new_mm
@@ -1001,6 +1059,8 @@ def train(args):
     # ── Pose projector ────────────────────────────────────────────────────────
     # Pose features are extracted online; the dim is fixed by the MediaPipe
     # landmark counts (33+478+21+21 keypoints * xyz = 1659).
+
+    # Sapiens keypoints + scores: (2 people * 133 keypoints * (xy + scores) = 798
     feat_dim = (resume_state["feat_dim"] if resume_state else None) or args.pose_feature_dim
     if feat_dim is None:
         feat_dim = POSE_TOTAL_DIM

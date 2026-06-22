@@ -1,0 +1,38 @@
+21:10:10 INFO WandB run: flowing-bush-22
+21:10:10 INFO Found resume checkpoint at /home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt (next_epoch=1)
+21:10:10 INFO Loading model: /home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt/model
+Loading weights: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 760/760 [00:02<00:00, 324.90it/s]
+21:10:15 INFO Compiling model with torch.compile …
+21:10:16 INFO Gradient checkpointing enabled.
+21:10:16 INFO Total params: 9,409,813,744  Trainable: 9,409,813,744
+21:10:16 INFO embed_device: cuda:0  lm_head_device: cuda:1
+21:10:17 INFO PoseFeatureProjector: 1659 → 4096  (23,580,672 params)
+[Dataset] Loading QVID …
+[Dataset] Loading Kinetics-400 …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/train …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/val …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/test …
+[Dataset] Loading HMDB51 …
+  [HMDB51] Building file index …
+  [train] total=13289  qvid=2342  kinetics=5600  hmdb51=5347
+  [val] total=1693  qvid=296  kinetics=700  hmdb51=697
+  [eval] total=1684  qvid=262  kinetics=700  hmdb51=722
+21:10:20 INFO MultiVideoDataset: 13244 examples loaded
+21:10:20 INFO MultiVideoDataset: 1693 examples loaded
+21:10:20 INFO Loading resume checkpoint from /home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt …
+21:10:45 INFO Resumed: next_epoch=1  global_step=130  best_val_loss=inf
+Epoch 1/3:   1%|▋                                                                                                                | 79/13244 [53:24<223:49:09, 61.20s/it, loss=1.5038, sft=0.2834]22:04:11 INFO epoch 1  step 140  loss 1.1359  sft 0.3299  pose 8.0602  backbone_lr 5.69e-06  proj_lr 5.69e-05
+Epoch 1/3:   1%|█▎                                                                                                            | 159/13244 [1:59:05<271:13:04, 74.62s/it, loss=0.4402, sft=0.0001]23:09:52 INFO epoch 1  step 150  loss 1.1871  sft 0.3591  pose 8.2801  backbone_lr 6.09e-06  proj_lr 6.09e-05
+Epoch 1/3:   2%|█▉                                                                                                            | 239/13244 [3:04:53<164:01:33, 45.41s/it, loss=0.9495, sft=0.0506]00:15:40 INFO epoch 1  step 160  loss 1.1378  sft 0.3405  pose 7.9734  backbone_lr 6.49e-06  proj_lr 6.49e-05
+Epoch 1/3:   2%|██▋                                                                                                           | 319/13244 [4:07:08<172:01:24, 47.91s/it, loss=2.2186, sft=1.5385]01:17:55 INFO epoch 1  step 170  loss 1.1682  sft 0.4229  pose 7.4524  backbone_lr 6.90e-06  proj_lr 6.90e-05
+Epoch 1/3:   3%|███▎                                                                                                          | 399/13244 [5:02:48<292:41:41, 82.03s/it, loss=1.6217, sft=0.4096]02:13:35 INFO epoch 1  step 180  loss 1.2275  sft 0.4697  pose 7.5780  backbone_lr 7.30e-06  proj_lr 7.30e-05
+Epoch 1/3:   4%|████                                                                                                           | 479/13244 [5:59:38<88:57:38, 25.09s/it, loss=0.3640, sft=0.0350]03:10:26 INFO epoch 1  step 190  loss 1.1659  sft 0.3658  pose 8.0015  backbone_lr 7.70e-06  proj_lr 7.70e-05
+Epoch 1/3:   4%|████▋                                                                                                         | 559/13244 [6:55:26<111:45:09, 31.72s/it, loss=0.3562, sft=0.0020]04:06:13 INFO Saving resume checkpoint to /home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt …
+Writing model shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:34<00:00, 34.14s/it]
+04:07:40 INFO Resume checkpoint saved (next_epoch=1, global_step=200)██████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:34<00:00, 34.13s/it]
+04:07:40 INFO epoch 1  step 200  loss 1.1524  sft 0.4103  pose 7.4206  backbone_lr 8.10e-06  proj_lr 8.10e-05
+Epoch 1/3:   5%|█████▎                                                                                                        | 639/13244 [8:05:19<205:47:31, 58.77s/it, loss=0.4529, sft=0.0021]05:16:06 INFO epoch 1  step 210  loss 1.1114  sft 0.3515  pose 7.5986  backbone_lr 8.51e-06  proj_lr 8.51e-05
+Epoch 1/3:   5%|█████▉                                                                                                        | 719/13244 [9:16:15<131:42:44, 37.86s/it, loss=1.8932, sft=0.4012]06:27:03 INFO epoch 1  step 220  loss 1.0748  sft 0.3831  pose 6.9168  backbone_lr 8.91e-06  proj_lr 8.91e-05
+Epoch 1/3:   6%|██████▌                                                                                                      | 799/13244 [10:16:08<249:10:32, 72.08s/it, loss=0.2942, sft=0.0003]07:26:55 INFO epoch 1  step 230  loss 1.1322  sft 0.4180  pose 7.1420  backbone_lr 9.31e-06  proj_lr 9.31e-05
+Epoch 1/3:   7%|███████▏                                                                                                     | 879/13244 [11:08:33<111:50:20, 32.56s/it, loss=1.4629, sft=0.8617]08:19:20 INFO epoch 1  step 240  loss 0.9420  sft 0.3105  pose 6.3150  backbone_lr 9.72e-06  proj_lr 9.72e-05
+Epoch 1/3:   7%|███████▎                                                                                                     | 894/13244 [11:21:27<185:23:34, 54.04s/it, loss=0.4026, sft=0.0007]

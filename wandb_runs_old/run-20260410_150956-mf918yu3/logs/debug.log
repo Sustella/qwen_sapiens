@@ -1,0 +1,21 @@
+2026-04-10 15:09:56,819 INFO    MainThread:3607081 [wandb_setup.py:_flush():81] Current SDK version is 0.25.1
+2026-04-10 15:09:56,820 INFO    MainThread:3607081 [wandb_setup.py:_flush():81] Configure stats pid to 3607081
+2026-04-10 15:09:56,820 INFO    MainThread:3607081 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-04-10 15:09:56,820 INFO    MainThread:3607081 [wandb_init.py:setup_run_log_directory():717] Logging user logs to /orcd/home/002/ixzhu/qwen_model/wandb/run-20260410_150956-mf918yu3/logs/debug.log
+2026-04-10 15:09:56,820 INFO    MainThread:3607081 [wandb_init.py:setup_run_log_directory():718] Logging internal logs to /orcd/home/002/ixzhu/qwen_model/wandb/run-20260410_150956-mf918yu3/logs/debug-internal.log
+2026-04-10 15:09:56,820 INFO    MainThread:3607081 [wandb_init.py:init():844] calling init triggers
+2026-04-10 15:09:56,820 INFO    MainThread:3607081 [wandb_init.py:init():849] wandb.init called with sweep_config: {}
+config: {'model_name': 'Qwen/Qwen3.5-9B', 'output_dir': '/orcd/compute/ppliang/001/qwen_multi', 'resume_ckpt': '/home/ixzhu/orcd/scratch/qwen_pose/run3/resume_ckpt', 'pose_feature_dim': None, 'pose_sample_n': 16, 'fps': 2.0, 'max_frames': 8, 'seed': 42, 'num_workers': 4, 'num_epochs': 3, 'batch_size': 1, 'grad_accum': 8, 'backbone_lr': 1e-05, 'lr': 0.0001, 'weight_decay': 0.05, 'warmup_ratio': 0.05, 'max_grad_norm': 1.0, 'pose_loss_weight': 0.1, 'gradient_checkpointing': True, 'torch_compile': True, 'save_full_model': False, 'save_steps': 13, 'log_steps': 10, 'wandb_project': 'qwen-multi-video-2', 'wandb_run_name': None, 'no_wandb': False, '_wandb': {}}
+2026-04-10 15:09:56,820 INFO    MainThread:3607081 [wandb_init.py:init():892] starting backend
+2026-04-10 15:09:57,101 INFO    MainThread:3607081 [wandb_init.py:init():895] sending inform_init request
+2026-04-10 15:09:57,106 INFO    MainThread:3607081 [wandb_init.py:init():903] backend started and connected
+2026-04-10 15:09:57,107 INFO    MainThread:3607081 [wandb_init.py:init():973] updated telemetry
+2026-04-10 15:09:57,122 INFO    MainThread:3607081 [wandb_init.py:init():997] communicating run to backend with 90.0 second timeout
+2026-04-10 15:09:57,610 INFO    MainThread:3607081 [wandb_init.py:init():1042] starting run threads in backend
+2026-04-10 15:09:57,969 INFO    MainThread:3607081 [wandb_run.py:_console_start():2524] atexit reg
+2026-04-10 15:09:57,969 INFO    MainThread:3607081 [wandb_run.py:_redirect():2373] redirect: wrap_raw
+2026-04-10 15:09:57,969 INFO    MainThread:3607081 [wandb_run.py:_redirect():2442] Wrapping output streams.
+2026-04-10 15:09:57,969 INFO    MainThread:3607081 [wandb_run.py:_redirect():2465] Redirects installed.
+2026-04-10 15:09:57,973 INFO    MainThread:3607081 [wandb_init.py:init():1082] run started, returning control to user process
+2026-04-10 16:48:58,140 INFO    wandb-AsyncioManager-main:3607081 [service_client.py:_forward_responses():134] Reached EOF.
+2026-04-10 16:48:58,140 INFO    wandb-AsyncioManager-main:3607081 [mailbox.py:close():155] Closing mailbox, abandoning 1 handles.

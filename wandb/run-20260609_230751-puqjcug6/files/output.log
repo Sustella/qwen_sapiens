@@ -1,0 +1,132 @@
+23:07:52 INFO WandB run: apricot-deluge-2
+23:07:52 INFO Found resume checkpoint at /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1 (next_epoch=1)
+23:07:52 INFO Loading model: Qwen/Qwen3.5-9B
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+23:07:52 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+23:07:52 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 4 files: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 2483.31it/s]
+Download complete: : 0.00B [00:00, ?B/s]                                                                                                                                                                                              | 0/4 [00:00<?, ?it/s]
+[transformers] The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 760/760 [00:00<00:00, 8451.50it/s]
+23:07:52 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:53 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.jinja "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/chat_template.jinja "HTTP/1.1 200 OK"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:53 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+23:07:54 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:54 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+23:07:54 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+23:07:54 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+23:07:54 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+23:07:54 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+23:07:54 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:54 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:54 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:54 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:55 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+23:07:55 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:55 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:55 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+23:07:55 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+23:07:55 INFO Gradient checkpointing enabled.
+23:07:55 INFO Total params: 9,409,813,744
+23:07:55 INFO PoseFeatureProjector: 1659 → 4096 × 8 tokens/frame  (141,049,856 params)
+[Dataset] Loading QVID …
+[Dataset] Loading Kinetics-400 …
+  [Kinetics] Indexing /home/stellasu/scratch/stellasu/long_video_datasets/short_video/kinetics-dataset/k400/train …
+  [Kinetics] Indexing /home/stellasu/scratch/stellasu/long_video_datasets/short_video/kinetics-dataset/k400/val …
+  [Kinetics] Indexing /home/stellasu/scratch/stellasu/long_video_datasets/short_video/kinetics-dataset/k400/test …
+[Dataset] Loading HMDB51 …
+  [HMDB51] Building file index …
+  [train] total=13289  qvid=2342  kinetics=5600  hmdb51=5347
+  [val] total=1693  qvid=296  kinetics=700  hmdb51=697
+  [eval] total=1684  qvid=262  kinetics=700  hmdb51=722
+Scanning train videos: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13289/13289 [00:45<00:00, 293.63it/s]
+23:08:44 WARNING MultiVideoDataset: dropped 45 / 13289 unreadable videos
+23:08:44 INFO MultiVideoDataset: 13244 examples loaded — 13244 cached, 0 will be extracted online
+Scanning val videos: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1693/1693 [00:05<00:00, 304.12it/s]
+23:08:50 INFO MultiVideoDataset: 1693 examples loaded — 1693 cached, 0 will be extracted online
+[stage] accelerator.prepare(model, projector, loaders) — FSDP wrap …
+[stage] accelerator.prepare(model, …) done.
+[stage] accelerator.prepare(optimizers, schedulers) …
+[stage] accelerator.prepare(optimizers, …) done.
+23:08:56 INFO [RANK 0] Loading states from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state
+23:08:56 INFO [RANK 0] Loading FSDP model
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/fully_sharded_data_parallel.py:821: FutureWarning: FSDP.state_dict_type() and FSDP.set_state_dict_type() are being deprecated. Please use APIs, get_state_dict() and set_state_dict(), which can support different parallelisms, FSDP1, FSDP2, DDP. API doc: https://pytorch.org/docs/stable/distributed.checkpoint.html#torch.distributed.checkpoint.state_dict.get_state_dict .Tutorial: https://pytorch.org/tutorials/recipes/distributed_checkpoint_recipe.html .
+  prev_state_dict_settings = FullyShardedDataParallel.set_state_dict_type(
+23:08:56 INFO [RANK 0] Loading model from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/pytorch_model_fsdp_0
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_shard_utils.py:58: UserWarning: `_get_pg_default_device` will be deprecated, it only stays for backward-compatibility reason. If you need to find a device for object collectives, please use `_get_object_coll_device`. If you need to query the device types supported by group, please use `_device_capability(group)`.
+  distributed_c10d._get_pg_default_device(pg).type
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_shard_utils.py:58: UserWarning: Multiple backends are registered with this ProcessGroup. We cannot determine which one is the default. Returning cpu. Please consider using other APIs.
+  distributed_c10d._get_pg_default_device(pg).type
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_state_dict_utils.py:732: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  local_shape = tensor.shape
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_state_dict_utils.py:749: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  tensor.shape,
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_state_dict_utils.py:751: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  tensor.dtype,
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/checkpoint/planner_helpers.py:489: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  device = getattr(value, "device", None)
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/checkpoint/default_planner.py:483: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  and md.size != obj.size()
+23:09:00 INFO [RANK 0] Model loaded from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/pytorch_model_fsdp_0
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_state_dict_utils.py:634: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  param_numel = param.size().numel()
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_state_dict_utils.py:635: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  dim_0_size = param.size()[0]
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/_state_dict_utils.py:661: FutureWarning: Please use DTensor instead and we are deprecating ShardedTensor.
+  tensor = tensor.narrow(0, 0, param_numel).reshape(param.size())
+/home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/lib/python3.10/site-packages/torch/distributed/fsdp/fully_sharded_data_parallel.py:828: FutureWarning: FSDP.state_dict_type() and FSDP.set_state_dict_type() are being deprecated. Please use APIs, get_state_dict() and set_state_dict(), which can support different parallelisms, FSDP1, FSDP2, DDP. API doc: https://pytorch.org/docs/stable/distributed.checkpoint.html#torch.distributed.checkpoint.state_dict.get_state_dict .Tutorial: https://pytorch.org/tutorials/recipes/distributed_checkpoint_recipe.html .
+  FullyShardedDataParallel.set_state_dict_type(
+23:09:01 INFO [RANK 0] FSDP Model loaded from input dir /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state
+23:09:01 INFO [RANK 0] Loading FSDP model
+23:09:01 INFO [RANK 0] Loading model from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/pytorch_model_fsdp_1
+23:09:01 INFO [RANK 0] Model loaded from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/pytorch_model_fsdp_1
+23:09:01 INFO [RANK 0] FSDP Model loaded from input dir /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state
+23:09:01 INFO [RANK 0] Loading FSDP Optimizer
+23:09:01 INFO [RANK 0] Loading Optimizer from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/optimizer_0
+23:09:01 INFO [RANK 0] Optimizer loaded from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/optimizer_0
+23:09:01 INFO [RANK 0] FSDP Optimizer loaded from input dir /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state
+23:09:01 INFO [RANK 0] Loading FSDP Optimizer
+23:09:01 INFO [RANK 0] Loading Optimizer from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/optimizer_1
+23:09:01 INFO [RANK 0] Optimizer loaded from /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state/optimizer_1
+23:09:01 INFO [RANK 0] FSDP Optimizer loaded from input dir /home/stellasu/scratch/stellasu/qwen_mediapipe/checkpoints/run1/accel_state
+23:09:01 INFO [RANK 0] All model weights loaded successfully
+23:09:01 INFO [RANK 0] All optimizer states loaded successfully
+23:09:01 INFO [RANK 0] All scheduler states loaded successfully
+23:09:01 INFO [RANK 0] All dataloader sampler states loaded successfully
+23:09:01 INFO [RANK 0] All random states loaded successfully
+23:09:01 INFO [RANK 0] Loading in 0 custom states
+23:09:01 INFO Resumed: next_epoch=1  global_step=10  step_in_epoch=40  best_val_loss=inf
+23:09:01 INFO Initializing FSDP …
+[transformers] `use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`.
+23:09:02 INFO Skipping first 40 batches of epoch 1
+Epoch 1/2:   2%|███▌                                                                                                                                                                                      | 63/3311 [04:20<11:25:54, 12.67s/it, loss=0.7254]

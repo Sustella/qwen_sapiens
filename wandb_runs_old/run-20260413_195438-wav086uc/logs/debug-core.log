@@ -1,0 +1,8 @@
+{"time":"2026-04-13T19:54:38.987264766-04:00","level":"INFO","msg":"main: starting server","port-filename":"/home/ixzhu/orcd/pool/tmp/tmps4v9xb4p/port-3360718.txt","pid":3360718,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-04-13T19:54:38.988279976-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":3360718}
+{"time":"2026-04-13T19:54:38.988272978-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/home/ixzhu/orcd/pool/tmp/wandb-3360718-3360776-3106164716/socket","Net":"unix"}}
+{"time":"2026-04-13T19:54:39.163612014-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-04-13T19:54:39.170923474-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"wav086uc","id":"1(@)"}
+{"time":"2026-04-13T19:54:39.428905875-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"wav086uc","id":"1(@)"}
+{"time":"2026-04-13T19:54:45.603560783-04:00","level":"INFO","msg":"connection: cancelling request","id":"1(@)","requestId":"9oslqv34reo4"}
+{"time":"2026-04-13T19:57:34.607932344-04:00","level":"INFO","msg":"server: parent process exited, terminating service process"}

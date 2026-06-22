@@ -1,0 +1,183 @@
+_wandb:
+    value:
+        cli_version: 0.27.2
+        e:
+            ssyhfcl2nh3db6lk0f9cojuhnsbsvrwh:
+                args:
+                    - --model_name
+                    - Qwen/Qwen3.5-9B
+                    - --output_dir
+                    - /home/stellasu/scratch/stellasu/qwen_custom/output/test
+                    - --resume_ckpt
+                    - /home/stellasu/scratch/stellasu/qwen_custom/checkpoints/test
+                    - --log_dir
+                    - /home/stellasu/scratch/stellasu/qwen_custom/logs/test
+                    - --pose_tokens_per_frame
+                    - "16"
+                    - --max_frames
+                    - "16"
+                    - --num_epochs
+                    - "3"
+                    - --batch_size
+                    - "1"
+                    - --grad_accum
+                    - "4"
+                    - --lr
+                    - "1e-4"
+                    - --weight_decay
+                    - "0.05"
+                    - --warmup_ratio
+                    - "0.1"
+                    - --log_steps
+                    - "10"
+                    - --wandb_project
+                    - qwen-sapiens
+                codePath: train.py
+                codePathLocal: train.py
+                cpu_count: 64
+                cpu_count_logical: 128
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "931234627584"
+                        used: "734240149504"
+                email: stellaktsu@gmail.com
+                executable: /home/stellasu/scratch/stellasu/miniconda3/envs/qwen_sapiens/bin/python
+                git:
+                    commit: d8ecdbc203a995d156f4ed9e1937b92146b682f5
+                    remote: https://github.com/iz05/qwen_custom.git
+                gpu: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                gpu_count: 8
+                gpu_nvidia:
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-610d2053-81e2-7ed3-97b6-67c7a438b0f9
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-05de2d81-6754-b7b5-783c-bfbc9c0b835c
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-83f7af2c-b182-ec47-4acb-1515b41ff535
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-8699248c-95e2-6e94-f681-189546dd027f
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-4470edaa-bfc7-7407-a916-49ab62b97bb4
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-4cc79eb2-5208-5af7-167c-5f7c694196b7
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-36887cd5-d132-ef47-8250-6bf20f07638f
+                    - architecture: Blackwell
+                      cudaCores: 24064
+                      memoryTotal: "102641958912"
+                      name: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition
+                      uuid: GPU-b5c69f4c-95d2-c6de-5980-4366814cfe9b
+                host: mib
+                memory:
+                    total: "1623020122112"
+                os: Linux-6.8.0-79-generic-x86_64-with-glibc2.39
+                program: /home/stellasu/qwen_model/train.py
+                python: CPython 3.10.20
+                root: /home/stellasu/qwen_model
+                startedAt: "2026-06-22T02:37:25.890895Z"
+                writerId: ssyhfcl2nh3db6lk0f9cojuhnsbsvrwh
+        m: []
+        python_version: 3.10.20
+        t:
+            "1":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 71
+            "2":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 71
+            "3":
+                - 16
+                - 61
+            "4": 3.10.20
+            "5": 0.27.2
+            "6": 5.10.2
+            "12": 0.27.2
+            "13": linux-x86_64
+backbone_lr:
+    value: 1e-05
+batch_size:
+    value: 1
+fps:
+    value: 1
+grad_accum:
+    value: 4
+gradient_checkpointing:
+    value: true
+log_dir:
+    value: /home/stellasu/scratch/stellasu/qwen_custom/logs/test
+log_steps:
+    value: 10
+lr:
+    value: 0.0001
+max_frames:
+    value: 16
+max_grad_norm:
+    value: 1
+model_name:
+    value: Qwen/Qwen3.5-9B
+no_wandb:
+    value: false
+num_epochs:
+    value: 3
+num_workers:
+    value: 4
+output_dir:
+    value: /home/stellasu/scratch/stellasu/qwen_custom/output/test
+pose_feature_dim:
+    value: null
+pose_loss_weight:
+    value: 0.1
+pose_tokens_per_frame:
+    value: 16
+resume_ckpt:
+    value: /home/stellasu/scratch/stellasu/qwen_custom/checkpoints/test
+save_full_model:
+    value: true
+save_steps:
+    value: 10
+seed:
+    value: 42
+torch_compile:
+    value: false
+val_max_new_tokens:
+    value: 32
+val_max_samples:
+    value: 200
+val_steps:
+    value: 10
+wandb_project:
+    value: qwen-sapiens
+wandb_run_name:
+    value: null
+warmup_ratio:
+    value: 0.1
+weight_decay:
+    value: 0.05

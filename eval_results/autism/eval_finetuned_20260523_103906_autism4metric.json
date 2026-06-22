@@ -1,0 +1,63 @@
+{
+  "source_json": "/orcd/compute/ppliang/001/qwen_autism/results/eval_finetuned_20260523_103906.json",
+  "timestamp": "20260523_103906",
+  "args": {
+    "from_json": null,
+    "mode": "finetuned",
+    "checkpoint": "/orcd/compute/ppliang/001/qwen_autism_v2/best",
+    "base_model": "Qwen/Qwen3.5-9B",
+    "pretrained_model": "Qwen/Qwen3.5-9B",
+    "max_new_tokens": 64,
+    "max_samples": null,
+    "batch_size": 1,
+    "fps": 2.0,
+    "max_frames": 32,
+    "pose_tokens_per_frame": 16,
+    "output_dir": "/orcd/compute/ppliang/001/qwen_autism/results"
+  },
+  "metrics": [
+    "strict",
+    "f1",
+    "hamming",
+    "balanced_acc"
+  ],
+  "finetuned": {
+    "total": 155,
+    "overall_strict": 0.36129032258064514,
+    "overall_f1": 0.6170814132104455,
+    "overall_hamming": 0.8537634408602142,
+    "overall_balanced_acc": 0.7722132616487458,
+    "by_dataset": {
+      "av_asd": {
+        "strict": 0.3356643356643357,
+        "f1": 0.612920412920413,
+        "hamming": 0.8694638694638684,
+        "balanced_acc": 0.7810703185703189,
+        "total": 143
+      },
+      "scrape_asd": {
+        "strict": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "hamming": 0.6666666666666666,
+        "balanced_acc": 0.6666666666666666,
+        "total": 12
+      }
+    },
+    "by_task_type": {
+      "multiple_choice": {
+        "strict": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "hamming": 0.6666666666666666,
+        "balanced_acc": 0.6666666666666666,
+        "total": 12
+      },
+      "open_ended": {
+        "strict": 0.3356643356643357,
+        "f1": 0.612920412920413,
+        "hamming": 0.8694638694638684,
+        "balanced_acc": 0.7810703185703189,
+        "total": 143
+      }
+    }
+  }
+}

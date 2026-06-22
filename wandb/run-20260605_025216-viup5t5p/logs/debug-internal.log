@@ -1,0 +1,18 @@
+{"time":"2026-06-05T02:52:16.4497607-04:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-05T02:52:16.450225005-04:00","level":"INFO","msg":"stream: starting","core version":"0.27.1"}
+{"time":"2026-06-05T02:52:16.748595361-04:00","level":"INFO","msg":"stream: created new stream","id":"viup5t5p"}
+{"time":"2026-06-05T02:52:16.748706207-04:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-05T02:52:16.748840027-04:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-05T02:52:16.748885676-04:00","level":"INFO","msg":"writer: started","stream_id":"viup5t5p"}
+{"time":"2026-06-05T02:52:16.748904935-04:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-05T02:52:17.346003461-04:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-05T02:52:17.485580988-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-05T02:52:32.346597948-04:00","level":"INFO","msg":"filestream: sending request","total_files":2,"events_offset":0,"events_lines":1,"console_offset":1,"console_lines":69,"uploaded_len":2}
+{"time":"2026-06-05T02:52:32.52720737-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-05T02:52:37.390860082-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-06-05T02:52:37.391088354-04:00","level":"INFO","msg":"filestream: sending request","total_files":3,"events_offset":1,"events_lines":1,"console_offset":70,"console_lines":31,"uploaded_len":3,"complete":true,"exit_code":1}
+{"time":"2026-06-05T02:52:37.521552327-04:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-05T02:52:37.521796994-04:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-06-05T02:52:37.521851826-04:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-06-05T02:52:37.52195474-04:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-06-05T02:52:37.521965977-04:00","level":"INFO","msg":"stream: all finished"}

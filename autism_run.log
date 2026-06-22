@@ -1,0 +1,36 @@
+20:11:20 INFO Logging to /orcd/compute/ppliang/001/qwen_autism/logs/run_20260519_201120.log
+20:11:20 INFO Accelerator: num_processes=4  device=cuda:0
+20:11:22 INFO WandB run: absurd-bird-1
+20:11:22 INFO Loading model: /orcd/compute/ppliang/001/qwen_multi_new/best/model
+20:11:23 WARNING HF checkpoint at /orcd/compute/ppliang/001/qwen_multi_new/best/model/model.safetensors has 759 keys that do not match model architecture — rewriting nested prefixes and reloading.
+20:12:22 INFO HF checkpoint key repair complete — all 760 keys loaded.
+20:12:39 INFO Gradient checkpointing enabled.
+20:12:39 INFO Total params: 9,409,813,744
+20:12:39 INFO Using pose_feature_dim = 1659 (MediaPipe pose+face+L_hand+R_hand)
+20:12:44 INFO PoseFeatureProjector: 1659 → 4096 × 16 tokens/frame  (275,300,352 params)
+20:12:44 INFO Loading pose projector init weights from /orcd/compute/ppliang/001/qwen_multi_new/best/pose_projector.pt
+20:12:45 INFO Projector init: all 4 keys loaded.
+20:12:56 WARNING MultiVideoDataset: dropped 161 / 554 unreadable videos
+20:12:56 INFO [Scanning train videos] final filtered list: 393 examples (from 554 input samples)
+20:12:58 WARNING MultiVideoDataset: dropped 35 / 162 unreadable videos
+20:12:58 INFO [Scanning val videos] final filtered list: 127 examples (from 162 input samples)
+20:12:58 INFO MultiVideoDataset: 393 examples loaded — 393 cached, 0 will be extracted online
+20:12:58 INFO MultiVideoDataset: 127 examples loaded — 127 cached, 0 will be extracted online
+20:13:33 INFO Initializing FSDP …
+20:13:55 INFO ==============================================================================
+20:13:55 INFO   SANITY CHECK — one av_asd sample (BEFORE training)
+20:13:55 INFO ==============================================================================
+20:13:55 INFO   question     : This clip is from an autism-related context. Below are the definitions of autism-related behaviors: ⏎  ⏎ Absence or Avoidance of Eye Contact – minimal or no gaze toward a social partner. ⏎ Aggressive Behavior – acts of physical or verbal harm toward others. ⏎ Hyper- or Hyporeactivity to Sensory Input – unus…
+20:13:55 INFO   ground truth : Self-Hitting or Self-Injurious Behavior, Upper Limb Stereotypies
+20:13:55 INFO   prediction   : Upper Limb Stereotypies
+20:13:55 INFO   sequence len : 6529 tokens   (n_valid for loss: 19)
+20:13:55 INFO   loss (chunked, chunk_size=1024) : 0.172784
+20:13:55 INFO   loss (reference, no chunk)    : 0.172784
+20:13:55 INFO   abs diff chunked vs reference : 0.00e+00  → OK (matches)
+20:13:55 INFO   log(vocab=248320) = 12.4225  (random-model baseline)
+20:13:55 INFO ==============================================================================
+20:16:28 WARNING OOM at iter 1 (rank 0): CUDA out of memory. Tried to allocate 30.79 GiB. GPU 0 has a total capacity of 139.80 GiB of which 27.66 GiB is free. Including non-PyTorch memory, this process has 112.14 GiB memory in use. Of the al
+20:16:28 WARNING Skipped iter 1 due to OOM (consecutive: 1, max allowed: 10).
+20:56:41 INFO Saving resume checkpoint to /orcd/compute/ppliang/001/qwen_autismr/resume_ckpt …
+20:56:42 INFO [RANK 0] Saving current state to /orcd/compute/ppliang/001/qwen_autismr/resume_ckpt/accel_state
+20:56:42 INFO [RANK 0] Saving FSDP model

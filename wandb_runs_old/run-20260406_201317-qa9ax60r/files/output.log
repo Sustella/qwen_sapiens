@@ -1,0 +1,96 @@
+20:13:19 INFO WandB run: misty-forest-1
+20:13:19 INFO Loading model: Qwen/Qwen3.5-9B
+20:13:19 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:19 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+20:13:19 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+20:13:19 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/model.safetensors.index.json "HTTP/1.1 307 Temporary Redirect"
+20:13:19 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/model.safetensors.index.json "HTTP/1.1 200 OK"
+20:13:19 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/revision/main "HTTP/1.1 200 OK"
+Fetching 4 files: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 40920.04it/s]
+Download complete: : 0.00B [00:00, ?B/s]                                                                                                                                                                     | 0/4 [00:00<?, ?it/s]
+Loading weights: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 427/427 [00:03<00:00, 140.18it/s]
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:23 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:13:23 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.json "HTTP/1.1 404 Not Found"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.jinja "HTTP/1.1 307 Temporary Redirect"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/chat_template.jinja "HTTP/1.1 200 OK"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/config.json "HTTP/1.1 200 OK"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:24 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/tokenizer_config.json "HTTP/1.1 200 OK"
+20:13:24 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+20:13:24 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+20:13:26 INFO HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3.5-9B "HTTP/1.1 200 OK"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/video_preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/video_preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+20:13:26 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen3.5-9B/c202236235762e1c871ad0ccb60c8ee5ba337b9a/preprocessor_config.json "HTTP/1.1 200 OK"
+20:13:26 INFO Gradient checkpointing enabled.
+20:13:26 INFO Total params: 8,953,803,264  Trainable: 8,953,803,264
+20:13:26 INFO embed_device: cuda:0  lm_head_device: cuda:1
+[Dataset] Loading QVID …
+[Dataset] Loading Kinetics-400 …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/train …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/val …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/test …
+[Dataset] Loading HMDB51 …
+  [HMDB51] Building file index …
+  [train] total=13289  qvid=2342  kinetics=5600  hmdb51=5347
+  [val] total=1693  qvid=296  kinetics=700  hmdb51=697
+  [eval] total=1684  qvid=262  kinetics=700  hmdb51=722
+20:13:30 INFO Auto-detected pose_feature_dim = 1659
+20:13:30 INFO PoseFeatureProjector: 1659 → 4096  (23,580,672 params)
+[Dataset] Loading QVID …
+[Dataset] Loading Kinetics-400 …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/train …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/val …
+  [Kinetics] Indexing /orcd/compute/ppliang/001/long_video_datasets/short_video/kinetics-dataset/k400/test …
+[Dataset] Loading HMDB51 …
+  [HMDB51] Building file index …
+  [train] total=13289  qvid=2342  kinetics=5600  hmdb51=5347
+  [val] total=1693  qvid=296  kinetics=700  hmdb51=697
+  [eval] total=1684  qvid=262  kinetics=700  hmdb51=722
+20:13:34 INFO MultiVideoDataset: 13244 examples loaded
+20:13:34 INFO MultiVideoDataset: 1693 examples loaded
+Epoch 1/3:   1%|▉                                                                                                                                                   | 79/13244 [10:47<49:56:40, 13.66s/it, loss=5.0650, sft=3.8256]20:24:22 INFO epoch 1  step 10  loss 2.7815  sft 1.5402  pose 12.4127  backbone_lr 4.44e-07  proj_lr 4.44e-06
+Epoch 1/3:   1%|█▊                                                                                                                                                 | 159/13244 [19:35<30:33:20,  8.41s/it, loss=5.3794, sft=4.1393]20:33:09 INFO epoch 1  step 20  loss 2.8084  sft 1.5684  pose 12.3998  backbone_lr 8.47e-07  proj_lr 8.47e-06
+Epoch 1/3:   2%|██▋                                                                                                                                                | 239/13244 [30:08<58:20:56, 16.15s/it, loss=3.2882, sft=2.0468]20:43:43 INFO epoch 1  step 30  loss 2.5579  sft 1.3225  pose 12.3534  backbone_lr 1.25e-06  proj_lr 1.25e-05
+Epoch 1/3:   2%|██▋                                                                                                                                                | 243/13244 [30:50<27:30:20,  7.62s/it, loss=3.5231, sft=2.2821]
+Traceback (most recent call last):
+  File "/orcd/home/002/ixzhu/qwen_model/train.py", line 759, in <module>
+    train(parse_args())
+  File "/orcd/home/002/ixzhu/qwen_model/train.py", line 479, in train
+    (loss / args.grad_accum).backward()
+  File "/home/ixzhu/miniconda3/envs/qwen35/lib/python3.11/site-packages/torch/_tensor.py", line 625, in backward
+    torch.autograd.backward(
+  File "/home/ixzhu/miniconda3/envs/qwen35/lib/python3.11/site-packages/torch/autograd/__init__.py", line 354, in backward
+    _engine_run_backward(
+  File "/home/ixzhu/miniconda3/envs/qwen35/lib/python3.11/site-packages/torch/autograd/graph.py", line 841, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 17.16 GiB. GPU 1 has a total capacity of 139.80 GiB of which 9.54 GiB is free. Including non-PyTorch memory, this process has 130.25 GiB memory in use. Of the allocated memory 96.96 GiB is allocated by PyTorch, and 32.56 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

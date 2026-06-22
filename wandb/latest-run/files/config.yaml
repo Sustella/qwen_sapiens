@@ -1,0 +1,139 @@
+_wandb:
+    value:
+        cli_version: 0.25.1
+        e:
+            opndi1wadsc1bqdhmi8d4ukvvuvmgbmb:
+                codePath: train.py
+                codePathLocal: train.py
+                cpu_count: 120
+                cpu_count_logical: 240
+                cudaVersion: "13.1"
+                disk:
+                    /:
+                        total: "944364355584"
+                        used: "36694614016"
+                email: ixzhu@mit.edu
+                executable: /home/ixzhu/miniconda3/envs/qwen35/bin/python
+                git:
+                    commit: 6de53940f8e112ca1e3d482e55421399f5504f14
+                    remote: https://github.com/iz05/qwen_custom.git
+                gpu: NVIDIA H200
+                gpu_count: 4
+                gpu_nvidia:
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-fa5f10d8-1bed-bc42-9ce0-a372ae1b1bad
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-c59e3f2c-1e1d-0c9b-773c-c936d8ed4111
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-8cfb670a-b01e-9066-3526-a7b03ed41a32
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-533bb7f3-c043-cd9e-cdc9-79f00629c10a
+                host: node2500
+                memory:
+                    total: "2163439611904"
+                os: Linux-4.18.0-372.9.1.el8.x86_64-x86_64-with-glibc2.28
+                program: /orcd/home/002/ixzhu/qwen_model/train.py
+                python: CPython 3.11.14
+                root: /orcd/home/002/ixzhu/qwen_model
+                slurm:
+                    job_id: "13231005"
+                startedAt: "2026-05-04T13:23:35.872093Z"
+                writerId: opndi1wadsc1bqdhmi8d4ukvvuvmgbmb
+        m: []
+        python_version: 3.11.14
+        t:
+            "1":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 71
+                - 105
+            "2":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 51
+                - 71
+                - 105
+            "3":
+                - 16
+                - 61
+            "4": 3.11.14
+            "5": 0.25.1
+            "6": 5.5.0.dev0
+            "12": 0.25.1
+            "13": linux-x86_64
+backbone_lr:
+    value: 1e-05
+batch_size:
+    value: 1
+fps:
+    value: 1
+grad_accum:
+    value: 8
+gradient_checkpointing:
+    value: true
+log_dir:
+    value: /orcd/compute/ppliang/001/qwen_multi_new/logs
+log_steps:
+    value: 10
+lr:
+    value: 0.0001
+max_frames:
+    value: 16
+max_grad_norm:
+    value: 1
+model_name:
+    value: Qwen/Qwen3.5-9B
+no_wandb:
+    value: false
+num_epochs:
+    value: 3
+num_workers:
+    value: 4
+output_dir:
+    value: /orcd/compute/ppliang/001/qwen_multi_new
+pose_feature_dim:
+    value: null
+pose_loss_weight:
+    value: 0.1
+pose_tokens_per_frame:
+    value: 16
+resume_ckpt:
+    value: /orcd/compute/ppliang/001/qwen_multi_new/resume_ckpt
+save_full_model:
+    value: true
+save_steps:
+    value: 10
+seed:
+    value: 42
+torch_compile:
+    value: false
+val_max_new_tokens:
+    value: 32
+val_max_samples:
+    value: 200
+val_steps:
+    value: 10
+wandb_project:
+    value: qwen-multi-video
+wandb_run_name:
+    value: null
+warmup_ratio:
+    value: 0.05
+weight_decay:
+    value: 0.05
