@@ -1,1 +1,0 @@
-{"train/proj_lr":1.25e-05,"train/sft_loss":1.3225260700564831,"_runtime":1866.452922328,"_timestamp":1.7755226232554798e+09,"train/pose_loss":12.353429400920868,"epoch":1,"_wandb":{"runtime":1866},"_step":30,"train/loss":2.557869020104408,"train/backbone_lr":1.25e-06}

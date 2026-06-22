@@ -1,7 +1,0 @@
-{"time":"2026-04-13T21:10:09.053646762-04:00","level":"INFO","msg":"main: starting server","port-filename":"/home/ixzhu/orcd/pool/tmp/tmp2ji59d9n/port-3391475.txt","pid":3391475,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
-{"time":"2026-04-13T21:10:09.054884892-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":3391475}
-{"time":"2026-04-13T21:10:09.054877473-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/home/ixzhu/orcd/pool/tmp/wandb-3391475-3391527-2647115677/socket","Net":"unix"}}
-{"time":"2026-04-13T21:10:09.235570848-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
-{"time":"2026-04-13T21:10:09.241696147-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"rmb5553s","id":"1(@)"}
-{"time":"2026-04-13T21:10:09.497850813-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"rmb5553s","id":"1(@)"}
-{"time":"2026-04-13T21:10:15.387666093-04:00","level":"INFO","msg":"connection: cancelling request","id":"1(@)","requestId":"sovfovilbmg8"}
