@@ -487,10 +487,8 @@ def _collate(batch: List[dict], processor, tokenizer, pose_tokens_per_frame: int
         # Temporal Layer
         frame_indices = torch.arange(n_frames, device=input_ids.device)
         new_pos_ids[1, i, ps:pe] = torch.repeat_interleave(frame_indices, pose_tokens_per_frame) ## Offset based off text tokens
-
         # Y Layer
         new_pos_ids[2, i, ps:pe] = 0
-
         # X Layer
         new_pos_ids[3, i, ps:pe] = torch.arange(pose_tokens_per_frame, device=input_ids.device).repeat(n_frames)
 

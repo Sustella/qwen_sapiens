@@ -2411,7 +2411,6 @@ class Qwen3_5ForConditionalGeneration(Qwen3_5PreTrainedModel, GenerationMixin):
 
         return input_ids, model_kwargs
 
-
 __all__ = [
     "Qwen3_5VisionModel",
     "Qwen3_5TextModel",
